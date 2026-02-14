@@ -1,0 +1,205 @@
+/* =========================
+   PALETA INSTITUCIONAL TECH
+========================= */
+:root {
+    --azul-oscuro: #0a1f44;
+    --azul-principal: #0d6efd;
+    --azul-electrico: #00c3ff;
+    --azul-gradiente: linear-gradient(135deg, #0a1f44, #0d6efd);
+    --blanco: #ffffff;
+}
+
+/* =========================
+   NAVBAR
+========================= */
+.navbar-tech {
+    background: var(--azul-gradiente);
+    backdrop-filter: blur(8px);
+}
+
+.tech-logo span {
+    color: var(--azul-electrico);
+}
+
+.nav-link {
+    transition: 0.3s;
+}
+
+.nav-link:hover {
+    color: var(--azul-electrico) !important;
+}
+
+/* =========================
+   HERO SECTION
+========================= */
+.hero-tech {
+    height: 100vh;
+    background: linear-gradient(rgba(10,31,68,0.85), rgba(10,31,68,0.85)),
+                url('https://images.unsplash.com/photo-1523240795612-9a054b0db644') center/cover;
+    color: white;
+}
+
+.glow-text {
+    text-shadow: 0 0 10px var(--azul-electrico),
+                 0 0 20px var(--azul-electrico);
+}
+
+/* =========================
+   BOTONES
+========================= */
+.btn-tech-primary {
+    background: var(--azul-electrico);
+    border: none;
+    color: #000;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.btn-tech-primary:hover {
+    background: #00a2d4;
+    transform: translateY(-3px);
+}
+
+.btn-tech-outline {
+    border: 2px solid var(--azul-electrico);
+    color: var(--azul-electrico);
+    transition: 0.3s;
+}
+
+.btn-tech-outline:hover {
+    background: var(--azul-electrico);
+    color: #000;
+}
+
+/* =========================
+   SECCIÓN
+========================= */
+.section-tech {
+    background: #f4f8ff;
+}
+
+.section-title {
+    color: var(--azul-oscuro);
+}
+
+/* =========================
+   TARJETAS TECNOLÓGICAS
+========================= */
+.card-tech {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    transition: 0.4s;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(13,110,253,0.1);
+}
+
+.card-tech:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 0 25px rgba(0, 195, 255, 0.3);
+}
+
+/* =========================
+   FOOTER
+========================= */
+.footer-tech {
+    background: var(--azul-oscuro);
+    color: white;
+    padding: 20px 0;
+}
+
+.footer-tech a {
+    color: var(--azul-electrico);
+    text-decoration: none;
+}
+
+.footer-tech a:hover {
+    text-decoration: underline;
+}
+/* HERO INTERNO */
+.hero-interno {
+    height: 40vh;
+    background: linear-gradient(rgba(10,31,68,0.9), rgba(10,31,68,0.9)),
+                url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b') center/cover;
+    color: white;
+    margin-top: 70px;
+}
+
+/* LISTA TEC */
+.tech-list li {
+    margin-bottom: 10px;
+}
+
+/* TITULOS CURSOS */
+.course-title {
+    color: var(--azul-principal);
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+/* PRECIO DESTACADO */
+.price {
+    color: var(--azul-electrico);
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+.price-list li {
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.price-box {
+    background: rgba(13,110,253,0.08);
+    padding: 15px;
+    border-radius: 10px;
+    border-left: 4px solid var(--azul-electrico);
+}
+
+.hero-interno {
+    height: 40vh;
+    background: linear-gradient(rgba(10,31,68,0.9), rgba(10,31,68,0.9)),
+                url('https://images.unsplash.com/photo-1509062522246-3755977927d7') center/cover;
+    color: white;
+    margin-top: 70px;
+}
+/* ACORDEÓN TECH */
+.tech-accordion .accordion-item {
+    border: none;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.tech-accordion .accordion-button {
+    background-color: rgba(13,110,253,0.08);
+    font-weight: 600;
+}
+
+.tech-accordion .accordion-button:not(.collapsed) {
+    background-color: var(--azul-electrico);
+    color: #000;
+    box-shadow: none;
+}
+
+.tech-accordion .accordion-body {
+    background: #f8fbff;
+}
+.price-box {
+    background: rgba(13,110,253,0.08);
+    padding: 15px;
+    border-radius: 10px;
+    border-left: 4px solid var(--azul-electrico);
+}
+
+.section-title {
+    color: var(--azul-principal);
+    font-weight: bold;
+}
+
+.hero-interno {
+    height: 40vh;
+    background: linear-gradient(rgba(10,31,68,0.9), rgba(10,31,68,0.9)),
+                url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1') center/cover;
+    color: white;
+    margin-top: 70px;
+}
