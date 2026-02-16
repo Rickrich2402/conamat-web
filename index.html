@@ -8,9 +8,9 @@
 
     <style>
         :root{
-            --color-primario:#0d3b66;
-            --color-secundario:#f4a261;
-            --color-claro:#f8f9fa;
+            --azul-institucional:#0b2e59; /* Azul fuerte como el que usabas */
+            --azul-secundario:#123e75;
+            --amarillo-institucional:#f5b400;
         }
 
         body{
@@ -19,19 +19,26 @@
         }
 
         /* NAVBAR */
-        .navbar-custom{
-            background-color: var(--color-primario);
+        .navbar-tech{
+            background-color: var(--azul-institucional);
+        }
+
+        .navbar-brand{
+            font-weight:bold;
+            letter-spacing:1px;
         }
 
         .navbar-brand img{
-            height:50px;
+            height:55px;
+            object-fit:contain;
         }
 
         .navbar-brand span{
-            font-weight:600;
-            font-size:0.9rem;
+            font-size:0.85rem;
             display:block;
-            line-height:1;
+            font-weight:500;
+            color:#cfd8e3;
+            margin-top:-4px;
         }
 
         .nav-link{
@@ -39,74 +46,84 @@
         }
 
         .nav-link:hover{
-            color:var(--color-secundario)!important;
+            color:var(--amarillo-institucional)!important;
         }
 
         /* HERO */
-        .hero{
-            background: linear-gradient(rgba(13,59,102,0.85), rgba(13,59,102,0.85)),
-                        url('https://images.unsplash.com/photo-1523580846011-d3a5bc25702b') center/cover;
+        .hero-section{
+            background: linear-gradient(rgba(11,46,89,0.85), rgba(11,46,89,0.85)),
+                        url('https://images.unsplash.com/photo-1523240795612-9a054b0db644') center/cover;
+            padding:140px 0 120px 0;
             color:white;
-            padding:140px 0 100px 0;
         }
 
-        .hero h1{
+        .hero-section h1{
             font-weight:700;
         }
 
-        .hero p{
-            font-size:1.2rem;
+        .glow-text{
+            text-shadow:0 0 10px rgba(255,255,255,0.3);
         }
 
-        .btn-primary-custom{
-            background-color: var(--color-secundario);
+        .btn-warning{
+            background-color:var(--amarillo-institucional);
             border:none;
-            color:white;
         }
 
-        .btn-primary-custom:hover{
-            background-color:#e76f51;
+        .btn-warning:hover{
+            background-color:#e0a800;
         }
 
-        /* SECCIÓN */
-        .section-title{
-            color:var(--color-primario);
-            font-weight:700;
+        /* SECCIÓN INSTITUCIÓN */
+        .text-institucional{
+            color:var(--azul-institucional);
         }
 
-        .card-custom{
+        .card-tech{
             border:none;
             border-radius:15px;
-            transition:0.3s;
+            transition:0.3s ease;
         }
 
-        .card-custom:hover{
+        .card-tech:hover{
             transform:translateY(-8px);
             box-shadow:0 15px 30px rgba(0,0,0,0.1);
         }
 
         /* FOOTER */
-        footer{
-            background-color: var(--color-primario);
+        .footer-tech{
+            background-color:var(--azul-institucional);
         }
 
-        footer a{
-            color:var(--color-secundario);
+        .footer-tech a{
+            color:var(--amarillo-institucional);
             text-decoration:none;
             font-weight:600;
         }
 
-        footer a:hover{
+        .footer-tech a:hover{
             text-decoration:underline;
+        }
+
+        /* Ajuste para que el contenido no quede debajo del navbar */
+        body{
+            padding-top:75px;
+        }
+
+        @media (max-width:768px){
+            .hero-section{
+                padding:110px 20px 80px 20px;
+            }
         }
     </style>
 </head>
 <body>
 
 <!-- NAVBAR -->
-<nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top shadow">
+<nav class="navbar navbar-expand-lg navbar-dark navbar-tech fixed-top shadow">
     <div class="container">
         <a class="navbar-brand d-flex align-items-center" href="index.html">
+            <!-- Logo sin fondo blanco -->
             <img src="assets/logo-conamat.png" alt="Logo CONAMAT">
             <div class="ms-2">
                 CONAMAT
@@ -131,45 +148,58 @@
 </nav>
 
 <!-- HERO -->
-<section class="hero text-center d-flex align-items-center">
+<header class="hero-section text-center d-flex align-items-center">
     <div class="container">
-        <h1 class="display-4 mb-4">Tu mejor opción para lograr tu meta educativa</h1>
-        <p class="mb-4">Más de 36 años formando estudiantes exitosos con nuestra metodología única: <strong>"Jóvenes enseñando a jóvenes"</strong>.</p>
+        <h1 class="display-4 fw-bold mb-3 glow-text">
+            Tu mejor opción para lograr tu meta educativa
+        </h1>
+
+        <p class="lead mb-4">
+            Más de 36 años de experiencia respaldan nuestra metodología única.
+            <strong>"Jóvenes enseñando a jóvenes"</strong>
+        </p>
 
         <div class="d-flex justify-content-center gap-3 flex-wrap">
-            <a href="preparatoria.html" class="btn btn-primary-custom btn-lg px-4 shadow">Termina tu Prepa</a>
-            <a href="admision.html" class="btn btn-light btn-lg px-4 shadow">Cursos de Admisión</a>
+            <a href="preparatoria.html" class="btn btn-warning btn-lg fw-bold shadow">
+                Termina tu Prepa
+            </a>
+
+            <a href="admision.html" class="btn btn-light btn-lg fw-bold shadow text-institucional">
+                Cursos de Admisión
+            </a>
         </div>
     </div>
-</section>
+</header>
 
 <!-- INSTITUCIÓN -->
 <section class="py-5">
     <div class="container text-center">
-        <h2 class="section-title mb-4">Nuestra Institución</h2>
-        <p class="lead mb-5">
-            Brindamos educación de calidad mediante nuestra metodología CONAMAT, combinando herramientas digitales con un enfoque personalizado.
+        <h2 class="fw-bold text-institucional mb-4">Nuestra Institución</h2>
+
+        <p class="lead">
+            Brindamos educación de calidad mediante nuestra metodología CONAMAT,
+            combinando herramientas digitales con un enfoque personalizado.
         </p>
 
-        <div class="row g-4">
+        <div class="row mt-5 g-4">
             <div class="col-md-4">
-                <div class="card card-custom p-4 h-100 shadow-sm">
-                    <h4 class="fw-bold text-primary">Misión</h4>
-                    <p>Ser la primera opción para superar exámenes de ingreso y fortalecer habilidades académicas.</p>
+                <div class="card card-tech p-4 shadow-sm h-100">
+                    <h4 class="fw-bold text-institucional">Misión</h4>
+                    <p>Ser la primera opción para superar exámenes de ingreso o mejorar habilidades académicas.</p>
                 </div>
             </div>
 
             <div class="col-md-4">
-                <div class="card card-custom p-4 h-100 shadow-sm">
-                    <h4 class="fw-bold text-success">Valores</h4>
+                <div class="card card-tech p-4 shadow-sm h-100">
+                    <h4 class="fw-bold text-institucional">Valores</h4>
                     <p>Entusiasmo, compromiso, lealtad, confianza, responsabilidad y honestidad.</p>
                 </div>
             </div>
 
             <div class="col-md-4">
-                <div class="card card-custom p-4 h-100 shadow-sm">
-                    <h4 class="fw-bold text-info">Metodología</h4>
-                    <p>Diagnósticos, talleres, simulacros, evaluaciones continuas y plataformas híbridas.</p>
+                <div class="card card-tech p-4 shadow-sm h-100">
+                    <h4 class="fw-bold text-institucional">Metodología</h4>
+                    <p>Exámenes diagnósticos, talleres, evaluaciones, simulacros y plataformas híbridas.</p>
                 </div>
             </div>
         </div>
@@ -177,7 +207,7 @@
 </section>
 
 <!-- FOOTER -->
-<footer class="text-white text-center py-4">
+<footer class="footer-tech text-center py-4 text-white">
     <div class="container">
         <p class="mb-0">
             © 2026 CONAMAT Chimalhuacán |
