@@ -8,14 +8,14 @@
 
     <style>
         :root{
-            --azul-institucional:#0b2e59; /* Azul fuerte como el que usabas */
-            --azul-secundario:#123e75;
+            --azul-institucional:#0b2e59;
             --amarillo-institucional:#f5b400;
         }
 
         body{
             font-family: 'Segoe UI', sans-serif;
             background-color:#f4f6f9;
+            padding-top:75px;
         }
 
         /* NAVBAR */
@@ -28,9 +28,19 @@
             letter-spacing:1px;
         }
 
+        /* 🔥 EFECTO PARA QUE EL LOGO RESALTE */
         .navbar-brand img{
             height:55px;
             object-fit:contain;
+            filter: drop-shadow(0 0 6px rgba(255,255,255,0.8))
+                    drop-shadow(0 0 12px rgba(255,255,255,0.4));
+            transition:0.3s ease;
+        }
+
+        .navbar-brand img:hover{
+            filter: drop-shadow(0 0 8px rgba(255,255,255,1))
+                    drop-shadow(0 0 18px rgba(255,255,255,0.6));
+            transform: scale(1.05);
         }
 
         .navbar-brand span{
@@ -57,10 +67,6 @@
             color:white;
         }
 
-        .hero-section h1{
-            font-weight:700;
-        }
-
         .glow-text{
             text-shadow:0 0 10px rgba(255,255,255,0.3);
         }
@@ -74,7 +80,6 @@
             background-color:#e0a800;
         }
 
-        /* SECCIÓN INSTITUCIÓN */
         .text-institucional{
             color:var(--azul-institucional);
         }
@@ -104,26 +109,13 @@
         .footer-tech a:hover{
             text-decoration:underline;
         }
-
-        /* Ajuste para que el contenido no quede debajo del navbar */
-        body{
-            padding-top:75px;
-        }
-
-        @media (max-width:768px){
-            .hero-section{
-                padding:110px 20px 80px 20px;
-            }
-        }
     </style>
 </head>
 <body>
 
-<!-- NAVBAR -->
 <nav class="navbar navbar-expand-lg navbar-dark navbar-tech fixed-top shadow">
     <div class="container">
         <a class="navbar-brand d-flex align-items-center" href="index.html">
-            <!-- Logo sin fondo blanco -->
             <img src="assets/logo-conamat.png" alt="Logo CONAMAT">
         </a>
 
@@ -143,7 +135,6 @@
     </div>
 </nav>
 
-<!-- HERO -->
 <header class="hero-section text-center d-flex align-items-center">
     <div class="container">
         <h1 class="display-4 fw-bold mb-3 glow-text">
@@ -167,7 +158,6 @@
     </div>
 </header>
 
-<!-- INSTITUCIÓN -->
 <section class="py-5">
     <div class="container text-center">
         <h2 class="fw-bold text-institucional mb-4">Nuestra Institución</h2>
@@ -176,33 +166,9 @@
             Brindamos educación de calidad mediante nuestra metodología CONAMAT,
             combinando herramientas digitales con un enfoque personalizado.
         </p>
-
-        <div class="row mt-5 g-4">
-            <div class="col-md-4">
-                <div class="card card-tech p-4 shadow-sm h-100">
-                    <h4 class="fw-bold text-institucional">Misión</h4>
-                    <p>Ser la primera opción para superar exámenes de ingreso o mejorar habilidades académicas.</p>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="card card-tech p-4 shadow-sm h-100">
-                    <h4 class="fw-bold text-institucional">Valores</h4>
-                    <p>Entusiasmo, compromiso, lealtad, confianza, responsabilidad y honestidad.</p>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="card card-tech p-4 shadow-sm h-100">
-                    <h4 class="fw-bold text-institucional">Metodología</h4>
-                    <p>Exámenes diagnósticos, talleres, evaluaciones, simulacros y plataformas híbridas.</p>
-                </div>
-            </div>
-        </div>
     </div>
 </section>
 
-<!-- FOOTER -->
 <footer class="footer-tech text-center py-4 text-white">
     <div class="container">
         <p class="mb-0">
@@ -217,4 +183,3 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
