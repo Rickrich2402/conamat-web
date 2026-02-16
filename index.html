@@ -5,78 +5,189 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio | CONAMAT Chimalhuacán</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css">
+
+    <style>
+        :root{
+            --color-primario:#0d3b66;
+            --color-secundario:#f4a261;
+            --color-claro:#f8f9fa;
+        }
+
+        body{
+            font-family: 'Segoe UI', sans-serif;
+            background-color:#f4f6f9;
+        }
+
+        /* NAVBAR */
+        .navbar-custom{
+            background-color: var(--color-primario);
+        }
+
+        .navbar-brand img{
+            height:50px;
+        }
+
+        .navbar-brand span{
+            font-weight:600;
+            font-size:0.9rem;
+            display:block;
+            line-height:1;
+        }
+
+        .nav-link{
+            font-weight:500;
+        }
+
+        .nav-link:hover{
+            color:var(--color-secundario)!important;
+        }
+
+        /* HERO */
+        .hero{
+            background: linear-gradient(rgba(13,59,102,0.85), rgba(13,59,102,0.85)),
+                        url('https://images.unsplash.com/photo-1523580846011-d3a5bc25702b') center/cover;
+            color:white;
+            padding:140px 0 100px 0;
+        }
+
+        .hero h1{
+            font-weight:700;
+        }
+
+        .hero p{
+            font-size:1.2rem;
+        }
+
+        .btn-primary-custom{
+            background-color: var(--color-secundario);
+            border:none;
+            color:white;
+        }
+
+        .btn-primary-custom:hover{
+            background-color:#e76f51;
+        }
+
+        /* SECCIÓN */
+        .section-title{
+            color:var(--color-primario);
+            font-weight:700;
+        }
+
+        .card-custom{
+            border:none;
+            border-radius:15px;
+            transition:0.3s;
+        }
+
+        .card-custom:hover{
+            transform:translateY(-8px);
+            box-shadow:0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        /* FOOTER */
+        footer{
+            background-color: var(--color-primario);
+        }
+
+        footer a{
+            color:var(--color-secundario);
+            text-decoration:none;
+            font-weight:600;
+        }
+
+        footer a:hover{
+            text-decoration:underline;
+        }
+    </style>
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark navbar-tech fixed-top shadow-sm">
-        <div class="container">
-            <a class="navbar-brand fw-bold tech-logo" href="index.html">
-                🎓 CONAMAT <span>Chimalhuacán</span>
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top shadow">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="index.html">
+            <img src="assets/logo-conamat.png" alt="Logo CONAMAT">
+            <div class="ms-2">
+                CONAMAT
+                <span>Chimalhuacán</span>
+            </div>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link active" href="index.html">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link" href="preparatoria.html">Prepa Intensiva</a></li>
+                <li class="nav-item"><a class="nav-link" href="admision.html">Admisión</a></li>
+                <li class="nav-item"><a class="nav-link" href="cursos.html">Regularización y Más</a></li>
+                <li class="nav-item"><a class="nav-link" href="contacto.html">Contacto</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero text-center d-flex align-items-center">
+    <div class="container">
+        <h1 class="display-4 mb-4">Tu mejor opción para lograr tu meta educativa</h1>
+        <p class="mb-4">Más de 36 años formando estudiantes exitosos con nuestra metodología única: <strong>"Jóvenes enseñando a jóvenes"</strong>.</p>
+
+        <div class="d-flex justify-content-center gap-3 flex-wrap">
+            <a href="preparatoria.html" class="btn btn-primary-custom btn-lg px-4 shadow">Termina tu Prepa</a>
+            <a href="admision.html" class="btn btn-light btn-lg px-4 shadow">Cursos de Admisión</a>
+        </div>
+    </div>
+</section>
+
+<!-- INSTITUCIÓN -->
+<section class="py-5">
+    <div class="container text-center">
+        <h2 class="section-title mb-4">Nuestra Institución</h2>
+        <p class="lead mb-5">
+            Brindamos educación de calidad mediante nuestra metodología CONAMAT, combinando herramientas digitales con un enfoque personalizado.
+        </p>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card card-custom p-4 h-100 shadow-sm">
+                    <h4 class="fw-bold text-primary">Misión</h4>
+                    <p>Ser la primera opción para superar exámenes de ingreso y fortalecer habilidades académicas.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card card-custom p-4 h-100 shadow-sm">
+                    <h4 class="fw-bold text-success">Valores</h4>
+                    <p>Entusiasmo, compromiso, lealtad, confianza, responsabilidad y honestidad.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card card-custom p-4 h-100 shadow-sm">
+                    <h4 class="fw-bold text-info">Metodología</h4>
+                    <p>Diagnósticos, talleres, simulacros, evaluaciones continuas y plataformas híbridas.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="text-white text-center py-4">
+    <div class="container">
+        <p class="mb-0">
+            © 2026 CONAMAT Chimalhuacán |
+            <a href="https://wa.me/525514656210?text=Hola,%20vengo%20de%20su%20p%C3%A1gina%20web%20y%20me%20gustar%C3%ADa%20solicitar%20informaci%C3%B3n" target="_blank">
+                WhatsApp: 55 14 65 62 10
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link active" href="index.html">Inicio</a></li>
-                    <li class="nav-item"><a class="nav-link" href="preparatoria.html">Prepa Intensiva</a></li>
-                    <li class="nav-item"><a class="nav-link" href="admision.html">Admisión</a></li>
-                    <li class="nav-item"><a class="nav-link" href="cursos.html">Regularización y Más</a></li>
-                    <li class="nav-item"><a class="nav-link" href="contacto.html">Contacto</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+        </p>
+    </div>
+</footer>
 
-    <header class="hero-section text-center d-flex align-items-center mt-5 pt-5 pb-5 bg-institucional text-white">
-        <div class="container mt-4">
-            <img src="assets/logo-conamat.png" alt="Logo CONAMAT Chimalhuacán" class="img-fluid rounded shadow mb-4 bg-white p-2" style="max-height: 120px;">
-            
-            <h1 class="display-4 fw-bold mb-3 glow-text">Tu mejor opción para lograr tu meta educativa</h1>
-            <p class="lead mb-4">Más de 36 años de experiencia respaldan nuestra metodología única. "Jóvenes enseñando a jóvenes".</p>
-            
-            <div class="d-flex justify-content-center gap-3 flex-wrap">
-                <a href="preparatoria.html" class="btn btn-warning btn-lg fw-bold shadow">Termina tu Prepa</a>
-                <a href="admision.html" class="btn btn-light btn-lg fw-bold shadow text-institucional">Cursos de Admisión</a>
-            </div>
-        </div>
-    </header>
-
-    <section class="py-5">
-        <div class="container text-center">
-            <h2 class="fw-bold text-institucional mb-4">Nuestra Institución</h2>
-            <p class="lead">Brindamos a nuestros alumnos educación de calidad mediante nuestra metodología CONAMAT, combinando herramientas digitales con un enfoque personalizado. Respaldados por la UNESCO.</p>
-            <div class="row mt-5 g-4">
-                <div class="col-md-4">
-                    <div class="p-4 bg-white shadow-sm rounded h-100 border-top border-primary border-4">
-                        <h4 class="fw-bold text-institucional">Misión</h4>
-                        <p>Ser la primera opción para superar exámenes de ingreso o mejorar habilidades académicas.</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="p-4 bg-white shadow-sm rounded h-100 border-top border-success border-4">
-                        <h4 class="fw-bold text-institucional">Valores</h4>
-                        <p>Entusiasmo, compromiso, lealtad, confianza, responsabilidad y honestidad.</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="p-4 bg-white shadow-sm rounded h-100 border-top border-info border-4">
-                        <h4 class="fw-bold text-institucional">Metodología</h4>
-                        <p>Exámenes diagnósticos, talleres, evaluaciones, simulacros y plataformas híbridas.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <footer class="footer-tech text-center py-4 bg-dark text-white">
-        <div class="container">
-            <p class="mb-0">© 2026 CONAMAT Chimalhuacán | <a href="https://wa.me/525514656210?text=Hola,%20vengo%20de%20su%20p%C3%A1gina%20web%20y%20me%20gustar%C3%ADa%20solicitar%20informaci%C3%B3n" target="_blank" class="text-warning text-decoration-none fw-bold">WhatsApp: 55 14 65 62 10</a></p>
-        </div>
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
