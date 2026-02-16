@@ -9,46 +9,48 @@
     <style>
         :root{
             --azul-institucional:#0b2e59;
+            --azul-gradiente:#123e75;
             --amarillo-institucional:#f5b400;
         }
 
         body{
-            font-family: 'Segoe UI', sans-serif;
+            font-family:'Segoe UI', sans-serif;
             background-color:#f4f6f9;
-            padding-top:75px;
+            padding-top:90px;
         }
 
-        /* NAVBAR */
+        /* ================= NAVBAR PREMIUM ================= */
+
         .navbar-tech{
-            background-color: var(--azul-institucional);
+            background: linear-gradient(90deg, var(--azul-institucional) 0%, var(--azul-gradiente) 100%);
+            box-shadow:0 4px 20px rgba(0,0,0,0.3);
         }
 
+        /* CONTENEDOR GLASS PARA EL LOGO */
         .navbar-brand{
-            font-weight:bold;
-            letter-spacing:1px;
+            padding:8px 18px;
+            border-radius:14px;
+            background: rgba(255,255,255,0.10);
+            backdrop-filter: blur(8px);
+            transition:0.3s ease;
         }
 
-        /* 🔥 EFECTO PARA QUE EL LOGO RESALTE */
+        .navbar-brand:hover{
+            background: rgba(255,255,255,0.18);
+        }
+
+        /* LOGO ULTRA VISIBLE */
         .navbar-brand img{
-            height:55px;
+            height:65px;
             object-fit:contain;
-            filter: drop-shadow(0 0 6px rgba(255,255,255,0.8))
-                    drop-shadow(0 0 12px rgba(255,255,255,0.4));
+            filter:
+                drop-shadow(0 0 10px rgba(255,255,255,1))
+                drop-shadow(0 0 25px rgba(255,255,255,0.8));
             transition:0.3s ease;
         }
 
         .navbar-brand img:hover{
-            filter: drop-shadow(0 0 8px rgba(255,255,255,1))
-                    drop-shadow(0 0 18px rgba(255,255,255,0.6));
-            transform: scale(1.05);
-        }
-
-        .navbar-brand span{
-            font-size:0.85rem;
-            display:block;
-            font-weight:500;
-            color:#cfd8e3;
-            margin-top:-4px;
+            transform:scale(1.05);
         }
 
         .nav-link{
@@ -59,26 +61,43 @@
             color:var(--amarillo-institucional)!important;
         }
 
-        /* HERO */
+        /* ================= HERO ================= */
+
         .hero-section{
-            background: linear-gradient(rgba(11,46,89,0.85), rgba(11,46,89,0.85)),
+            background: linear-gradient(rgba(11,46,89,0.88), rgba(11,46,89,0.88)),
                         url('https://images.unsplash.com/photo-1523240795612-9a054b0db644') center/cover;
-            padding:140px 0 120px 0;
+            padding:150px 0 120px 0;
             color:white;
         }
 
-        .glow-text{
-            text-shadow:0 0 10px rgba(255,255,255,0.3);
+        .hero-section h1{
+            font-weight:700;
+            text-shadow:0 0 15px rgba(255,255,255,0.3);
+        }
+
+        .hero-section p{
+            font-size:1.2rem;
         }
 
         .btn-warning{
             background-color:var(--amarillo-institucional);
             border:none;
+            font-weight:bold;
+            padding:12px 30px;
+            border-radius:10px;
         }
 
         .btn-warning:hover{
             background-color:#e0a800;
         }
+
+        .btn-light{
+            padding:12px 30px;
+            border-radius:10px;
+            font-weight:bold;
+        }
+
+        /* ================= SECCIÓN ================= */
 
         .text-institucional{
             color:var(--azul-institucional);
@@ -86,7 +105,7 @@
 
         .card-tech{
             border:none;
-            border-radius:15px;
+            border-radius:16px;
             transition:0.3s ease;
         }
 
@@ -95,9 +114,10 @@
             box-shadow:0 15px 30px rgba(0,0,0,0.1);
         }
 
-        /* FOOTER */
+        /* ================= FOOTER ================= */
+
         .footer-tech{
-            background-color:var(--azul-institucional);
+            background: linear-gradient(90deg, var(--azul-institucional), var(--azul-gradiente));
         }
 
         .footer-tech a{
@@ -109,12 +129,36 @@
         .footer-tech a:hover{
             text-decoration:underline;
         }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width:768px){
+
+            body{
+                padding-top:100px;
+            }
+
+            .navbar-brand img{
+                height:75px; /* MÁS GRANDE EN CELULAR */
+            }
+
+            .hero-section{
+                padding:120px 20px 90px 20px;
+            }
+
+            .hero-section h1{
+                font-size:2rem;
+            }
+        }
+
     </style>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark navbar-tech fixed-top shadow">
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark navbar-tech fixed-top">
     <div class="container">
+
         <a class="navbar-brand d-flex align-items-center" href="index.html">
             <img src="assets/logo-conamat.png" alt="Logo CONAMAT">
         </a>
@@ -132,43 +176,51 @@
                 <li class="nav-item"><a class="nav-link" href="contacto.html">Contacto</a></li>
             </ul>
         </div>
+
     </div>
 </nav>
 
+<!-- HERO -->
 <header class="hero-section text-center d-flex align-items-center">
     <div class="container">
-        <h1 class="display-4 fw-bold mb-3 glow-text">
+
+        <h1 class="display-4 mb-4">
             Tu mejor opción para lograr tu meta educativa
         </h1>
 
-        <p class="lead mb-4">
+        <p class="mb-4">
             Más de 36 años de experiencia respaldan nuestra metodología única.
             <strong>"Jóvenes enseñando a jóvenes"</strong>
         </p>
 
         <div class="d-flex justify-content-center gap-3 flex-wrap">
-            <a href="preparatoria.html" class="btn btn-warning btn-lg fw-bold shadow">
+            <a href="preparatoria.html" class="btn btn-warning shadow">
                 Termina tu Prepa
             </a>
 
-            <a href="admision.html" class="btn btn-light btn-lg fw-bold shadow text-institucional">
+            <a href="admision.html" class="btn btn-light shadow">
                 Cursos de Admisión
             </a>
         </div>
+
     </div>
 </header>
 
+<!-- SECCIÓN -->
 <section class="py-5">
     <div class="container text-center">
+
         <h2 class="fw-bold text-institucional mb-4">Nuestra Institución</h2>
 
         <p class="lead">
             Brindamos educación de calidad mediante nuestra metodología CONAMAT,
             combinando herramientas digitales con un enfoque personalizado.
         </p>
+
     </div>
 </section>
 
+<!-- FOOTER -->
 <footer class="footer-tech text-center py-4 text-white">
     <div class="container">
         <p class="mb-0">
