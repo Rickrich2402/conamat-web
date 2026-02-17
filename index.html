@@ -19,7 +19,7 @@
             content: "";
             position: absolute;
             inset: 0;
-            background: rgba(13, 59, 102, 0.85); /* azul institucional encima */
+            background: rgba(13, 59, 102, 0.85); /* Azul institucional */
         }
 
         .hero-interno .container {
@@ -27,22 +27,17 @@
             z-index: 2;
         }
 
-        .hero-interno h1 {
-            font-weight: 800;
-        }
-
         .btn-hero {
             padding: 12px 30px;
             border-radius: 30px;
         }
 
-        .quick-card {
+        .card-hover {
             transition: all 0.3s ease;
-            cursor: pointer;
         }
 
-        .quick-card:hover {
-            transform: translateY(-5px);
+        .card-hover:hover {
+            transform: translateY(-6px);
         }
     </style>
 </head>
@@ -69,14 +64,14 @@
         </div>
     </nav>
 
-    <!-- HERO PRINCIPAL CON IMAGEN -->
+    <!-- HERO -->
     <section class="hero-interno d-flex align-items-center text-center text-white">
         <div class="container">
             <h1 class="display-3 fw-bold mb-4">
                 Tu mejor opción para lograr tu meta educativa
             </h1>
             <p class="lead mb-4">
-                Más de 36 años formando estudiantes exitosos con metodología tecnológica.
+                Más de 36 años de experiencia respaldan nuestra metodología única.
                 <br>
                 <strong>"Jóvenes enseñando a jóvenes"</strong>
             </p>
@@ -91,15 +86,14 @@
         </div>
     </section>
 
-    <!-- ACCESOS RÁPIDOS (más intuitivo) -->
+    <!-- ACCESOS RÁPIDOS -->
     <section class="py-5 bg-light">
         <div class="container text-center">
-            <h2 class="fw-bold text-institucional mb-5">Explora Nuestros Programas</h2>
+            <h2 class="fw-bold text-institucional mb-5">Nuestros Programas</h2>
 
             <div class="row g-4">
-
                 <div class="col-md-4">
-                    <div class="quick-card p-4 bg-white shadow rounded h-100 border-top border-primary border-4">
+                    <div class="card-hover p-4 bg-white shadow rounded h-100 border-top border-primary border-4">
                         <h4 class="fw-bold text-institucional">Prepa Intensiva</h4>
                         <p class="text-muted mt-3">
                             Termina tu bachillerato en menos tiempo con asesoría personalizada.
@@ -109,22 +103,63 @@
                 </div>
 
                 <div class="col-md-4">
-                    <div class="quick-card p-4 bg-white shadow rounded h-100 border-top border-success border-4">
+                    <div class="card-hover p-4 bg-white shadow rounded h-100 border-top border-success border-4">
                         <h4 class="fw-bold text-institucional">Cursos de Admisión</h4>
                         <p class="text-muted mt-3">
-                            Prepárate para UNAM, IPN, UAEM y Bachillerato con simulacros reales.
+                            Prepárate para UNAM, IPN, UAEM y Bachillerato.
                         </p>
                         <a href="admision.html" class="btn btn-outline-success mt-3">Ver más</a>
                     </div>
                 </div>
 
                 <div class="col-md-4">
-                    <div class="quick-card p-4 bg-white shadow rounded h-100 border-top border-info border-4">
+                    <div class="card-hover p-4 bg-white shadow rounded h-100 border-top border-info border-4">
                         <h4 class="fw-bold text-institucional">Regularización</h4>
                         <p class="text-muted mt-3">
-                            Refuerza matemáticas, lectura y materias clave con expertos.
+                            Refuerza materias clave con asesorías especializadas.
                         </p>
                         <a href="cursos.html" class="btn btn-outline-info mt-3">Ver más</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NUESTRA INSTITUCIÓN -->
+    <section class="py-5">
+        <div class="container text-center">
+            <h2 class="fw-bold text-institucional mb-4">Nuestra Institución</h2>
+            <p class="lead text-muted mb-5">
+                Brindamos educación de calidad mediante nuestra metodología CONAMAT,
+                combinando herramientas digitales con un enfoque personalizado.
+            </p>
+
+            <div class="row g-4">
+
+                <div class="col-md-4">
+                    <div class="card-hover p-4 bg-white shadow-sm rounded h-100 border-top border-primary border-4">
+                        <h4 class="fw-bold text-institucional">Misión</h4>
+                        <p class="text-muted mt-3">
+                            Ser la primera opción para superar exámenes de ingreso o mejorar habilidades académicas.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card-hover p-4 bg-white shadow-sm rounded h-100 border-top border-success border-4">
+                        <h4 class="fw-bold text-institucional">Valores</h4>
+                        <p class="text-muted mt-3">
+                            Entusiasmo, compromiso, lealtad, confianza, responsabilidad y honestidad.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card-hover p-4 bg-white shadow-sm rounded h-100 border-top border-info border-4">
+                        <h4 class="fw-bold text-institucional">Metodología</h4>
+                        <p class="text-muted mt-3">
+                            Exámenes diagnósticos, talleres, evaluaciones, simulacros y plataformas híbridas.
+                        </p>
                     </div>
                 </div>
 
@@ -132,12 +167,12 @@
         </div>
     </section>
 
-    <!-- LLAMADO A LA ACCIÓN -->
+    <!-- CTA -->
     <section class="py-5 bg-institucional text-white text-center">
         <div class="container">
             <h3 class="fw-bold mb-3">¿Listo para comenzar?</h3>
             <p class="mb-4">
-                Contáctanos hoy mismo y asegura tu lugar.
+                Comunícate con nosotros y recibe asesoría personalizada.
             </p>
             <a href="https://wa.me/525514656210?text=Hola,%20vengo%20de%20su%20página%20web%20y%20me%20gustaría%20solicitar%20información"
                target="_blank"
