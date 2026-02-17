@@ -1,160 +1,213 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Regularización y Diplomados | CONAMAT Chimalhuacán</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Regularización y Diplomados | CONAMAT Chimalhuacán</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+
+<style>
+
+/* HERO CON FONDO */
+.hero-interno {
+    background: url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1600&q=80') center center/cover no-repeat;
+    position: relative;
+    min-height: 55vh;
+}
+
+.hero-interno::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(13,59,102,0.88);
+}
+
+.hero-interno .container {
+    position: relative;
+    z-index: 2;
+}
+
+/* TARJETAS MODERNAS */
+.card-modern {
+    border: none;
+    border-radius: 18px;
+    padding: 30px;
+    transition: all 0.3s ease;
+}
+
+.card-modern:hover {
+    transform: translateY(-8px);
+}
+
+.badge-mode {
+    background-color: rgba(13,59,102,0.1);
+    color: #0d3b66;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+}
+
+.price-highlight {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #0d3b66;
+}
+
+.section-divider {
+    height: 2px;
+    background: #e9ecef;
+    margin: 20px 0;
+}
+
+</style>
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark navbar-tech fixed-top shadow-sm">
-        <div class="container">
-            <a class="navbar-brand fw-bold tech-logo" href="index.html">
-                CONAMAT <span>Chimalhuacán</span>
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
-                    <li class="nav-item"><a class="nav-link" href="preparatoria.html">Prepa Intensiva</a></li>
-                    <li class="nav-item"><a class="nav-link" href="admision.html">Admisión</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="cursos.html">Regularización y Más</a></li>
-                    <li class="nav-item"><a class="nav-link" href="contacto.html">Contacto</a></li>
-                </ul>
-            </div>
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark navbar-tech fixed-top shadow-sm">
+    <div class="container">
+        <a class="navbar-brand fw-bold tech-logo" href="index.html">
+            CONAMAT <span>Chimalhuacán</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link" href="preparatoria.html">Prepa Intensiva</a></li>
+                <li class="nav-item"><a class="nav-link" href="admision.html">Admisión</a></li>
+                <li class="nav-item"><a class="nav-link active" href="cursos.html">Regularización y Más</a></li>
+                <li class="nav-item"><a class="nav-link" href="contacto.html">Contacto</a></li>
+            </ul>
         </div>
-    </nav>
-
-    <section class="hero-interno text-center d-flex align-items-center mt-5 pt-5 pb-5 bg-institucional text-white">
-        <div class="container">
-            <h1 class="display-5 fw-bold glow-text">
-                Regularización y Diplomados
-            </h1>
-            <p class="lead">Refuerza tus conocimientos con nuestra metodología personalizada</p>
-        </div>
-    </section>
-
-    <div class="container py-5">
-
-        <div class="card-tech mb-5 p-4 bg-white shadow rounded border-start border-warning border-5">
-            <h3 class="section-title mb-3 fw-bold text-institucional">Regularización (Matemáticas, Física y Química)</h3>
-            <p class="mb-2"><strong>Modalidad:</strong> Semiindividual | <strong>Inicios:</strong> Inmediatos | <em>Puedes traer tu propio temario.</em></p>
-            <p><strong>Horarios:</strong> Lunes a viernes 17:00 - 20:00 | Sábado y domingo 09:00 - 14:00</p>
-            <div class="mt-3">
-                <a href="https://wa.me/525514656210?text=Hola,%20me%20gustar%C3%ADa%20solicitar%20informaci%C3%B3n%20sobre%20las%20clases%20de%20regularizaci%C3%B3n" target="_blank" class="btn btn-success fw-bold shadow-sm px-4">📱 Solicitar información</a>
-            </div>
-        </div>
-
-        <div class="row g-4 mb-5">
-            <div class="col-md-6">
-                <div class="card-tech h-100 p-4 bg-white shadow-sm rounded">
-                    <h5 class="course-title fw-bold text-institucional">Nivel Básico</h5>
-                    <p class="small text-muted">(Primaria a Bachillerato)</p>
-                    <hr>
-                    <ul class="list-unstyled mb-0">
-                        <li class="mb-2"><strong>Inscripción:</strong> $650 | <strong>Hora suelta:</strong> $110</li>
-                        <li class="mb-2"><strong>15 h:</strong> $2,225 | Contado $1,910</li>
-                        <li class="mb-2"><strong>30 h:</strong> $3,620 | Contado $3,026</li>
-                        <li class="mb-2"><strong>60 h:</strong> $5,930 | Contado $4,874</li>
-                        <li><strong>200 h (Membresía):</strong> $11,650 | Contado $9,450</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="col-md-6">
-                <div class="card-tech h-100 p-4 bg-white shadow-sm rounded">
-                    <h5 class="course-title fw-bold text-institucional">Nivel Superior</h5>
-                    <p class="small text-muted">&nbsp;</p> <hr>
-                    <ul class="list-unstyled mb-0">
-                        <li class="mb-2"><strong>Inscripción:</strong> $650 | <strong>Hora suelta:</strong> $132</li>
-                        <li class="mb-2"><strong>15 h:</strong> $2,525 | Contado $2,150</li>
-                        <li class="mb-2"><strong>30 h:</strong> $3,950 | Contado $3,290</li>
-                        <li class="mb-2"><strong>60 h:</strong> $6,590 | Contado $5,402</li>
-                        <li><strong>200 h (Membresía):</strong> $17,150 | Contado $13,850</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="row g-4">
-            
-            <div class="col-lg-8">
-                <div class="card-tech h-100 p-4 bg-white shadow rounded d-flex flex-column border-top border-info border-4">
-                    <h3 class="section-title fw-bold text-institucional">Diplomados en Matemáticas</h3>
-                    <p>Domina desde aritmética hasta cálculo integral.</p>
-                    
-                    <div class="row mt-3 mb-4">
-                        <div class="col-md-6 mb-3 mb-md-0">
-                            <h6 class="fw-bold text-info">KIDS Y JUNIOR</h6>
-                            <p class="small mb-1"><strong>Kids:</strong> 4º a 6º primaria (8 meses)</p>
-                            <p class="small mb-2"><strong>Junior:</strong> Secundaria (8 meses)</p>
-                            <ul class="small ps-3 text-muted">
-                                <li><strong>Inicio:</strong> 14-mar-26</li>
-                                <li><strong>Días:</strong> Sábado</li>
-                                <li><strong>Horario:</strong> 9:00 - 14:00</li>
-                            </ul>
-                        </div>
-                        <div class="col-md-6">
-                            <h6 class="fw-bold text-info">MASTER</h6>
-                            <p class="small mb-2"><strong>Master:</strong> Preparatoria (12 meses)</p>
-                            <ul class="small ps-3 text-muted mb-1">
-                                <li><strong>Inicio:</strong> 14-mar-26</li>
-                                <li><strong>Días:</strong> Sábado y Domingo</li>
-                                <li><strong>Horario:</strong> 9:00 - 14:00</li>
-                            </ul>
-                            <ul class="small ps-3 text-muted">
-                                <li><strong>Inicio:</strong> 16-mar-26</li>
-                                <li><strong>Días:</strong> Lun, Mié y Vie</li>
-                                <li><strong>Horario:</strong> 8:00 - 11:00 ó 17:00 - 20:00</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="alert alert-light border shadow-sm mb-4">
-                        <p class="mb-1"><strong>Costos Kids/Junior:</strong> Inscripción $450 | Material $550 | Mensualidad $880</p>
-                        <p class="mb-0"><strong>Costos Master:</strong> Inscripción $450 | Material $750 | Mensualidad $1,100</p>
-                    </div>
-
-                    <a href="https://wa.me/525514656210?text=Hola,%20me%20gustar%C3%ADa%20solicitar%20informaci%C3%B3n%20sobre%20los%20Diplomados%20en%20Matem%C3%A1ticas" target="_blank" class="btn btn-success mt-auto fw-bold w-100 shadow-sm">📱 Solicitar información</a>
-                </div>
-            </div>
-
-            <div class="col-lg-4">
-                <div class="card-tech h-100 p-4 bg-white shadow rounded d-flex flex-column border-top border-primary border-4">
-                    <h3 class="section-title fw-bold text-institucional">🗣️ Inglés</h3>
-                    <p>Preparación Cambridge A1 y A2</p>
-                    
-                    <div class="bg-light p-3 rounded mb-3 small">
-                        <strong>Duración:</strong> 6 meses por nivel.<br>
-                        <strong>Objetivo:</strong> Llegar a la certificación.
-                    </div>
-                    
-                    <ul class="list-unstyled mb-4">
-                        <li class="mb-2"><strong>Inscripción:</strong> $430</li>
-                        <li class="mb-2"><strong>Material y credencial:</strong> $840</li>
-                        <li class="fs-5 fw-bold text-primary mt-3">Mensualidad: $950</li>
-                    </ul>
-
-                    <a href="https://wa.me/525514656210?text=Hola,%20me%20gustar%C3%ADa%20solicitar%20informaci%C3%B3n%20sobre%20el%20curso%20de%20Ingl%C3%A9s" target="_blank" class="btn btn-success mt-auto fw-bold w-100 shadow-sm">📱 Solicitar información</a>
-                </div>
-            </div>
-
-        </div>
-
     </div>
+</nav>
 
-    <footer class="footer-tech text-center py-4 bg-dark text-white mt-auto">
-        <div class="container">
-            <p class="mb-0">© 2026 CONAMAT Chimalhuacán. Todos los derechos reservados.</p>
-        </div>
-    </footer>
+<!-- HERO -->
+<section class="hero-interno d-flex align-items-center text-center text-white mt-5 pt-5">
+    <div class="container">
+        <h1 class="display-4 fw-bold">Regularización y Diplomados</h1>
+        <p class="lead">Refuerza tus conocimientos con nuestra metodología personalizada</p>
+    </div>
+</section>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<div class="container py-5">
+
+<!-- REGULARIZACIÓN -->
+<div class="card-modern bg-white shadow mb-5">
+    <span class="badge-mode mb-3">Clases Semiindividuales</span>
+    <h3 class="fw-bold text-institucional">Regularización</h3>
+    <p class="text-muted">Matemáticas, Física y Química</p>
+
+    <div class="section-divider"></div>
+
+    <p><strong>Inicios:</strong> Inmediatos</p>
+    <p><strong>Horarios:</strong> Lun-Vie 17:00-20:00 | Sáb-Dom 09:00-14:00</p>
+
+    <a href="https://wa.me/525514656210" target="_blank"
+       class="btn btn-tech-primary mt-3">
+       📱 Solicitar información
+    </a>
+</div>
+
+<!-- TABLAS DE PRECIOS -->
+<div class="row g-4 mb-5">
+
+<div class="col-md-6">
+    <div class="card-modern bg-white shadow h-100">
+        <h5 class="fw-bold text-institucional">Nivel Básico</h5>
+        <p class="small text-muted">(Primaria a Bachillerato)</p>
+        <div class="section-divider"></div>
+
+        <ul class="list-unstyled">
+            <li>Inscripción: $650</li>
+            <li>Hora suelta: $110</li>
+            <li>15 h: $2,225 | Contado $1,910</li>
+            <li>30 h: $3,620 | Contado $3,026</li>
+            <li>60 h: $5,930 | Contado $4,874</li>
+            <li class="price-highlight">200 h: $11,650 | Contado $9,450</li>
+        </ul>
+    </div>
+</div>
+
+<div class="col-md-6">
+    <div class="card-modern bg-white shadow h-100">
+        <h5 class="fw-bold text-institucional">Nivel Superior</h5>
+        <div class="section-divider"></div>
+
+        <ul class="list-unstyled">
+            <li>Inscripción: $650</li>
+            <li>Hora suelta: $132</li>
+            <li>15 h: $2,525 | Contado $2,150</li>
+            <li>30 h: $3,950 | Contado $3,290</li>
+            <li>60 h: $6,590 | Contado $5,402</li>
+            <li class="price-highlight">200 h: $17,150 | Contado $13,850</li>
+        </ul>
+    </div>
+</div>
+
+</div>
+
+<!-- DIPLOMADOS E INGLÉS -->
+<div class="row g-4">
+
+<div class="col-lg-8">
+    <div class="card-modern bg-white shadow h-100 d-flex flex-column">
+        <h3 class="fw-bold text-institucional">Diplomados en Matemáticas</h3>
+        <p class="text-muted">Desde aritmética hasta cálculo integral.</p>
+
+        <div class="section-divider"></div>
+
+        <h6 class="fw-bold">Kids & Junior</h6>
+        <p class="small">Duración: 8 meses | Sábados 9:00-14:00</p>
+
+        <h6 class="fw-bold mt-3">Master</h6>
+        <p class="small">Duración: 12 meses | Varias opciones de horario</p>
+
+        <div class="section-divider"></div>
+
+        <p class="small">
+            <strong>Kids/Junior:</strong> Inscripción $450 | Material $550 | Mensualidad $880<br>
+            <strong>Master:</strong> Inscripción $450 | Material $750 | Mensualidad $1,100
+        </p>
+
+        <a href="https://wa.me/525514656210" target="_blank"
+           class="btn btn-tech-primary mt-auto">
+           📱 Solicitar información
+        </a>
+    </div>
+</div>
+
+<div class="col-lg-4">
+    <div class="card-modern bg-white shadow h-100 d-flex flex-column">
+        <h3 class="fw-bold text-institucional">Curso de Inglés</h3>
+        <p class="text-muted">Preparación Cambridge A1 y A2</p>
+
+        <div class="section-divider"></div>
+
+        <p>Duración: 6 meses por nivel</p>
+        <p class="price-highlight">Mensualidad: $950</p>
+
+        <a href="https://wa.me/525514656210" target="_blank"
+           class="btn btn-tech-primary mt-auto">
+           📱 Solicitar información
+        </a>
+    </div>
+</div>
+
+</div>
+
+</div>
+
+<footer class="footer-tech text-center py-4 text-white">
+    <div class="container">
+        © 2026 CONAMAT Chimalhuacán. Todos los derechos reservados.
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
-
