@@ -11,10 +11,12 @@
             font-family: 'Segoe UI', sans-serif;
         }
 
+        /* Navbar */
         .navbar-tech {
             background: #0d3b66;
         }
 
+        /* HERO CON IMAGEN */
         .hero-interno {
             background: url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1600&q=80') center center/cover no-repeat;
             position: relative;
@@ -23,11 +25,12 @@
             align-items: center;
         }
 
+        /* Capa clara encima para que el texto azul se vea */
         .hero-interno::before {
             content: "";
             position: absolute;
             inset: 0;
-            background: linear-gradient(rgba(13,59,102,0.85), rgba(30,144,255,0.85));
+            background: rgba(255, 255, 255, 0.80); /* capa blanca semitransparente */
         }
 
         .hero-interno .container {
@@ -35,8 +38,15 @@
             z-index: 2;
         }
 
-        .glow-text {
-            text-shadow: 0 0 20px rgba(255,255,255,0.7);
+        /* Texto azul institucional */
+        .hero-interno h1 {
+            color: #0d3b66;
+            font-weight: 800;
+        }
+
+        .hero-interno p {
+            color: #1e3a5f;
+            font-size: 1.2rem;
         }
 
         .btn-warning, .btn-light {
@@ -44,11 +54,7 @@
             padding: 12px 28px;
         }
 
-        .btn-warning:hover {
-            transform: scale(1.05);
-            transition: 0.3s ease;
-        }
-
+        .btn-warning:hover,
         .btn-light:hover {
             transform: scale(1.05);
             transition: 0.3s ease;
@@ -85,9 +91,9 @@
         </div>
     </nav>
 
-    <header class="hero-interno text-center text-white">
+    <header class="hero-interno text-center">
         <div class="container">
-            <h1 class="display-3 fw-bold mb-4 glow-text">
+            <h1 class="display-3 mb-4">
                 Tu mejor opción para lograr tu meta educativa
             </h1>
 
@@ -98,10 +104,10 @@
             </p>
 
             <div class="d-flex justify-content-center gap-3 flex-wrap">
-                <a href="preparatoria.html" class="btn btn-warning btn-lg fw-bold shadow-lg">
+                <a href="preparatoria.html" class="btn btn-warning btn-lg fw-bold shadow">
                     Termina tu Prepa
                 </a>
-                <a href="admision.html" class="btn btn-light btn-lg fw-bold text-institucional shadow-lg">
+                <a href="admision.html" class="btn btn-light btn-lg fw-bold text-institucional shadow">
                     Cursos de Admisión
                 </a>
             </div>
