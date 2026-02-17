@@ -1,144 +1,210 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prepa Intensiva | CONAMAT Chimalhuacán</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prepa Intensiva | CONAMAT Chimalhuacán</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+
+<style>
+
+/* HERO CON FONDO */
+.hero-interno {
+    background: url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1600&q=80') center center/cover no-repeat;
+    position: relative;
+    min-height: 60vh;
+}
+
+.hero-interno::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(13,59,102,0.88);
+}
+
+.hero-interno .container {
+    position: relative;
+    z-index: 2;
+}
+
+/* TARJETAS MODERNAS */
+.card-modern {
+    border: none;
+    border-radius: 18px;
+    padding: 30px;
+    transition: all 0.3s ease;
+}
+
+.card-modern:hover {
+    transform: translateY(-8px);
+}
+
+.price-highlight {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #0d3b66;
+}
+
+.section-divider {
+    height: 2px;
+    background: #e9ecef;
+    margin: 20px 0;
+}
+
+.badge-mode {
+    background-color: rgba(13,59,102,0.1);
+    color: #0d3b66;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+}
+
+</style>
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark navbar-tech fixed-top">
-        <div class="container">
-            <a class="navbar-brand fw-bold tech-logo" href="index.html">
-                CONAMAT <span>Chimalhuacán</span>
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="preparatoria.html">Prepa Intensiva</a></li>
-                    <li class="nav-item"><a class="nav-link" href="admision.html">Admisión</a></li>
-                    <li class="nav-item"><a class="nav-link" href="cursos.html">Regularización y Más</a></li>
-                    <li class="nav-item"><a class="nav-link" href="contacto.html">Contacto</a></li>
-                </ul>
-            </div>
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark navbar-tech fixed-top shadow-sm">
+    <div class="container">
+        <a class="navbar-brand fw-bold tech-logo" href="index.html">
+            CONAMAT <span>Chimalhuacán</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link active" href="preparatoria.html">Prepa Intensiva</a></li>
+                <li class="nav-item"><a class="nav-link" href="admision.html">Admisión</a></li>
+                <li class="nav-item"><a class="nav-link" href="cursos.html">Regularización y Más</a></li>
+                <li class="nav-item"><a class="nav-link" href="contacto.html">Contacto</a></li>
+            </ul>
         </div>
-    </nav>
+    </div>
+</nav>
 
-    <section class="hero-interno text-center d-flex align-items-center">
-        <div class="container">
-            <img src="assets/logo-prepa.png" alt="Prepa CONAMAT" class="img-fluid rounded shadow-sm mb-4" style="max-height: 120px;">
-            
-            <h1 class="display-5 fw-bold glow-text">
-                Preparatoria Intensiva
-            </h1>
-            <p class="lead">Obtén tu certificado de forma rápida y con validez oficial</p>
-        </div>
-    </section>
+<!-- HERO -->
+<section class="hero-interno d-flex align-items-center text-center text-white mt-5 pt-5">
+    <div class="container">
+        <h1 class="display-4 fw-bold mb-3">Preparatoria Intensiva</h1>
+        <p class="lead">Obtén tu certificado de forma rápida y con validez oficial</p>
+    </div>
+</section>
 
-    <div class="container py-5">
+<!-- CONTENIDO -->
+<div class="container py-5">
 
-        <div class="row g-4">
+<div class="row g-5">
 
-            <div class="col-lg-6">
-                <div class="card-tech h-100 d-flex flex-column">
-                    <h3 class="section-title">Modalidad 4 Meses (En línea)</h3>
-                    <p><strong>Edad:</strong> Desde 18 años.</p>
-                    <p>Ideal si necesitas flexibilidad y acceso 24/7.</p>
+<!-- MODALIDAD 4 MESES -->
+<div class="col-lg-6">
+    <div class="card-modern bg-white shadow h-100 d-flex flex-column">
 
-                    <hr>
+        <span class="badge-mode mb-3">Modalidad en Línea</span>
+        <h3 class="fw-bold text-institucional">4 Meses</h3>
+        <p class="text-muted">Ideal si necesitas flexibilidad y acceso 24/7.</p>
 
-                    <h5 class="course-title">Inicios y Horarios</h5>
-                    <ul>
-                        <li>25 febrero 2026 (Miércoles 8:00 - 11:00)</li>
-                        <li>21 febrero 2026 (Sábado 8:00 - 11:00)</li>
-                    </ul>
-                    <p class="small">Solo debes elegir un horario. Plataforma digital con contenido 24/7 + 1 clase en vivo.</p>
+        <div class="section-divider"></div>
 
-                    <hr>
+        <h6 class="fw-bold">Edad mínima</h6>
+        <p>Desde 18 años.</p>
 
-                    <h5 class="course-title">Inversión</h5>
-                    <div class="price-box">
-                        <p>Inscripción: $1,875</p>
-                        <p>3 pagos quincenales: $1,875</p>
-                        <p class="price">Total contado: $7,500</p>
-                    </div>
+        <h6 class="fw-bold">Inicios y Horarios</h6>
+        <ul>
+            <li>25 febrero 2026 (Miércoles 8:00 - 11:00)</li>
+            <li>21 febrero 2026 (Sábado 8:00 - 11:00)</li>
+        </ul>
 
-                    <hr>
+        <p class="small text-muted">
+            Plataforma digital 24/7 + 1 clase en vivo semanal.
+        </p>
 
-                    <h5 class="course-title">Requisitos</h5>
-                    <p>Acta, certificado secundaria, CURP e identificación oficial (con QR).</p>
+        <div class="section-divider"></div>
 
-                    <div class="alert alert-info mt-3 small">
-                        <strong>Certificación:</strong> RVOE Federal (CONAIP) o Puebla.<br>
-                        Examen final de 180 preguntas (mínimo 128 aciertos).
-                        Incluye Garantía CONAMAT.
-                    </div>
+        <h6 class="fw-bold">Inversión</h6>
+        <p>Inscripción: $1,875</p>
+        <p>3 pagos quincenales: $1,875</p>
+        <p class="price-highlight">Total contado: $7,500</p>
 
-                    <a href="https://wa.me/525514656210?text=Hola,%20me%20interesa%20solicitar%20informaci%C3%B3n%20sobre%20la%20Preparatoria%20Intensiva%20en%204%20meses%20(En%20l%C3%ADnea)" target="_blank"
-                       class="btn btn-tech-primary w-100 mt-auto">
-                        📱 Inscribirme ahora o Solicitar Información
-                    </a>
-                </div>
-            </div>
+        <div class="section-divider"></div>
 
-            <div class="col-lg-6">
-                <div class="card-tech h-100 d-flex flex-column">
-                    <h3 class="section-title">Modalidad 6 Meses (Presencial)</h3>
-                    <p><strong>Edad:</strong> Desde 17 años y medio.</p>
-                    <p>Ritmo más ligero con acompañamiento presencial.</p>
+        <h6 class="fw-bold">Certificación</h6>
+        <p class="small">
+            RVOE Federal (CONAIP) o Puebla.<br>
+            Examen final de 180 preguntas (mínimo 128 aciertos).  
+            Incluye Garantía CONAMAT.
+        </p>
 
-                    <hr>
-
-                    <h5 class="course-title">Inicios y Horarios</h5>
-                    <ul>
-                        <li>03 marzo 2026 (Mar/Jue 8:30 - 10:30)</li>
-                        <li>01 marzo 2026 (Domingos 12:00 - 16:00)</li>
-                    </ul>
-
-                    <hr>
-
-                    <h5 class="course-title">Inversión</h5>
-                    <div class="price-box">
-                        <p>Inscripción: $1,900</p>
-                        <p>6 mensualidades: $1,875</p>
-                        <p>Total: $13,000</p>
-                        <p class="price">Contado: $10,500</p>
-                    </div>
-
-                    <hr>
-
-                    <h5 class="course-title">Requisitos</h5>
-                    <p>Acta certificada, certificado secundaria, CURP y fotografías oficiales.</p>
-
-                    <div class="alert alert-success mt-3 small">
-                        <strong>Certificación:</strong> Validez oficial SEP<br>
-                        RVOE SEG/041/2014 | CCT: 12PBH0091E<br>
-                        Evaluación continua (sin examen final).
-                    </div>
-
-                    <a href="https://wa.me/525514656210?text=Hola,%20me%20interesa%20solicitar%20informaci%C3%B3n%20sobre%20la%20Preparatoria%20Intensiva%20en%206%20meses%20(Presencial)" target="_blank"
-                       class="btn btn-tech-primary w-100 mt-auto">
-                        📱 Inscribirme ahora o Solicitar Información
-                    </a>
-                </div>
-            </div>
-
-        </div>
+        <a href="https://wa.me/525514656210?text=Hola,%20me%20interesa%20información%20sobre%20Prepa%204%20meses"
+           target="_blank"
+           class="btn btn-tech-primary w-100 mt-auto">
+           📱 Solicitar Información
+        </a>
 
     </div>
+</div>
 
-    <footer class="footer-tech text-center">
-        <div class="container">
-            © 2026 CONAMAT Chimalhuacán |
-            <a href="https://wa.me/525514656210?text=Hola,%20vengo%20de%20su%20p%C3%A1gina%20web%20y%20me%20gustar%C3%ADa%20solicitar%20informaci%C3%B3n" target="_blank" class="text-white text-decoration-none fw-bold">WhatsApp: 55 14 65 62 10</a>
-        </div>
-    </footer>
+<!-- MODALIDAD 6 MESES -->
+<div class="col-lg-6">
+    <div class="card-modern bg-white shadow h-100 d-flex flex-column">
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <span class="badge-mode mb-3">Modalidad Presencial</span>
+        <h3 class="fw-bold text-institucional">6 Meses</h3>
+        <p class="text-muted">Ritmo más ligero con acompañamiento presencial.</p>
+
+        <div class="section-divider"></div>
+
+        <h6 class="fw-bold">Edad mínima</h6>
+        <p>Desde 17 años y medio.</p>
+
+        <h6 class="fw-bold">Inicios y Horarios</h6>
+        <ul>
+            <li>03 marzo 2026 (Mar/Jue 8:30 - 10:30)</li>
+            <li>01 marzo 2026 (Domingos 12:00 - 16:00)</li>
+        </ul>
+
+        <div class="section-divider"></div>
+
+        <h6 class="fw-bold">Inversión</h6>
+        <p>Inscripción: $1,900</p>
+        <p>6 mensualidades: $1,875</p>
+        <p>Total: $13,000</p>
+        <p class="price-highlight">Contado: $10,500</p>
+
+        <div class="section-divider"></div>
+
+        <h6 class="fw-bold">Certificación</h6>
+        <p class="small">
+            Validez oficial SEP  
+            RVOE SEG/041/2014 | CCT: 12PBH0091E  
+            Evaluación continua (sin examen final).
+        </p>
+
+        <a href="https://wa.me/525514656210?text=Hola,%20me%20interesa%20información%20sobre%20Prepa%206%20meses"
+           target="_blank"
+           class="btn btn-tech-primary w-100 mt-auto">
+           📱 Solicitar Información
+        </a>
+
+    </div>
+</div>
+
+</div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer-tech text-center py-4 text-white">
+    <div class="container">
+        © 2026 CONAMAT Chimalhuacán |
+        <a href="https://wa.me/525514656210" target="_blank" class="text-white text-decoration-none fw-bold">
+            WhatsApp: 55 14 65 62 10
+        </a>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
