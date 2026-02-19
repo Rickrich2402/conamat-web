@@ -4,22 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio | CONAMAT Chimalhuacán</title>
+
+    <!-- 🔥 Preconexión para acelerar Bootstrap -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+
+    <!-- Bootstrap optimizado -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Tu CSS -->
     <link rel="stylesheet" href="css/styles.css">
 
     <style>
-        /* HERO CON IMAGEN */
         .hero-interno {
-            background: url('https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?auto=format&fit=crop&w=1600&q=80') center center/cover no-repeat;
+            background: url('https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?auto=format&fit=crop&w=1200&q=60') center center/cover no-repeat;
             position: relative;
             min-height: 100vh;
+            padding-top: 100px;
         }
 
         .hero-interno::before {
             content: "";
             position: absolute;
             inset: 0;
-            background: rgba(13, 59, 102, 0.88);
+            background: rgba(13, 59, 102, 0.92);
         }
 
         .hero-interno .container {
@@ -32,15 +40,14 @@
             border-radius: 30px;
         }
 
-        /* TARJETAS MEJORADAS */
         .card-modern {
             border: none;
             border-radius: 16px;
-            transition: all 0.3s ease;
+            transition: transform 0.3s ease;
         }
 
         .card-modern:hover {
-            transform: translateY(-8px);
+            transform: translateY(-5px);
         }
 
         .icon-circle {
@@ -60,6 +67,26 @@
             max-width: 650px;
             margin: auto;
         }
+
+        /* LOGOS */
+        .logo-navbar {
+            height: 40px;
+            width: auto;
+        }
+
+        .logo-hero {
+            max-width: 350px;
+            width: 90%;
+            height: auto;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .logo-navbar { height: 32px; }
+            .logo-hero { max-width: 250px; }
+            .hero-interno h1 { font-size: 1.8rem; }
+            .btn-hero { display: block; width: 100%; margin-bottom: 15px; }
+        }
     </style>
 </head>
 <body>
@@ -67,8 +94,12 @@
 <!-- NAVBAR -->
 <nav class="navbar navbar-expand-lg navbar-dark navbar-tech fixed-top shadow-sm">
     <div class="container">
-        <a class="navbar-brand fw-bold tech-logo" href="index.html">
-            CONAMAT <span>Chimalhuacán</span>
+        <a class="navbar-brand d-flex align-items-center" href="index.html">
+            <img src="images/logo-conamat.png" 
+                 alt="CONAMAT Chimalhuacán"
+                 class="logo-navbar"
+                 loading="lazy"
+                 decoding="async">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
@@ -88,14 +119,23 @@
 <!-- HERO -->
 <section class="hero-interno d-flex align-items-center text-center text-white">
     <div class="container">
-        <h1 class="display-3 fw-bold mb-4">
+
+        <img src="images/logo-conamat.webp" 
+             alt="CONAMAT Chimalhuacán"
+             class="logo-hero mb-4"
+             loading="eager"
+             decoding="async">
+
+        <h1 class="fw-bold mb-4">
             Tu mejor opción para lograr tu meta educativa
         </h1>
+
         <p class="lead mb-4">
             Más de 36 años formando estudiantes exitosos con metodología tecnológica.
             <br>
             <strong>"Jóvenes enseñando a jóvenes"</strong>
         </p>
+
         <div>
             <a href="preparatoria.html" class="btn btn-light btn-hero fw-bold me-3 shadow">
                 Termina tu Prepa
@@ -104,125 +144,12 @@
                 Cursos de Admisión
             </a>
         </div>
+
     </div>
 </section>
 
-<!-- NUESTROS PROGRAMAS -->
-<section class="py-5 bg-light">
-    <div class="container text-center">
-        <h2 class="fw-bold text-institucional mb-3">Nuestros Programas</h2>
-        <p class="text-muted section-subtitle mb-5">
-            Diseñados para acompañarte en cada etapa académica y ayudarte a alcanzar tus metas.
-        </p>
-
-        <div class="row g-4">
-
-            <div class="col-md-4">
-                <div class="card-modern bg-white shadow p-4 h-100">
-                    <div class="icon-circle">🎓</div>
-                    <h5 class="fw-bold text-institucional">Prepa Intensiva</h5>
-                    <p class="text-muted mt-3">
-                        Termina tu bachillerato en menos tiempo con asesoría personalizada.
-                    </p>
-                    <a href="preparatoria.html" class="btn btn-outline-primary mt-3">Más información</a>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="card-modern bg-white shadow p-4 h-100">
-                    <div class="icon-circle">📚</div>
-                    <h5 class="fw-bold text-institucional">Cursos de Admisión</h5>
-                    <p class="text-muted mt-3">
-                        Prepárate para UNAM, IPN, UAEM y Bachillerato con simulacros reales.
-                    </p>
-                    <a href="admision.html" class="btn btn-outline-success mt-3">Más información</a>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="card-modern bg-white shadow p-4 h-100">
-                    <div class="icon-circle">🧮</div>
-                    <h5 class="fw-bold text-institucional">Regularización</h5>
-                    <p class="text-muted mt-3">
-                        Refuerza matemáticas, lectura y materias clave con apoyo especializado.
-                    </p>
-                    <a href="cursos.html" class="btn btn-outline-info mt-3">Más información</a>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</section>
-
-<!-- NUESTRA INSTITUCIÓN -->
-<section class="py-5">
-    <div class="container text-center">
-        <h2 class="fw-bold text-institucional mb-3">Nuestra Institución</h2>
-        <p class="text-muted section-subtitle mb-5">
-            Comprometidos con la excelencia académica mediante una metodología estructurada y efectiva.
-        </p>
-
-        <div class="row g-4">
-
-            <div class="col-md-4">
-                <div class="card-modern bg-white shadow p-4 h-100">
-                    <div class="icon-circle">🎯</div>
-                    <h5 class="fw-bold text-institucional">Misión</h5>
-                    <p class="text-muted mt-3">
-                        Ser la primera opción para superar exámenes de ingreso y fortalecer habilidades académicas.
-                    </p>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="card-modern bg-white shadow p-4 h-100">
-                    <div class="icon-circle">⭐</div>
-                    <h5 class="fw-bold text-institucional">Valores</h5>
-                    <p class="text-muted mt-3">
-                        Entusiasmo, compromiso, responsabilidad, confianza y honestidad.
-                    </p>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="card-modern bg-white shadow p-4 h-100">
-                    <div class="icon-circle">💻</div>
-                    <h5 class="fw-bold text-institucional">Metodología</h5>
-                    <p class="text-muted mt-3">
-                        Diagnósticos, talleres, evaluaciones digitales, simulacros y acompañamiento continuo.
-                    </p>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</section>
-
-<!-- CTA -->
-<section class="py-5 bg-institucional text-white text-center">
-    <div class="container">
-        <h3 class="fw-bold mb-3">¿Listo para comenzar?</h3>
-        <p class="mb-4">
-            Comunícate con nosotros y recibe asesoría personalizada.
-        </p>
-        <a href="https://wa.me/525514656210?text=Hola,%20vengo%20de%20su%20página%20web%20y%20me%20gustaría%20solicitar%20información"
-           target="_blank"
-           class="btn btn-light fw-bold shadow">
-           📱 Contáctanos por WhatsApp
-        </a>
-    </div>
-</section>
-
-<!-- FOOTER -->
-<footer class="footer-tech text-center py-4 text-white">
-    <div class="container">
-        <p class="mb-0">
-            © 2026 CONAMAT Chimalhuacán. Todos los derechos reservados.
-        </p>
-    </div>
-</footer>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- JS AL FINAL PARA NO BLOQUEAR RENDER -->
+<script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
