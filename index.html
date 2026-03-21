@@ -1,234 +1,962 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>CONAMAT Chimalhuacán | Cursos de Admisión y Prepa Intensiva</title>
-    <meta name="description" content="Más de 36 años de experiencia en enseñanza. Cursos de admisión UNAM, IPN, UAEM, ECOEMS y Prepa intensiva en 4 o 6 meses en Chimalhuacán.">
-    <meta name="keywords" content="CONAMAT Chimalhuacán, cursos de admisión UNAM, curso IPN, prepa en 6 meses, prepa en un solo examen, regularización matemáticas, escuela en Chimalhuacán, COMIPEMS, ECOEMS">
-    <meta name="author" content="CONAMAT Chimalhuacán">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CONAMAT Chimalhuacán | Colegio Nacional de Matemáticas</title>
+  <meta name="description" content="Más de 36 años de experiencia. Cursos de admisión UNAM, IPN, Prepa Intensiva, Regularización y Diplomados en Chimalhuacán.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    :root {
+      --azul-marino: #0a2463;
+      --azul-principal: #1648a0;
+      --azul-medio: #1e5cbf;
+      --azul-claro: #2d7dd2;
+      --rojo-acento: #e63946;
+      --naranja-prepa: #e8700a;
+      --dorado: #f4a261;
+      --blanco: #ffffff;
+      --gris-claro: #f0f4fb;
+      --gris-texto: #4a5568;
+    }
 
-    <meta property="og:title" content="CONAMAT Chimalhuacán | Preparación Académica de Excelencia">
-    <meta property="og:description" content="Asegura tu lugar en la universidad o termina tu prepa de forma rápida con validez oficial. ¡Inscríbete hoy!">
-    <meta property="og:image" content="https://tu-dominio.com/assets/logo-conamat.png"> <meta property="og:url" content="https://tu-dominio.com">
-    <meta property="og:type" content="website">
+    * { scroll-behavior: smooth; }
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css">
+    body {
+      font-family: 'Barlow', sans-serif;
+      color: #1a202c;
+      overflow-x: hidden;
+    }
 
-    <style>
-        /* HERO CON IMAGEN */
-        .hero-interno {
-            background: url('https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?auto=format&fit=crop&w=1600&q=80') center center/cover no-repeat;
-            position: relative;
-            min-height: 100vh;
-        }
+    h1, h2, h3, h4 {
+      font-family: 'Barlow Condensed', sans-serif;
+    }
 
-        .hero-interno::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: rgba(13, 59, 102, 0.88);
-        }
+    /* ── NAVBAR ── */
+    .navbar-conamat {
+      background: linear-gradient(135deg, var(--azul-marino) 0%, var(--azul-medio) 100%);
+      border-bottom: 3px solid var(--rojo-acento);
+      padding: 10px 0;
+    }
+    .navbar-brand-wrap { display: flex; align-items: center; gap: 10px; }
+    .navbar-brand-wrap svg { height: 44px; width: auto; }
+    .brand-text { line-height: 1.1; }
+    .brand-text .name { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 1.4rem; color: white; letter-spacing: 1px; }
+    .brand-text .sub  { font-size: 0.7rem; color: rgba(255,255,255,0.75); font-weight: 500; letter-spacing: 2px; text-transform: uppercase; }
+    .navbar-nav .nav-link { color: rgba(255,255,255,0.85) !important; font-weight: 600; font-size: 0.9rem; letter-spacing: 0.5px; padding: 8px 14px !important; border-radius: 6px; transition: all .25s; }
+    .navbar-nav .nav-link:hover, .navbar-nav .nav-link.active { color: white !important; background: rgba(255,255,255,0.15); }
+    .btn-inscribir { background: var(--rojo-acento) !important; color: white !important; border-radius: 20px !important; padding: 8px 20px !important; font-weight: 700 !important; border: none !important; transition: all .25s !important; }
+    .btn-inscribir:hover { background: #c1121f !important; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(230,57,70,0.4) !important; }
 
-        .hero-interno .container {
-            position: relative;
-            z-index: 2;
-        }
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      background: linear-gradient(160deg, var(--azul-marino) 0%, var(--azul-medio) 60%, var(--azul-claro) 100%);
+      position: relative;
+      display: flex; align-items: center;
+      overflow: hidden;
+      padding-top: 80px;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url('https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?auto=format&fit=crop&w=1600&q=60') center/cover;
+      opacity: 0.08;
+    }
+    .hero-pattern {
+      position: absolute; inset: 0;
+      background-image: radial-gradient(circle at 20% 80%, rgba(255,255,255,0.04) 1px, transparent 1px),
+                        radial-gradient(circle at 80% 20%, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+    .hero-content { position: relative; z-index: 2; }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      color: white; border-radius: 20px;
+      padding: 6px 18px; font-size: .85rem;
+      font-weight: 600; letter-spacing: 1px;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      font-weight: 800; color: white;
+      line-height: 1.0; margin-bottom: 20px;
+      letter-spacing: -1px;
+    }
+    .hero h1 span { color: var(--dorado); }
+    .hero .lead { color: rgba(255,255,255,0.85); font-size: 1.15rem; max-width: 560px; }
+    .hero-btns { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+    .btn-hero-primary {
+      background: var(--rojo-acento);
+      color: white; border: none;
+      padding: 14px 32px; border-radius: 8px;
+      font-weight: 700; font-size: 1rem;
+      transition: all .3s;
+      box-shadow: 0 4px 20px rgba(230,57,70,0.4);
+    }
+    .btn-hero-primary:hover { background: #c1121f; transform: translateY(-3px); color: white; }
+    .btn-hero-outline {
+      background: transparent;
+      color: white; border: 2px solid rgba(255,255,255,0.5);
+      padding: 14px 32px; border-radius: 8px;
+      font-weight: 700; font-size: 1rem; transition: all .3s;
+    }
+    .btn-hero-outline:hover { border-color: white; background: rgba(255,255,255,0.1); color: white; }
+    .hero-stats {
+      display: flex; gap: 40px; margin-top: 50px;
+      flex-wrap: wrap;
+    }
+    .stat-item .num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 2.8rem; font-weight: 800; color: var(--dorado); line-height: 1;
+    }
+    .stat-item .lbl { color: rgba(255,255,255,0.75); font-size: .85rem; }
+    .hero-logos {
+      display: flex; flex-wrap: wrap; gap: 16px;
+      align-items: center; justify-content: center;
+      margin-top: 40px;
+    }
+    .hero-logo-card {
+      background: rgba(255,255,255,0.95);
+      border-radius: 12px; padding: 12px 22px;
+      display: flex; align-items: center; gap: 10px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    }
+    .hero-logo-card .l-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800; font-size: 1.4rem;
+    }
+    .l-unam  { color: #e88a00; }
+    .l-poli  { color: #cc0000; }
+    .l-bach  { color: #1648a0; }
+    .hero-logo-card .l-sub { font-size: 0.65rem; color: #666; font-weight: 600; letter-spacing: 1px; line-height: 1.2; }
+    .hero-main-logo { 
+      display: flex; flex-direction: column; align-items: center;
+      background: white; border-radius: 16px; padding: 20px 30px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+      margin-bottom: 20px;
+    }
 
-        .btn-hero {
-            padding: 12px 30px;
-            border-radius: 30px;
-        }
+    /* ── SECCIONES ── */
+    .section-label {
+      display: inline-block;
+      background: var(--azul-principal);
+      color: white; font-size: .75rem; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase;
+      padding: 5px 14px; border-radius: 4px; margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      font-weight: 800; color: var(--azul-marino);
+      line-height: 1.1;
+    }
+    .section-title span { color: var(--azul-claro); }
+    .divider { width: 60px; height: 4px; background: var(--rojo-acento); border-radius: 2px; margin: 16px 0; }
 
-        /* TARJETAS MEJORADAS */
-        .card-modern {
-            border: none;
-            border-radius: 16px;
-            transition: all 0.3s ease;
-        }
+    /* ── PROGRAMAS ── */
+    .programas { background: var(--gris-claro); padding: 90px 0; }
+    .prog-card {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      transition: all .35s;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+      border: 1px solid rgba(22,72,160,0.08);
+      height: 100%;
+    }
+    .prog-card:hover { transform: translateY(-8px); box-shadow: 0 16px 40px rgba(22,72,160,0.18); }
+    .prog-card-header {
+      padding: 28px 28px 20px;
+      display: flex; align-items: flex-start; gap: 16px;
+    }
+    .prog-icon {
+      width: 56px; height: 56px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem; flex-shrink: 0;
+    }
+    .prog-card-body { padding: 0 28px 28px; }
+    .prog-tag {
+      display: inline-block; font-size: .72rem;
+      font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+      padding: 3px 10px; border-radius: 4px; margin-bottom: 12px;
+    }
+    .prog-card h3 { font-size: 1.5rem; font-weight: 800; color: var(--azul-marino); margin-bottom: 8px; }
+    .prog-card p { color: var(--gris-texto); font-size: .95rem; line-height: 1.6; }
+    .prog-card ul { color: var(--gris-texto); font-size: .9rem; }
+    .prog-card ul li { margin-bottom: 6px; }
+    .prog-price {
+      background: var(--gris-claro); border-radius: 8px;
+      padding: 12px 16px; margin: 16px 0;
+    }
+    .prog-price .desde { font-size: .75rem; color: #888; }
+    .prog-price .monto { font-family: 'Barlow Condensed', sans-serif; font-size: 1.8rem; font-weight: 800; color: var(--azul-marino); }
+    .btn-prog {
+      width: 100%; padding: 12px; border-radius: 8px;
+      font-weight: 700; font-size: .9rem; transition: all .25s;
+      border: none;
+    }
+    /* color variants */
+    .prog-prepa .prog-icon { background: rgba(232,112,10,0.12); color: var(--naranja-prepa); }
+    .prog-prepa .prog-tag { background: rgba(232,112,10,0.1); color: var(--naranja-prepa); }
+    .prog-prepa .btn-prog { background: var(--naranja-prepa); color: white; }
+    .prog-prepa .btn-prog:hover { background: #c55e00; color: white; }
 
-        .card-modern:hover {
-            transform: translateY(-8px);
-        }
+    .prog-unam .prog-icon { background: rgba(232,138,0,0.1); color: #e88a00; }
+    .prog-unam .prog-tag { background: rgba(232,138,0,0.1); color: #b36b00; }
+    .prog-unam .btn-prog { background: #e88a00; color: white; }
+    .prog-unam .btn-prog:hover { background: #b36b00; color: white; }
 
-        .icon-circle {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background-color: rgba(13,59,102,0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 26px;
-            margin: 0 auto 15px;
-            color: #0d3b66;
-        }
+    .prog-poli .prog-icon { background: rgba(204,0,0,0.08); color: #cc0000; }
+    .prog-poli .prog-tag { background: rgba(204,0,0,0.08); color: #cc0000; }
+    .prog-poli .btn-prog { background: #cc0000; color: white; }
+    .prog-poli .btn-prog:hover { background: #990000; color: white; }
 
-        .section-subtitle {
-            max-width: 650px;
-            margin: auto;
-        }
-    </style>
+    .prog-bach .prog-icon { background: rgba(22,72,160,0.1); color: var(--azul-principal); }
+    .prog-bach .prog-tag { background: rgba(22,72,160,0.1); color: var(--azul-principal); }
+    .prog-bach .btn-prog { background: var(--azul-principal); color: white; }
+    .prog-bach .btn-prog:hover { background: var(--azul-marino); color: white; }
+
+    .prog-reg .prog-icon { background: rgba(45,125,210,0.1); color: var(--azul-claro); }
+    .prog-reg .prog-tag { background: rgba(45,125,210,0.1); color: var(--azul-claro); }
+    .prog-reg .btn-prog { background: var(--azul-claro); color: white; }
+    .prog-reg .btn-prog:hover { background: var(--azul-medio); color: white; }
+
+    .prog-dipl .prog-icon { background: rgba(45,125,210,0.1); color: #0077b6; }
+    .prog-dipl .prog-tag { background: rgba(0,119,182,0.1); color: #0077b6; }
+    .prog-dipl .btn-prog { background: #0077b6; color: white; }
+    .prog-dipl .btn-prog:hover { background: #005f92; color: white; }
+
+    /* ── MISIÓN/VISIÓN/VALORES ── */
+    .mision { padding: 90px 0; background: white; }
+    .mvv-card {
+      border-radius: 16px; padding: 36px 32px;
+      height: 100%; position: relative; overflow: hidden;
+    }
+    .mvv-card::before {
+      content: '';
+      position: absolute; top: -30px; right: -30px;
+      width: 120px; height: 120px; border-radius: 50%;
+      opacity: 0.06;
+    }
+    .mvv-card.mision-c { background: linear-gradient(135deg, #f0f4fb, #e8efff); }
+    .mvv-card.mision-c::before { background: var(--azul-principal); }
+    .mvv-card.vision-c { background: linear-gradient(135deg, #fff8f0, #fff0e0); }
+    .mvv-card.vision-c::before { background: var(--naranja-prepa); }
+    .mvv-card.valores-c { background: linear-gradient(135deg, #f0faf5, #e0f5e8); }
+    .mvv-card.valores-c::before { background: #2a9d8f; }
+    .mvv-icon { font-size: 2.4rem; margin-bottom: 16px; }
+    .mvv-card h3 { font-size: 1.6rem; font-weight: 800; margin-bottom: 12px; }
+    .mvv-card.mision-c h3 { color: var(--azul-marino); }
+    .mvv-card.vision-c h3 { color: #7a3800; }
+    .mvv-card.valores-c h3 { color: #1a5c42; }
+    .mvv-card p, .mvv-card li { color: var(--gris-texto); line-height: 1.7; font-size: .95rem; }
+    .valor-chip {
+      display: inline-block; padding: 5px 14px;
+      background: rgba(42,157,143,0.12); color: #1a5c42;
+      border-radius: 20px; font-size: .85rem; font-weight: 600;
+      margin: 4px 3px;
+    }
+
+    /* ── METODOLOGÍA ── */
+    .metodologia { background: linear-gradient(135deg, var(--azul-marino) 0%, var(--azul-medio) 100%); padding: 90px 0; }
+    .metodologia .section-title { color: white; }
+    .metodologia .section-title span { color: var(--dorado); }
+    .metodologia .lead-text { color: rgba(255,255,255,0.8); }
+    .meto-step {
+      display: flex; gap: 20px; align-items: flex-start;
+      padding: 24px; border-radius: 12px;
+      background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1);
+      margin-bottom: 16px; transition: all .3s;
+    }
+    .meto-step:hover { background: rgba(255,255,255,0.12); }
+    .meto-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 2.2rem; font-weight: 800; color: var(--dorado);
+      line-height: 1; flex-shrink: 0; min-width: 40px;
+    }
+    .meto-step h5 { color: white; font-weight: 700; margin-bottom: 4px; }
+    .meto-step p { color: rgba(255,255,255,0.7); font-size: .9rem; margin: 0; }
+
+    /* ── INSCRIPCIÓN ── */
+    .inscripcion { padding: 90px 0; background: var(--gris-claro); }
+    .inscripcion-card {
+      background: white; border-radius: 20px;
+      padding: 50px 44px; box-shadow: 0 8px 40px rgba(22,72,160,0.12);
+      position: relative; overflow: hidden;
+    }
+    .inscripcion-card::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, var(--azul-marino), var(--azul-claro), var(--rojo-acento));
+    }
+    .inscripcion-card h2 { font-size: 2.4rem; font-weight: 800; color: var(--azul-marino); }
+    .form-step { 
+      display: flex; align-items: flex-start; gap: 16px;
+      padding: 18px 20px; border-radius: 10px; margin-bottom: 12px;
+      background: var(--gris-claro);
+    }
+    .step-n {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--azul-principal); color: white;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: .9rem; flex-shrink: 0;
+    }
+    .form-step h6 { font-weight: 700; color: var(--azul-marino); margin-bottom: 2px; }
+    .form-step p { font-size: .88rem; color: var(--gris-texto); margin: 0; }
+    .btn-inscribirse {
+      background: linear-gradient(135deg, var(--rojo-acento), #c1121f);
+      color: white; border: none; border-radius: 12px;
+      padding: 16px 40px; font-weight: 800; font-size: 1.05rem;
+      transition: all .3s; box-shadow: 0 6px 20px rgba(230,57,70,0.35);
+    }
+    .btn-inscribirse:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(230,57,70,0.45); color: white; }
+    .btn-wa {
+      background: #25d366; color: white; border: none; border-radius: 12px;
+      padding: 16px 32px; font-weight: 700; font-size: 1rem; transition: all .3s;
+    }
+    .btn-wa:hover { background: #1ebe5b; color: white; transform: translateY(-2px); }
+
+    /* ── CONTACTO ── */
+    .contacto { padding: 90px 0; background: white; }
+    .contact-card { background: var(--gris-claro); border-radius: 14px; padding: 28px 24px; margin-bottom: 20px; display: flex; gap: 16px; align-items: flex-start; }
+    .contact-icon { width: 48px; height: 48px; border-radius: 10px; background: var(--azul-principal); color: white; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+    .contact-card h5 { font-weight: 700; color: var(--azul-marino); margin-bottom: 4px; }
+    .contact-card p, .contact-card a { color: var(--gris-texto); font-size: .93rem; text-decoration: none; }
+    .contact-card a:hover { color: var(--azul-claro); }
+
+    /* ── REDES SOCIALES ── */
+    .social-strip { background: var(--azul-marino); padding: 50px 0; }
+    .social-strip h3 { color: white; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 2rem; }
+    .social-strip p { color: rgba(255,255,255,0.75); }
+    .social-btn {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px 24px; border-radius: 12px;
+      font-weight: 700; font-size: .95rem; text-decoration: none;
+      transition: all .3s; border: none; width: 100%; justify-content: center;
+    }
+    .social-btn i { font-size: 1.3rem; }
+    .fb-btn { background: #1877f2; color: white; }
+    .fb-btn:hover { background: #0d65d6; color: white; transform: translateY(-3px); box-shadow: 0 6px 16px rgba(24,119,242,0.4); }
+    .ig-btn {
+      background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+      color: white;
+    }
+    .ig-btn:hover { transform: translateY(-3px); box-shadow: 0 6px 16px rgba(220,39,67,0.4); color: white; }
+    .tt-btn { background: #010101; color: white; border: 1px solid #333; }
+    .tt-btn:hover { background: #1a1a1a; color: white; transform: translateY(-3px); box-shadow: 0 6px 16px rgba(0,0,0,0.4); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #060e1f;
+      color: rgba(255,255,255,0.6);
+      padding: 40px 0 24px;
+    }
+    footer .logo-footer { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 1.6rem; color: white; }
+    footer .logo-footer span { color: var(--azul-claro); }
+    footer .footer-link { color: rgba(255,255,255,0.6); text-decoration: none; display: block; margin-bottom: 6px; font-size: .9rem; transition: color .2s; }
+    footer .footer-link:hover { color: var(--azul-claro); }
+    footer h6 { color: white; font-weight: 700; margin-bottom: 14px; font-size: .85rem; letter-spacing: 1.5px; text-transform: uppercase; }
+    footer .divider-footer { border-color: rgba(255,255,255,0.1); margin: 28px 0 20px; }
+    .social-footer a {
+      width: 36px; height: 36px; border-radius: 8px;
+      background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.7);
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: .95rem; margin-right: 8px; text-decoration: none; transition: all .25s;
+    }
+    .social-footer a:hover { background: var(--azul-claro); color: white; }
+
+    /* ── PRECIOS TABLA ── */
+    .precio-tabla { border-radius: 12px; overflow: hidden; box-shadow: 0 2px 16px rgba(0,0,0,0.07); }
+    .precio-tabla th { background: var(--azul-marino); color: white; font-weight: 700; padding: 14px 16px; }
+    .precio-tabla td { padding: 12px 16px; vertical-align: middle; font-size: .9rem; }
+    .precio-tabla tr:nth-child(even) td { background: var(--gris-claro); }
+    .precio-contado { color: var(--azul-claro); font-weight: 700; }
+    .precio-normal { color: var(--gris-texto); }
+    .badge-nivel { font-size: .72rem; padding: 4px 10px; border-radius: 20px; font-weight: 700; }
+
+    /* scrollspy highlight */
+    section { scroll-margin-top: 80px; }
+
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2.4rem; }
+      .hero-stats { gap: 24px; }
+      .inscripcion-card { padding: 30px 20px; }
+    }
+  </style>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark navbar-tech fixed-top shadow-sm">
-    <div class="container">
-        <a class="navbar-brand fw-bold tech-logo" href="index.html">
-            CONAMAT <span>Chimalhuacán</span>
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link active" href="index.html">Inicio</a></li>
-                <li class="nav-item"><a class="nav-link" href="preparatoria.html">Prepa Intensiva</a></li>
-                <li class="nav-item"><a class="nav-link" href="admision.html">Admisión</a></li>
-                <li class="nav-item"><a class="nav-link" href="cursos.html">Regularización y Más</a></li>
-                <li class="nav-item"><a class="nav-link" href="contacto.html">Contacto</a></li>
-            </ul>
-        </div>
+<!-- ═══ NAVBAR ═══ -->
+<nav class="navbar navbar-expand-lg navbar-conamat fixed-top">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center gap-2 text-decoration-none" href="#inicio">
+      <img src="assets/logo-conamat.png" alt="CONAMAT" style="height:44px;width:auto;filter:brightness(0) invert(1);">
+      <div class="brand-text">
+        <div class="sub">Plantel Chimalhuacán</div>
+      </div>
+    </a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-center gap-1">
+        <li class="nav-item"><a class="nav-link" href="#inicio">Inicio</a></li>
+        <li class="nav-item"><a class="nav-link" href="#programas">Programas</a></li>
+        <li class="nav-item"><a class="nav-link" href="#nosotros">Nosotros</a></li>
+        <li class="nav-item"><a class="nav-link" href="#inscripcion">Inscripción</a></li>
+        <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
+        <li class="nav-item ms-2">
+          <a class="btn btn-inscribir nav-link" href="https://forms.gle/WHpWgVvzrwvvuhet9" target="_blank">
+            📝 ¡Inscríbete!
+          </a>
+        </li>
+      </ul>
     </div>
+  </div>
 </nav>
 
-<section class="hero-interno d-flex align-items-center text-center text-white">
-    <div class="container">
-        <img src="assets/logo-conamat.png" alt="Logo CONAMAT Chimalhuacán" class="img-fluid rounded shadow-lg mb-5 bg-white p-3" style="max-height: 250px; border: 4px solid white;">
-
-        <h1 class="display-3 fw-bold mb-4 glow-text">
-            Tu mejor opción para lograr tu meta educativa
-        </h1>
-        <p class="lead mb-5">
-            Más de 36 años formando estudiantes exitosos con metodología tecnológica.
-            <br>
-            <strong>"Jóvenes enseñando a jóvenes"</strong>
-        </p>
-        <div>
-            <a href="preparatoria.html" class="btn btn-warning btn-hero fw-bold me-3 shadow-lg text-dark">
-                Termina tu Prepa
-            </a>
-            <a href="admision.html" class="btn btn-outline-light btn-hero fw-bold shadow-lg">
-                Cursos de Admisión
-            </a>
+<!-- ═══ HERO ═══ -->
+<section class="hero" id="inicio">
+  <div class="hero-pattern"></div>
+  <div class="container">
+    <div class="row align-items-center gy-5">
+      <div class="col-lg-7 hero-content">
+        <div class="hero-badge">⭐ +36 años formando estudiantes exitosos</div>
+        <h1>Tu mejor opción para <span>lograr tu meta</span> educativa</h1>
+        <p class="lead">Metodología "Jóvenes enseñando a jóvenes". Cursos de admisión, prepa intensiva, regularización y diplomados.</p>
+        <div class="hero-btns">
+          <a href="https://forms.gle/WHpWgVvzrwvvuhet9" target="_blank" class="btn-hero-primary">
+            📝 Inscríbete aquí
+          </a>
+          <a href="#programas" class="btn-hero-outline">
+            Ver programas ↓
+          </a>
         </div>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <div class="num">36+</div>
+            <div class="lbl">Años de experiencia</div>
+          </div>
+          <div class="stat-item">
+            <div class="num">4-6</div>
+            <div class="lbl">Meses para tu prepa</div>
+          </div>
+          <div class="stat-item">
+            <div class="num">3</div>
+            <div class="lbl">Sedes en el Estado</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-5 hero-content">
+        <!-- Logo principal CONAMAT -->
+        <div class="hero-main-logo">
+          <img src="assets/logo-conamat.png" alt="CONAMAT Colegio Nacional de Matemáticas" style="max-width:240px;width:100%;height:auto;">
+        </div>
+        <!-- Logos aliados -->
+        <p class="text-center mb-2" style="color:rgba(255,255,255,0.6);font-size:.8rem;font-weight:600;letter-spacing:1px;">PREPARAMOS PARA</p>
+        <div class="hero-logos">
+          <div class="hero-logo-card">
+            <img src="assets/logo-unam.png" alt="UNAM" style="height:40px;width:auto;">
+          </div>
+          <div class="hero-logo-card">
+            <img src="assets/logo-poli.png" alt="IPN" style="height:40px;width:auto;">
+          </div>
+          <div class="hero-logo-card">
+            <img src="assets/logo-prepa.png" alt="Prepa CONAMAT" style="height:40px;width:auto;">
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </section>
 
-<section class="py-5 bg-light">
-    <div class="container text-center">
-        <h2 class="fw-bold text-institucional mb-3">Nuestros Programas</h2>
-        <p class="text-muted section-subtitle mb-5">
-            Diseñados para acompañarte en cada etapa académica y ayudarte a alcanzar tus metas.
-        </p>
-
-        <div class="row g-4">
-
-            <div class="col-md-4">
-                <div class="card-modern bg-white shadow p-4 h-100">
-                    <div class="icon-circle">🎓</div>
-                    <h5 class="fw-bold text-institucional">Prepa Intensiva</h5>
-                    <p class="text-muted mt-3">
-                        Termina tu bachillerato en menos tiempo con asesoría personalizada.
-                    </p>
-                    <a href="preparatoria.html" class="btn btn-outline-primary mt-3">Más información</a>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="card-modern bg-white shadow p-4 h-100">
-                    <div class="icon-circle">📚</div>
-                    <h5 class="fw-bold text-institucional">Cursos de Admisión</h5>
-                    <p class="text-muted mt-3">
-                        Prepárate para UNAM, IPN, UAEM y Bachillerato con simulacros reales.
-                    </p>
-                    <a href="admision.html" class="btn btn-outline-success mt-3">Más información</a>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="card-modern bg-white shadow p-4 h-100">
-                    <div class="icon-circle">🧮</div>
-                    <h5 class="fw-bold text-institucional">Regularización</h5>
-                    <p class="text-muted mt-3">
-                        Refuerza matemáticas, lectura y materias clave con apoyo especializado.
-                    </p>
-                    <a href="cursos.html" class="btn btn-outline-info mt-3">Más información</a>
-                </div>
-            </div>
-
-        </div>
+<!-- ═══ PROGRAMAS ═══ -->
+<section class="programas" id="programas">
+  <div class="container">
+    <div class="text-center mb-5">
+      <span class="section-label">Nuestros Programas</span>
+      <h2 class="section-title">Todo lo que necesitas <span>en un solo lugar</span></h2>
+      <div class="divider mx-auto"></div>
+      <p class="text-muted" style="max-width:580px;margin:auto">Desde terminar tu preparatoria hasta prepararte para las mejores universidades del país.</p>
     </div>
+
+    <div class="row g-4">
+
+      <!-- PREPA INTENSIVA -->
+      <div class="col-lg-4 col-md-6">
+        <div class="prog-card prog-prepa">
+          <div class="prog-card-header">
+            <div class="prog-icon">🎓</div>
+            <div>
+              <span class="prog-tag">Prepa Intensiva</span>
+              <h3>Bachillerato en 4 o 6 meses</h3>
+            </div>
+          </div>
+          <div class="prog-card-body">
+            <p>Termina tu preparatoria con validez oficial ante la SEP. Ideal si necesitas avanzar sin dejar otras actividades.</p>
+            <ul class="list-unstyled mt-3">
+              <li>✅ Validez oficial SEP</li>
+              <li>✅ Un solo examen global</li>
+              <li>✅ Horarios flexibles</li>
+              <li>✅ Asesoría personalizada</li>
+            </ul>
+            <div class="prog-price">
+              <div class="desde">Mensualidad desde</div>
+              <div class="monto">$1,200 <small style="font-size:1rem;color:#888">/ mes</small></div>
+            </div>
+            <a href="https://wa.me/525514656210?text=Hola,%20me%20interesa%20la%20Prepa%20Intensiva%20en%20CONAMAT%20Chimalhuac%C3%A1n" target="_blank" class="btn btn-prog">📱 Más información</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ADMISIÓN UNAM -->
+      <div class="col-lg-4 col-md-6">
+        <div class="prog-card prog-unam">
+          <div class="prog-card-header">
+            <div class="prog-icon">📚</div>
+            <div>
+              <span class="prog-tag">Admisión UNAM</span>
+              <h3>COMIPEMS y CCH/Prepa</h3>
+            </div>
+          </div>
+          <div class="prog-card-body">
+            <p>Preparación intensiva para los exámenes de admisión a la Universidad Nacional Autónoma de México.</p>
+            <ul class="list-unstyled mt-3">
+              <li>✅ Simulacros reales COMIPEMS</li>
+              <li>✅ Temario 100% cubierto</li>
+              <li>✅ Maestros especializados</li>
+              <li>✅ Material incluido</li>
+            </ul>
+            <div class="prog-price">
+              <div class="desde">Inscripción desde</div>
+              <div class="monto">$1,500</div>
+            </div>
+            <a href="https://wa.me/525514656210?text=Hola,%20me%20interesa%20el%20curso%20de%20admisi%C3%B3n%20UNAM%20en%20CONAMAT%20Chimalhuac%C3%A1n" target="_blank" class="btn btn-prog">📱 Más información</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ADMISIÓN POLI -->
+      <div class="col-lg-4 col-md-6">
+        <div class="prog-card prog-poli">
+          <div class="prog-card-header">
+            <div class="prog-icon">🔬</div>
+            <div>
+              <span class="prog-tag">Admisión IPN</span>
+              <h3>Politécnico Nacional</h3>
+            </div>
+          </div>
+          <div class="prog-card-body">
+            <p>Prepárate con el mejor material para ingresar al Instituto Politécnico Nacional y sus planteles.</p>
+            <ul class="list-unstyled mt-3">
+              <li>✅ Enfoque en ciencias exactas</li>
+              <li>✅ Simulacros CENEVAL/IPN</li>
+              <li>✅ Clases intensivas</li>
+              <li>✅ Seguimiento individual</li>
+            </ul>
+            <div class="prog-price">
+              <div class="desde">Inscripción desde</div>
+              <div class="monto">$1,500</div>
+            </div>
+            <a href="https://wa.me/525514656210?text=Hola,%20me%20interesa%20el%20curso%20de%20admisi%C3%B3n%20IPN%20en%20CONAMAT%20Chimalhuac%C3%A1n" target="_blank" class="btn btn-prog">📱 Más información</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- BACHILLERATO -->
+      <div class="col-lg-4 col-md-6">
+        <div class="prog-card prog-bach">
+          <div class="prog-card-header">
+            <div class="prog-icon">📐</div>
+            <div>
+              <span class="prog-tag">Bachillerato / ECOEMS</span>
+              <h3>Examen Único de Bachillerato</h3>
+            </div>
+          </div>
+          <div class="prog-card-body">
+            <p>Preparación para el ECOEMS y los exámenes de bachillerato de la Zona Metropolitana.</p>
+            <ul class="list-unstyled mt-3">
+              <li>✅ ECOEMS y equivalentes</li>
+              <li>✅ Todas las materias</li>
+              <li>✅ Grupos reducidos</li>
+              <li>✅ Horarios matutino/vespertino</li>
+            </ul>
+            <div class="prog-price">
+              <div class="desde">Inscripción desde</div>
+              <div class="monto">$1,200</div>
+            </div>
+            <a href="https://wa.me/525514656210?text=Hola,%20me%20interesa%20el%20curso%20ECOEMS%20en%20CONAMAT%20Chimalhuac%C3%A1n" target="_blank" class="btn btn-prog">📱 Más información</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- REGULARIZACIÓN -->
+      <div class="col-lg-4 col-md-6">
+        <div class="prog-card prog-reg">
+          <div class="prog-card-header">
+            <div class="prog-icon">🧮</div>
+            <div>
+              <span class="prog-tag">Regularización</span>
+              <h3>Matemáticas, Física y Química</h3>
+            </div>
+          </div>
+          <div class="prog-card-body">
+            <p>Refuerza tus conocimientos en materias clave con modalidad semiindividual. Inicios inmediatos.</p>
+            <ul class="list-unstyled mt-3">
+              <li>✅ Puedes traer tu temario</li>
+              <li>✅ Lun–Vie 17:00–20:00</li>
+              <li>✅ Sáb–Dom 09:00–14:00</li>
+              <li>✅ Primaria a Universidad</li>
+            </ul>
+            <!-- Tabla de precios -->
+            <div class="mt-3 mb-3">
+              <table class="table table-sm precio-tabla mb-0">
+                <thead><tr><th>Nivel</th><th>15h</th><th>Contado</th></tr></thead>
+                <tbody>
+                  <tr><td><span class="badge-nivel bg-primary text-white">Básico</span></td><td class="precio-normal">$2,225</td><td class="precio-contado">$1,910</td></tr>
+                  <tr><td><span class="badge-nivel bg-info text-white">Superior</span></td><td class="precio-normal">$2,525</td><td class="precio-contado">$2,150</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <a href="https://wa.me/525514656210?text=Hola,%20me%20interesa%20regularizaci%C3%B3n%20en%20CONAMAT%20Chimalhuac%C3%A1n" target="_blank" class="btn btn-prog">📱 Solicitar información</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- DIPLOMADOS -->
+      <div class="col-lg-4 col-md-6">
+        <div class="prog-card prog-dipl">
+          <div class="prog-card-header">
+            <div class="prog-icon">🏅</div>
+            <div>
+              <span class="prog-tag">Diplomados</span>
+              <h3>Matemáticas e Inglés</h3>
+            </div>
+          </div>
+          <div class="prog-card-body">
+            <p>Programas estructurados de largo plazo para dominio profundo de matemáticas y preparación Cambridge.</p>
+            <ul class="list-unstyled mt-3">
+              <li>📌 <strong>Kids/Junior</strong> – Inicio 14-mar-26 (Sábados)</li>
+              <li>📌 <strong>Master (Prepa)</strong> – 12 meses, múltiples horarios</li>
+              <li>📌 <strong>Inglés Cambridge</strong> – Niveles A1 y A2</li>
+            </ul>
+            <div class="prog-price">
+              <div class="desde">Mensualidad Kids/Junior</div>
+              <div class="monto">$880 <small style="font-size:.9rem;color:#888">/ mes</small></div>
+            </div>
+            <a href="https://wa.me/525514656210?text=Hola,%20me%20interesa%20el%20Diplomado%20en%20CONAMAT%20Chimalhuac%C3%A1n" target="_blank" class="btn btn-prog">📱 Solicitar información</a>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /row -->
+  </div>
 </section>
 
-<section class="py-5">
-    <div class="container text-center">
-        <h2 class="fw-bold text-institucional mb-3">Nuestra Institución</h2>
-        <p class="text-muted section-subtitle mb-5">
-            Comprometidos con la excelencia académica mediante una metodología estructurada y efectiva.
-        </p>
-
-        <div class="row g-4">
-
-            <div class="col-md-4">
-                <div class="card-modern bg-white shadow p-4 h-100">
-                    <div class="icon-circle">🎯</div>
-                    <h5 class="fw-bold text-institucional">Misión</h5>
-                    <p class="text-muted mt-3">
-                        Ser la primera opción para superar exámenes de ingreso y fortalecer habilidades académicas.
-                    </p>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="card-modern bg-white shadow p-4 h-100">
-                    <div class="icon-circle">⭐</div>
-                    <h5 class="fw-bold text-institucional">Valores</h5>
-                    <p class="text-muted mt-3">
-                        Entusiasmo, compromiso, responsabilidad, confianza y honestidad.
-                    </p>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="card-modern bg-white shadow p-4 h-100">
-                    <div class="icon-circle">💻</div>
-                    <h5 class="fw-bold text-institucional">Metodología</h5>
-                    <p class="text-muted mt-3">
-                        Diagnósticos, talleres, evaluaciones digitales, simulacros y acompañamiento continuo.
-                    </p>
-                </div>
-            </div>
-
-        </div>
+<!-- ═══ MISIÓN / VISIÓN / VALORES ═══ -->
+<section class="mision" id="nosotros">
+  <div class="container">
+    <div class="text-center mb-5">
+      <span class="section-label">Nuestra Institución</span>
+      <h2 class="section-title">Más de 36 años <span>comprometidos con tu educación</span></h2>
+      <div class="divider mx-auto"></div>
     </div>
+    <div class="row g-4 mb-5">
+      <div class="col-md-4">
+        <div class="mvv-card mision-c h-100">
+          <div class="mvv-icon">🎯</div>
+          <h3>Misión</h3>
+          <p>Ser la primera opción para que los jóvenes superen sus exámenes de ingreso a preparatoria y universidad, así como fortalecer sus habilidades académicas mediante una metodología innovadora, personalizada y orientada al éxito.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="mvv-card vision-c h-100">
+          <div class="mvv-icon">🔭</div>
+          <h3>Visión</h3>
+          <p>Ser el colegio de preparación académica más reconocido del Estado de México, referente nacional en metodología de enseñanza de matemáticas, con presencia en todas las zonas metropolitanas y un impacto positivo y medible en la vida de miles de estudiantes.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="mvv-card valores-c h-100">
+          <div class="mvv-icon">⭐</div>
+          <h3>Valores</h3>
+          <p>Guiamos cada clase y decisión con principios que nos definen:</p>
+          <div class="mt-3">
+            <span class="valor-chip">🔥 Entusiasmo</span>
+            <span class="valor-chip">💪 Compromiso</span>
+            <span class="valor-chip">📋 Responsabilidad</span>
+            <span class="valor-chip">🤝 Confianza</span>
+            <span class="valor-chip">💎 Honestidad</span>
+            <span class="valor-chip">🏆 Excelencia</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
-<section class="py-5 bg-institucional text-white text-center">
-    <div class="container">
-        <h3 class="fw-bold mb-3">¿Listo para comenzar?</h3>
-        <p class="mb-4">
-            Comunícate con nosotros y recibe asesoría personalizada.
-        </p>
-        <a href="https://wa.me/525514656210?text=Hola,%20vengo%20de%20su%20p%C3%A1gina%20web%20y%20me%20gustar%C3%ADa%20solicitar%20informaci%C3%B3n"
-           target="_blank"
-           class="btn btn-light fw-bold shadow">
-            📱 Contáctanos por WhatsApp
+<!-- ═══ METODOLOGÍA ═══ -->
+<section class="metodologia">
+  <div class="container">
+    <div class="row align-items-center gy-5">
+      <div class="col-lg-5">
+        <span class="section-label" style="background:rgba(255,255,255,0.15);color:white">Metodología</span>
+        <h2 class="section-title mt-2">"Jóvenes <span>enseñando a</span> jóvenes"</h2>
+        <div class="divider" style="background:var(--dorado)"></div>
+        <p class="lead-text mt-3">Nuestra metodología única combina tecnología educativa con la cercanía de maestros recién graduados que entienden las necesidades de los estudiantes actuales.</p>
+        <a href="https://wa.me/525514656210?text=Hola,%20quisiera%20saber%20m%C3%A1s%20sobre%20la%20metodolog%C3%ADa%20de%20CONAMAT%20Chimalhuac%C3%A1n" target="_blank" class="btn btn-wa mt-4">
+          <i class="fab fa-whatsapp me-2"></i> Consulta nuestro método
         </a>
+      </div>
+      <div class="col-lg-7">
+        <div class="meto-step">
+          <div class="meto-num">01</div>
+          <div><h5>Diagnóstico inicial</h5><p>Evaluamos tu nivel de conocimientos para crear un plan de estudio personalizado.</p></div>
+        </div>
+        <div class="meto-step">
+          <div class="meto-num">02</div>
+          <div><h5>Clases estructuradas</h5><p>Talleres dinámicos con enfoque en los temas de mayor peso en los exámenes.</p></div>
+        </div>
+        <div class="meto-step">
+          <div class="meto-num">03</div>
+          <div><h5>Evaluaciones digitales</h5><p>Exámenes semanales en formato digital idéntico al examen real.</p></div>
+        </div>
+        <div class="meto-step">
+          <div class="meto-num">04</div>
+          <div><h5>Simulacros reales</h5><p>Prácticas cronometradas con el mismo formato y condiciones del examen oficial.</p></div>
+        </div>
+        <div class="meto-step">
+          <div class="meto-num">05</div>
+          <div><h5>Acompañamiento continuo</h5><p>Seguimiento personalizado hasta el día de tu examen y más allá.</p></div>
+        </div>
+      </div>
     </div>
+  </div>
 </section>
 
-<footer class="footer-tech text-center py-4 text-white">
-    <div class="container">
-        <p class="mb-0">
-            © 2026 CONAMAT Chimalhuacán. Todos los derechos reservados.
-        </p>
+<!-- ═══ INSCRIPCIÓN ═══ -->
+<section class="inscripcion" id="inscripcion">
+  <div class="container">
+    <div class="text-center mb-5">
+      <span class="section-label">¡Es tu momento!</span>
+      <h2 class="section-title">Inscríbete <span>hoy mismo</span></h2>
+      <div class="divider mx-auto"></div>
     </div>
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="inscripcion-card">
+          <div class="row align-items-center mb-4">
+            <div class="col">
+              <h2>Formulario de Inscripción</h2>
+              <p class="text-muted">Completa tu registro en línea en menos de 5 minutos.</p>
+            </div>
+            <div class="col-auto">
+              <div style="background:rgba(22,72,160,0.08);border-radius:12px;padding:12px 20px;text-align:center">
+                <div style="font-size:.75rem;color:#888;font-weight:600">CICLO ESCOLAR</div>
+                <div style="font-family:'Barlow Condensed',sans-serif;font-size:1.8rem;font-weight:800;color:var(--azul-marino)">2025–2026</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-step">
+            <div class="step-n">1</div>
+            <div><h6>Llena el formulario en línea</h6><p>Proporciona tus datos personales y elige el programa que te interesa.</p></div>
+          </div>
+          <div class="form-step">
+            <div class="step-n">2</div>
+            <div><h6>Realiza tu pago</h6><p>Cubre tu inscripción en línea o directamente en nuestras instalaciones.</p></div>
+          </div>
+          <div class="form-step">
+            <div class="step-n">3</div>
+            <div><h6>¡Comienza tus clases!</h6><p>Recibirás confirmación por WhatsApp con tu horario y detalles de inicio.</p></div>
+          </div>
+
+          <div class="d-flex flex-wrap gap-3 mt-4">
+            <a href="https://forms.gle/WHpWgVvzrwvvuhet9" target="_blank" class="btn btn-inscribirse flex-grow-1 text-center">
+              📝 Llenar formulario de inscripción
+            </a>
+            <a href="https://wa.me/525514656210?text=Hola,%20quiero%20inscribirme%20en%20CONAMAT%20Chimalhuac%C3%A1n" target="_blank" class="btn btn-wa flex-grow-1 text-center">
+              <i class="fab fa-whatsapp me-2"></i>Inscribirme por WhatsApp
+            </a>
+          </div>
+          <p class="text-center text-muted mt-3" style="font-size:.82rem;">
+            ¿Tienes dudas? Escríbenos y te asesoramos sin compromiso. ✅
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ REDES SOCIALES ═══ -->
+<section class="social-strip">
+  <div class="container">
+    <div class="row align-items-center gy-4">
+      <div class="col-lg-4">
+        <h3>Síguenos en<br>redes sociales</h3>
+        <p>Entérate de promociones, horarios, resultados y noticias de nuestra comunidad CONAMAT.</p>
+      </div>
+      <div class="col-lg-8">
+        <div class="row g-3">
+          <div class="col-md-4">
+            <a href="https://www.facebook.com/ConamatChimalhuacan" target="_blank" class="social-btn fb-btn">
+              <i class="fab fa-facebook-f"></i>
+              <div>
+                <div style="font-size:.7rem;opacity:.8">Síguenos en</div>
+                <div>Facebook</div>
+              </div>
+            </a>
+          </div>
+          <div class="col-md-4">
+            <a href="https://www.instagram.com/conamat_chimalhuacan" target="_blank" class="social-btn ig-btn">
+              <i class="fab fa-instagram"></i>
+              <div>
+                <div style="font-size:.7rem;opacity:.8">Síguenos en</div>
+                <div>Instagram</div>
+              </div>
+            </a>
+          </div>
+          <div class="col-md-4">
+            <a href="https://www.tiktok.com/@conamat_chimalhuacan" target="_blank" class="social-btn tt-btn">
+              <i class="fab fa-tiktok"></i>
+              <div>
+                <div style="font-size:.7rem;opacity:.8">Síguenos en</div>
+                <div>TikTok</div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CONTACTO ═══ -->
+<section class="contacto" id="contacto">
+  <div class="container">
+    <div class="row gy-5">
+      <div class="col-lg-5">
+        <span class="section-label">Contáctanos</span>
+        <h2 class="section-title mt-2">Estamos aquí <span>para ayudarte</span></h2>
+        <div class="divider"></div>
+        <p class="text-muted mt-3">Visítanos, llámanos o escríbenos. Con gusto te orientamos sobre el programa ideal para ti.</p>
+        <div class="mt-4">
+          <div class="contact-card">
+            <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+            <div>
+              <h5>Ubicación</h5>
+              <p>Chimalhuacán, Estado de México<br>Zona oriente del Valle de México</p>
+            </div>
+          </div>
+          <div class="contact-card">
+            <div class="contact-icon"><i class="fab fa-whatsapp"></i></div>
+            <div>
+              <h5>WhatsApp</h5>
+              <a href="https://wa.me/525514656210" target="_blank">+52 55 1465 6210</a>
+            </div>
+          </div>
+          <div class="contact-card">
+            <div class="contact-icon"><i class="fas fa-clock"></i></div>
+            <div>
+              <h5>Horarios de atención</h5>
+              <p>Lun–Vie: 8:00 – 21:00<br>Sáb–Dom: 8:00 – 15:00</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-7">
+        <div style="border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.1);height:420px;background:#e8efff;display:flex;align-items:center;justify-content:center">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3764.0!2d-98.9551!3d19.4202!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sCHIMALHUAC%C3%81N!5e0!3m2!1ses-419!2smx!4v1234567890"
+            width="100%" height="420" style="border:0" allowfullscreen="" loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
+        <div class="text-center mt-4">
+          <a href="https://wa.me/525514656210?text=Hola,%20quisiera%20informaci%C3%B3n%20sobre%20los%20cursos%20de%20CONAMAT%20Chimalhuac%C3%A1n"
+             target="_blank" class="btn btn-wa px-5 py-3" style="font-size:1.05rem;font-weight:700">
+            <i class="fab fa-whatsapp me-2"></i> Enviar mensaje por WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="container">
+    <div class="row gy-4">
+      <div class="col-lg-4">
+        <img src="assets/logo-conamat.png" alt="CONAMAT" style="max-width:160px;width:100%;height:auto;margin-bottom:8px;">
+        <p class="mt-2" style="font-size:.9rem;max-width:280px">Colegio Nacional de Matemáticas. Más de 36 años formando el futuro de México.</p>
+        <div class="social-footer mt-3">
+          <a href="https://www.facebook.com/ConamatChimalhuacan" target="_blank"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://www.instagram.com/conamat_chimalhuacan" target="_blank"><i class="fab fa-instagram"></i></a>
+          <a href="https://www.tiktok.com/@conamat_chimalhuacan" target="_blank"><i class="fab fa-tiktok"></i></a>
+          <a href="https://wa.me/525514656210" target="_blank"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+      <div class="col-sm-4 col-lg-2">
+        <h6>Programas</h6>
+        <a href="#programas" class="footer-link">Prepa Intensiva</a>
+        <a href="#programas" class="footer-link">Admisión UNAM</a>
+        <a href="#programas" class="footer-link">Admisión IPN</a>
+        <a href="#programas" class="footer-link">Bachillerato</a>
+        <a href="#programas" class="footer-link">Regularización</a>
+        <a href="#programas" class="footer-link">Diplomados</a>
+      </div>
+      <div class="col-sm-4 col-lg-2">
+        <h6>Institución</h6>
+        <a href="#nosotros" class="footer-link">Misión y Visión</a>
+        <a href="#nosotros" class="footer-link">Metodología</a>
+        <a href="#contacto" class="footer-link">Contacto</a>
+        <a href="#inscripcion" class="footer-link">Inscripción</a>
+      </div>
+      <div class="col-sm-4 col-lg-4">
+        <h6>¡Inscríbete ahora!</h6>
+        <p style="font-size:.88rem">Asegura tu lugar. Ciclo escolar 2025–2026 en curso.</p>
+        <a href="https://forms.gle/WHpWgVvzrwvvuhet9" target="_blank"
+           style="display:inline-block;background:var(--rojo-acento);color:white;padding:10px 24px;border-radius:8px;text-decoration:none;font-weight:700;font-size:.9rem;transition:all .25s">
+          📝 Formulario de Inscripción
+        </a>
+      </div>
+    </div>
+    <hr class="divider-footer">
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+      <p class="mb-0" style="font-size:.82rem">© 2026 CONAMAT Chimalhuacán — Colegio Nacional de Matemáticas. Todos los derechos reservados.</p>
+      <p class="mb-0" style="font-size:.82rem">Educando para el futuro 🎓</p>
+    </div>
+  </div>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // Smooth scroll active nav
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 100) current = s.getAttribute('id');
+    });
+    navLinks.forEach(l => {
+      l.classList.remove('active');
+      if (l.getAttribute('href') === '#' + current) l.classList.add('active');
+    });
+  });
 
+  // Navbar shrink on scroll
+  window.addEventListener('scroll', () => {
+    document.querySelector('.navbar-conamat').style.padding = window.scrollY > 60 ? '6px 0' : '10px 0';
+  });
+</script>
 </body>
 </html>
