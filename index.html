@@ -41,13 +41,13 @@
     .navbar-conamat {
       background: linear-gradient(135deg, var(--azul-marino) 0%, var(--azul-medio) 100%);
       border-bottom: 3px solid var(--rojo-acento);
-      padding: 6px 0;
+      padding: 4px 0;
     }
     .navbar-brand-wrap { display: flex; align-items: center; gap: 10px; }
     .navbar-brand-wrap svg { height: 44px; width: auto; }
     .brand-text { line-height: 1.1; }
-    .brand-text .name { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 1.4rem; color: white; letter-spacing: 1px; }
-    .brand-text .sub  { font-size: 0.7rem; color: rgba(255,255,255,0.75); font-weight: 500; letter-spacing: 2px; text-transform: uppercase; }
+    .brand-text .name { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 1.2rem; color: white; letter-spacing: 1px; }
+    .brand-text .sub  { font-size: 0.65rem; color: rgba(255,255,255,0.75); font-weight: 500; letter-spacing: 2px; text-transform: uppercase; }
     .navbar-nav .nav-link { color: rgba(255,255,255,0.85) !important; font-weight: 600; font-size: 0.9rem; letter-spacing: 0.5px; padding: 8px 14px !important; border-radius: 6px; transition: all .25s; }
     .navbar-nav .nav-link:hover, .navbar-nav .nav-link.active { color: white !important; background: rgba(255,255,255,0.15); }
     .btn-inscribir { background: var(--rojo-acento) !important; color: white !important; border-radius: 20px !important; padding: 8px 20px !important; font-weight: 700 !important; border: none !important; transition: all .25s !important; }
@@ -60,7 +60,7 @@
       position: relative;
       display: flex; align-items: center;
       overflow: hidden;
-      padding-top: 80px;
+      padding-top: 90px;
     }
     .hero::before {
       content: '';
@@ -384,12 +384,85 @@
     .badge-nivel { font-size: .72rem; padding: 4px 10px; border-radius: 20px; font-weight: 700; }
 
     /* scrollspy highlight */
-    section { scroll-margin-top: 80px; }
+    section { scroll-margin-top: 90px; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 991px) {
+      /* Navbar mobile */
+      .navbar-conamat .navbar-collapse {
+        background: var(--azul-marino);
+        padding: 12px 16px;
+        border-radius: 0 0 12px 12px;
+        margin-top: 6px;
+      }
+      .navbar-nav .nav-link { padding: 10px 12px !important; border-bottom: 1px solid rgba(255,255,255,0.08); }
+      .btn-inscribir { margin-top: 8px; display: block; text-align: center; }
+    }
 
     @media (max-width: 768px) {
-      .hero h1 { font-size: 2.4rem; }
-      .hero-stats { gap: 24px; }
-      .inscripcion-card { padding: 30px 20px; }
+      /* Hero */
+      .hero { padding-top: 90px; min-height: auto; padding-bottom: 50px; }
+      .hero h1 { font-size: 2.2rem; }
+      .hero .lead { font-size: 1rem; }
+      .hero-stats { gap: 20px; justify-content: center; }
+      .hero-stats .stat-item { text-align: center; }
+      .hero-stats .num { font-size: 2.2rem; }
+      .hero-btns { justify-content: center; }
+      .hero-content { text-align: center; }
+      .hero-main-logo { padding: 14px 20px; }
+      .hero-main-logo img { max-width: 180px; }
+      .hero-logos { gap: 10px; }
+      .hero-logo-card { padding: 8px 14px; }
+
+      /* Secciones */
+      .section-title { font-size: 1.8rem; }
+      .programas, .mision, .metodologia, .inscripcion, .contacto { padding: 60px 0; }
+
+      /* Tarjetas programa */
+      .prog-card-header { flex-direction: column; gap: 10px; }
+      .prog-icon { width: 48px; height: 48px; font-size: 1.3rem; }
+
+      /* Metodología */
+      .meto-step { flex-direction: column; gap: 10px; }
+      .meto-num { font-size: 1.8rem; }
+
+      /* Inscripción */
+      .inscripcion-card { padding: 24px 16px; }
+      .inscripcion-card h2 { font-size: 1.8rem; }
+      .btn-inscribirse, .btn-wa { padding: 13px 20px; font-size: .95rem; width: 100%; }
+
+      /* MVV */
+      .mvv-card { padding: 24px 20px; }
+
+      /* Contacto */
+      .contact-card { flex-direction: column; gap: 10px; }
+      .contact-icon { width: 40px; height: 40px; font-size: 1rem; }
+
+      /* Social */
+      .social-strip { padding: 36px 0; }
+      .social-strip h3 { font-size: 1.6rem; text-align: center; }
+      .social-strip p { text-align: center; }
+      .social-btn { padding: 12px 16px; font-size: .88rem; }
+
+      /* Footer */
+      footer { text-align: center; }
+      footer .social-footer { justify-content: center; display: flex; }
+      .footer-link { margin-bottom: 8px; }
+
+      /* Tabla precios */
+      .precio-tabla { font-size: .78rem; }
+      .precio-tabla th, .precio-tabla td { padding: 8px 6px; }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 { font-size: 1.8rem; }
+      .hero-logo-card { padding: 6px 10px; }
+      .hero-logo-card img { height: 28px; }
+      .brand-text .name { font-size: 1rem; }
+      .brand-text .sub { font-size: 0.55rem; letter-spacing: 1px; }
+      .btn-hero-primary, .btn-hero-outline { padding: 12px 20px; font-size: .9rem; width: 100%; text-align: center; }
+      .prog-card h3 { font-size: 1.2rem; }
+      .section-title { font-size: 1.5rem; }
     }
   </style>
 </head>
@@ -452,7 +525,7 @@
             <div class="lbl">Meses para tu prepa</div>
           </div>
           <div class="stat-item">
-            <div class="num">3</div>
+            <div class="num">2</div>
             <div class="lbl">Sedes en el Estado</div>
           </div>
         </div>
@@ -1042,7 +1115,7 @@
   window.addEventListener('scroll', () => {
     let current = '';
     sections.forEach(s => {
-      if (window.scrollY >= s.offsetTop - 100) current = s.getAttribute('id');
+      if (window.scrollY >= s.offsetTop - 110) current = s.getAttribute('id');
     });
     navLinks.forEach(l => {
       l.classList.remove('active');
