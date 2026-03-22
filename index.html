@@ -399,7 +399,7 @@
 <nav class="navbar navbar-expand-lg navbar-conamat fixed-top">
   <div class="container">
     <a class="navbar-brand d-flex align-items-center gap-2 text-decoration-none" href="#inicio">
-      <img src="assets/logo-conamat.png" alt="CONAMAT" style="height:44px;width:auto;filter:brightness(0) invert(1);">
+      <img src="assets/logo-conamat.png" alt="CONAMAT" style="height:64px;width:auto;filter:brightness(0) invert(1);">
       <div class="brand-text">
         <div class="sub">Plantel Chimalhuacán</div>
       </div>
@@ -489,10 +489,11 @@
       <p class="text-muted" style="max-width:580px;margin:auto">Desde terminar tu preparatoria hasta prepararte para las mejores universidades del país.</p>
     </div>
 
-    <div class="row g-4">
+    <!-- Fila 1: Prepa + Admisión UNAM -->
+    <div class="row g-4 mb-4">
 
       <!-- PREPA INTENSIVA -->
-      <div class="col-lg-4 col-md-6">
+      <div class="col-lg-6">
         <div class="prog-card prog-prepa">
           <div class="prog-card-header">
             <div class="prog-icon">🎓</div>
@@ -502,106 +503,172 @@
             </div>
           </div>
           <div class="prog-card-body">
-            <p>Termina tu preparatoria con validez oficial ante la SEP. Ideal si necesitas avanzar sin dejar otras actividades.</p>
-            <ul class="list-unstyled mt-3">
-              <li>✅ Validez oficial SEP</li>
-              <li>✅ Un solo examen global</li>
-              <li>✅ Horarios flexibles</li>
-              <li>✅ Asesoría personalizada</li>
-            </ul>
-            <div class="prog-price">
-              <div class="desde">Mensualidad desde</div>
-              <div class="monto">$1,200 <small style="font-size:1rem;color:#888">/ mes</small></div>
+            <div class="row g-3">
+              <!-- 4 meses -->
+              <div class="col-md-6">
+                <div style="background:#fff8f0;border-radius:10px;padding:16px;border-left:4px solid var(--naranja-prepa)">
+                  <div style="font-weight:800;color:var(--naranja-prepa);margin-bottom:8px">⚡ 4 Meses — En Línea</div>
+                  <div style="font-size:.85rem;color:#555">
+                    <div>📅 25-feb-26 (Mié 8:00–11:00)</div>
+                    <div>📅 21-feb-26 (Sáb 8:00–11:00)</div>
+                    <div class="mt-2">Desde 18 años</div>
+                    <div>Plataforma 24/7 + clase en vivo semanal</div>
+                  </div>
+                  <div style="margin-top:10px;font-size:.8rem;color:#888">Inscripción $1,875 + 3 pagos de $1,875</div>
+                  <div style="font-family:'Barlow Condensed',sans-serif;font-size:1.5rem;font-weight:800;color:var(--azul-marino)">Contado: $7,500</div>
+                </div>
+              </div>
+              <!-- 6 meses -->
+              <div class="col-md-6">
+                <div style="background:#f0f4fb;border-radius:10px;padding:16px;border-left:4px solid var(--azul-principal)">
+                  <div style="font-weight:800;color:var(--azul-principal);margin-bottom:8px">🏫 6 Meses — Presencial</div>
+                  <div style="font-size:.85rem;color:#555">
+                    <div>📅 03-mar-26 (Mar/Jue 8:30–10:30)</div>
+                    <div>📅 01-mar-26 (Dom 12:00–16:00)</div>
+                    <div class="mt-2">Desde 17.5 años</div>
+                    <div>Validez oficial SEP | RVOE</div>
+                  </div>
+                  <div style="margin-top:10px;font-size:.8rem;color:#888">Inscripción $1,900 + 6 mensualidades $1,875</div>
+                  <div style="font-family:'Barlow Condensed',sans-serif;font-size:1.5rem;font-weight:800;color:var(--azul-marino)">Contado: $10,500</div>
+                </div>
+              </div>
             </div>
-            <a href="https://wa.me/525514656210?text=Hola,%20me%20interesa%20la%20Prepa%20Intensiva%20en%20CONAMAT%20Chimalhuac%C3%A1n" target="_blank" class="btn btn-prog">📱 Más información</a>
+            <ul class="list-unstyled mt-3 mb-3" style="font-size:.9rem">
+              <li>✅ Validez oficial SEP &nbsp;✅ Garantía CONAMAT &nbsp;✅ Asesoría personalizada</li>
+            </ul>
+            <a href="https://wa.me/525514656210?text=Hola,%20me%20interesa%20la%20Prepa%20Intensiva%20en%20CONAMAT%20Chimalhuac%C3%A1n" target="_blank" class="btn btn-prog">📱 Solicitar información</a>
           </div>
         </div>
       </div>
 
-      <!-- ADMISIÓN UNAM -->
-      <div class="col-lg-4 col-md-6">
+      <!-- INGRESO UNAM -->
+      <div class="col-lg-6">
         <div class="prog-card prog-unam">
           <div class="prog-card-header">
-            <div class="prog-icon">📚</div>
+            <div class="prog-icon"><img src="assets/logo-unam.png" alt="UNAM" style="height:36px;width:auto;"></div>
             <div>
-              <span class="prog-tag">Admisión UNAM</span>
-              <h3>COMIPEMS y CCH/Prepa</h3>
+              <span class="prog-tag">Curso de Admisión</span>
+              <h3>Ingreso UNAM (Superior)</h3>
             </div>
           </div>
           <div class="prog-card-body">
-            <p>Preparación intensiva para los exámenes de admisión a la Universidad Nacional Autónoma de México.</p>
-            <ul class="list-unstyled mt-3">
-              <li>✅ Simulacros reales COMIPEMS</li>
-              <li>✅ Temario 100% cubierto</li>
-              <li>✅ Maestros especializados</li>
-              <li>✅ Material incluido</li>
+            <p>Preparación intensiva con metodología tecnológica para el examen de admisión a la UNAM.</p>
+            <ul class="list-unstyled mt-2" style="font-size:.9rem">
+              <li>📅 <strong>02-mar-26:</strong> Lun–Vie 8:00–12:00</li>
+              <li>📅 <strong>02-mar-26:</strong> Lun–Vie 16:00–20:00</li>
+              <li class="mt-2">✅ Simulacros tipo COMIPEMS reales</li>
+              <li>✅ Talleres de habilidad lectora y matemáticas</li>
+              <li>✅ Plataforma digital + simulacro final</li>
+              <li>✅ <strong style="color:green">Garantía:</strong> Si no eres aceptado, repites con 50% dto.</li>
             </ul>
-            <div class="prog-price">
-              <div class="desde">Inscripción desde</div>
-              <div class="monto">$1,500</div>
+            <div class="prog-price mt-3">
+              <div class="desde">Termina: Mayo 2026</div>
+              <div class="monto">$10,265 <small style="font-size:.9rem;font-weight:400;color:#888">| Contado </small><span style="color:var(--azul-claro);font-size:1.4rem">$8,602</span></div>
             </div>
-            <a href="https://wa.me/525514656210?text=Hola,%20me%20interesa%20el%20curso%20de%20admisi%C3%B3n%20UNAM%20en%20CONAMAT%20Chimalhuac%C3%A1n" target="_blank" class="btn btn-prog">📱 Más información</a>
+            <a href="https://wa.me/525514656210?text=Hola,%20me%20gustar%C3%ADa%20informaci%C3%B3n%20sobre%20el%20curso%20de%20ingreso%20a%20la%20UNAM" target="_blank" class="btn btn-prog">📱 Solicitar información</a>
           </div>
         </div>
       </div>
 
-      <!-- ADMISIÓN POLI -->
-      <div class="col-lg-4 col-md-6">
-        <div class="prog-card prog-poli">
-          <div class="prog-card-header">
-            <div class="prog-icon">🔬</div>
-            <div>
-              <span class="prog-tag">Admisión IPN</span>
-              <h3>Politécnico Nacional</h3>
-            </div>
-          </div>
-          <div class="prog-card-body">
-            <p>Prepárate con el mejor material para ingresar al Instituto Politécnico Nacional y sus planteles.</p>
-            <ul class="list-unstyled mt-3">
-              <li>✅ Enfoque en ciencias exactas</li>
-              <li>✅ Simulacros CENEVAL/IPN</li>
-              <li>✅ Clases intensivas</li>
-              <li>✅ Seguimiento individual</li>
-            </ul>
-            <div class="prog-price">
-              <div class="desde">Inscripción desde</div>
-              <div class="monto">$1,500</div>
-            </div>
-            <a href="https://wa.me/525514656210?text=Hola,%20me%20interesa%20el%20curso%20de%20admisi%C3%B3n%20IPN%20en%20CONAMAT%20Chimalhuac%C3%A1n" target="_blank" class="btn btn-prog">📱 Más información</a>
-          </div>
-        </div>
-      </div>
+    </div>
 
-      <!-- BACHILLERATO -->
+    <!-- Fila 2: ECOEMS + IPN + UAEM -->
+    <div class="row g-4 mb-4">
+
+      <!-- BACHILLERATO ECOEMS -->
       <div class="col-lg-4 col-md-6">
         <div class="prog-card prog-bach">
           <div class="prog-card-header">
             <div class="prog-icon">📐</div>
             <div>
-              <span class="prog-tag">Bachillerato / ECOEMS</span>
-              <h3>Examen Único de Bachillerato</h3>
+              <span class="prog-tag">Curso de Admisión</span>
+              <h3>Bachillerato ECOEMS</h3>
             </div>
           </div>
           <div class="prog-card-body">
-            <p>Preparación para el ECOEMS y los exámenes de bachillerato de la Zona Metropolitana.</p>
-            <ul class="list-unstyled mt-3">
-              <li>✅ ECOEMS y equivalentes</li>
-              <li>✅ Todas las materias</li>
-              <li>✅ Grupos reducidos</li>
-              <li>✅ Horarios matutino/vespertino</li>
+            <p>Preparación para el Examen Único de la Zona Metropolitana del Valle de México.</p>
+            <ul class="list-unstyled mt-2" style="font-size:.88rem">
+              <li>📅 <strong>28-feb-26:</strong> Sáb–Dom 8:00–13:00</li>
+              <li>📅 <strong>01-mar-26:</strong> Sáb–Dom 12:00–17:00</li>
+              <li>📅 <strong>02-mar-26:</strong> Lun–Vie 8:00–11:00 ó 17:00–20:00</li>
+              <li>📅 <strong>03-mar-26:</strong> Mar–Jue 8:00–13:00 ó 15:00–20:00</li>
+              <li class="mt-2">✅ Simulacros ECOEMS reales</li>
+              <li>✅ Garantía CONAMAT 50% dto.</li>
             </ul>
             <div class="prog-price">
-              <div class="desde">Inscripción desde</div>
-              <div class="monto">$1,200</div>
+              <div class="desde">Termina: Junio 2026</div>
+              <div class="monto">$7,445 <small style="font-size:.85rem;font-weight:400;color:#888">| Contado </small><span style="color:var(--azul-claro)">$6,346</span></div>
             </div>
-            <a href="https://wa.me/525514656210?text=Hola,%20me%20interesa%20el%20curso%20ECOEMS%20en%20CONAMAT%20Chimalhuac%C3%A1n" target="_blank" class="btn btn-prog">📱 Más información</a>
+            <a href="https://wa.me/525514656210?text=Hola,%20me%20gustar%C3%ADa%20informaci%C3%B3n%20sobre%20el%20curso%20Bachillerato%20ECOEMS" target="_blank" class="btn btn-prog">📱 Solicitar información</a>
           </div>
         </div>
       </div>
 
-      <!-- REGULARIZACIÓN -->
+      <!-- INGRESO IPN -->
+      <div class="col-lg-4 col-md-6">
+        <div class="prog-card prog-poli">
+          <div class="prog-card-header">
+            <div class="prog-icon"><img src="assets/logo-poli.png" alt="IPN" style="height:36px;width:auto;background:#fff;border-radius:6px;padding:2px"></div>
+            <div>
+              <span class="prog-tag">Curso de Admisión</span>
+              <h3>Ingreso IPN (Superior)</h3>
+            </div>
+          </div>
+          <div class="prog-card-body">
+            <p>Curso especializado para ingresar al Instituto Politécnico Nacional con enfoque en ciencias exactas.</p>
+            <ul class="list-unstyled mt-2" style="font-size:.88rem">
+              <li>📅 <strong>02-mar-26:</strong> Lun–Vie 10:00–14:00</li>
+              <li>📅 <strong>02-mar-26:</strong> Lun–Vie 16:00–20:00</li>
+              <li class="mt-2">✅ Simulacros tipo IPN/CENEVAL</li>
+              <li>✅ Enfoque en matemáticas y ciencias</li>
+              <li>✅ Garantía CONAMAT 50% dto.</li>
+            </ul>
+            <div class="prog-price">
+              <div class="desde">Termina: Junio 2026</div>
+              <div class="monto" style="font-size:1.1rem;color:var(--gris-texto)">Consulta precio por WhatsApp</div>
+            </div>
+            <a href="https://wa.me/525514656210?text=Hola,%20me%20gustar%C3%ADa%20informaci%C3%B3n%20sobre%20el%20curso%20de%20ingreso%20al%20IPN" target="_blank" class="btn btn-prog">📱 Solicitar información</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- INGRESO UAEM -->
       <div class="col-lg-4 col-md-6">
         <div class="prog-card prog-reg">
+          <div class="prog-card-header">
+            <div class="prog-icon">🏛️</div>
+            <div>
+              <span class="prog-tag">Curso de Admisión</span>
+              <h3>Ingreso UAEM</h3>
+            </div>
+          </div>
+          <div class="prog-card-body">
+            <p>Preparación para el examen de ingreso a la Universidad Autónoma del Estado de México.</p>
+            <ul class="list-unstyled mt-2" style="font-size:.88rem">
+              <li>✅ Temario UAEM completo</li>
+              <li>✅ Simulacros tipo examen real</li>
+              <li>✅ Garantía CONAMAT 50% dto.</li>
+            </ul>
+            <div class="alert mt-3 mb-3 py-2" style="background:#fff8e1;border:1px solid #ffcc02;border-radius:8px;font-size:.83rem;font-weight:600;color:#7a5c00">
+              ⚠️ Próximos inicios en Diciembre 2026 para presentar examen en 2027
+            </div>
+            <div class="prog-price">
+              <div class="desde">Precio referencia ciclo anterior</div>
+              <div class="monto">$7,577 <small style="font-size:.85rem;font-weight:400;color:#888">| Contado </small><span style="color:var(--azul-claro)">$6,452</span></div>
+            </div>
+            <a href="https://wa.me/525514656210?text=Hola,%20me%20gustar%C3%ADa%20informaci%C3%B3n%20sobre%20los%20pr%C3%B3ximos%20inicios%20para%20la%20UAEM" target="_blank" class="btn btn-prog">📱 Solicitar información</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Fila 3: Regularización + Diplomados -->
+    <div class="row g-4">
+
+      <!-- REGULARIZACIÓN -->
+      <div class="col-lg-6 col-md-6">
+        <div class="prog-card prog-dipl">
           <div class="prog-card-header">
             <div class="prog-icon">🧮</div>
             <div>
@@ -610,55 +677,81 @@
             </div>
           </div>
           <div class="prog-card-body">
-            <p>Refuerza tus conocimientos en materias clave con modalidad semiindividual. Inicios inmediatos.</p>
-            <ul class="list-unstyled mt-3">
-              <li>✅ Puedes traer tu temario</li>
-              <li>✅ Lun–Vie 17:00–20:00</li>
-              <li>✅ Sáb–Dom 09:00–14:00</li>
-              <li>✅ Primaria a Universidad</li>
-            </ul>
-            <!-- Tabla de precios -->
-            <div class="mt-3 mb-3">
-              <table class="table table-sm precio-tabla mb-0">
-                <thead><tr><th>Nivel</th><th>15h</th><th>Contado</th></tr></thead>
-                <tbody>
-                  <tr><td><span class="badge-nivel bg-primary text-white">Básico</span></td><td class="precio-normal">$2,225</td><td class="precio-contado">$1,910</td></tr>
-                  <tr><td><span class="badge-nivel bg-info text-white">Superior</span></td><td class="precio-normal">$2,525</td><td class="precio-contado">$2,150</td></tr>
-                </tbody>
-              </table>
+            <p>Modalidad semiindividual con inicios inmediatos. Puedes traer tu propio temario.</p>
+            <div style="font-size:.85rem;color:#555;margin-bottom:12px">
+              🕐 Lun–Vie 17:00–20:00 &nbsp;|&nbsp; Sáb–Dom 09:00–14:00
             </div>
+            <table class="table table-sm precio-tabla mb-3">
+              <thead><tr><th>Nivel</th><th>15h</th><th>30h</th><th>60h</th><th>Inscripción</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><span class="badge-nivel bg-primary text-white">Básico</span><div style="font-size:.7rem;color:#888">Prim.–Prepa</div></td>
+                  <td class="precio-normal">$2,225<br><span class="precio-contado" style="font-size:.78rem">$1,910</span></td>
+                  <td class="precio-normal">$3,620<br><span class="precio-contado" style="font-size:.78rem">$3,026</span></td>
+                  <td class="precio-normal">$5,930<br><span class="precio-contado" style="font-size:.78rem">$4,874</span></td>
+                  <td class="precio-normal">$650</td>
+                </tr>
+                <tr>
+                  <td><span class="badge-nivel bg-info text-white">Superior</span><div style="font-size:.7rem;color:#888">Universidad</div></td>
+                  <td class="precio-normal">$2,525<br><span class="precio-contado" style="font-size:.78rem">$2,150</span></td>
+                  <td class="precio-normal">$3,950<br><span class="precio-contado" style="font-size:.78rem">$3,290</span></td>
+                  <td class="precio-normal">$6,590<br><span class="precio-contado" style="font-size:.78rem">$5,402</span></td>
+                  <td class="precio-normal">$650</td>
+                </tr>
+              </tbody>
+            </table>
+            <div style="font-size:.78rem;color:#888;margin-bottom:12px">*Precio normal / <span style="color:var(--azul-claro);font-weight:700">Precio contado</span> &nbsp;|&nbsp; Hora suelta: Básico $110 | Superior $132 &nbsp;|&nbsp; Membresía 200h: Básico $11,650 ($9,450) / Superior $17,150 ($13,850)</div>
             <a href="https://wa.me/525514656210?text=Hola,%20me%20interesa%20regularizaci%C3%B3n%20en%20CONAMAT%20Chimalhuac%C3%A1n" target="_blank" class="btn btn-prog">📱 Solicitar información</a>
           </div>
         </div>
       </div>
 
       <!-- DIPLOMADOS -->
-      <div class="col-lg-4 col-md-6">
-        <div class="prog-card prog-dipl">
+      <div class="col-lg-6 col-md-6">
+        <div class="prog-card" style="border:1px solid rgba(0,119,182,0.15);height:100%">
           <div class="prog-card-header">
-            <div class="prog-icon">🏅</div>
+            <div class="prog-icon" style="background:rgba(0,119,182,0.1);color:#0077b6">🏅</div>
             <div>
-              <span class="prog-tag">Diplomados</span>
+              <span class="prog-tag" style="background:rgba(0,119,182,0.1);color:#0077b6">Diplomados</span>
               <h3>Matemáticas e Inglés</h3>
             </div>
           </div>
           <div class="prog-card-body">
-            <p>Programas estructurados de largo plazo para dominio profundo de matemáticas y preparación Cambridge.</p>
-            <ul class="list-unstyled mt-3">
-              <li>📌 <strong>Kids/Junior</strong> – Inicio 14-mar-26 (Sábados)</li>
-              <li>📌 <strong>Master (Prepa)</strong> – 12 meses, múltiples horarios</li>
-              <li>📌 <strong>Inglés Cambridge</strong> – Niveles A1 y A2</li>
-            </ul>
-            <div class="prog-price">
-              <div class="desde">Mensualidad Kids/Junior</div>
-              <div class="monto">$880 <small style="font-size:.9rem;color:#888">/ mes</small></div>
+            <div class="row g-2 mb-3">
+              <div class="col-md-6">
+                <div style="background:#f0f8ff;border-radius:8px;padding:12px;font-size:.85rem">
+                  <div style="font-weight:700;color:#0077b6;margin-bottom:6px">📘 Kids (4°–6° Prim.) y Junior (Sec.)</div>
+                  <div>📅 Inicio: 14-mar-26</div>
+                  <div>🗓️ Sábado 9:00–14:00</div>
+                  <div class="mt-2">Inscripción: <strong>$450</strong></div>
+                  <div>Material: <strong>$550</strong></div>
+                  <div style="font-family:'Barlow Condensed',sans-serif;font-size:1.3rem;font-weight:800;color:var(--azul-marino)">Mensualidad: $880</div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div style="background:#f0f8ff;border-radius:8px;padding:12px;font-size:.85rem">
+                  <div style="font-weight:700;color:#0077b6;margin-bottom:6px">📗 Master (Preparatoria) 12 meses</div>
+                  <div>📅 14-mar-26: Sáb–Dom 9:00–14:00</div>
+                  <div>📅 16-mar-26: Lun/Mié/Vie 8:00–11:00 ó 17:00–20:00</div>
+                  <div class="mt-2">Inscripción: <strong>$450</strong></div>
+                  <div>Material: <strong>$750</strong></div>
+                  <div style="font-family:'Barlow Condensed',sans-serif;font-size:1.3rem;font-weight:800;color:var(--azul-marino)">Mensualidad: $1,100</div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div style="background:#f5f0ff;border-radius:8px;padding:12px;font-size:.85rem">
+                  <div style="font-weight:700;color:#6a1b9a;margin-bottom:6px">🗣️ Inglés Cambridge A1 y A2 — 6 meses por nivel</div>
+                  <div>Inscripción: <strong>$430</strong> &nbsp;|&nbsp; Material y credencial: <strong>$840</strong></div>
+                  <div style="font-family:'Barlow Condensed',sans-serif;font-size:1.3rem;font-weight:800;color:var(--azul-marino)">Mensualidad: $950</div>
+                </div>
+              </div>
             </div>
-            <a href="https://wa.me/525514656210?text=Hola,%20me%20interesa%20el%20Diplomado%20en%20CONAMAT%20Chimalhuac%C3%A1n" target="_blank" class="btn btn-prog">📱 Solicitar información</a>
+            <a href="https://wa.me/525514656210?text=Hola,%20me%20interesa%20un%20Diplomado%20en%20CONAMAT%20Chimalhuac%C3%A1n" target="_blank" class="btn btn-prog" style="background:#0077b6;color:white;width:100%">📱 Solicitar información</a>
           </div>
         </div>
       </div>
 
-    </div><!-- /row -->
+    </div><!-- /fila 3 -->
   </div>
 </section>
 
@@ -854,7 +947,8 @@
             <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
             <div>
               <h5>Ubicación</h5>
-              <p>Chimalhuacán, Estado de México<br>Zona oriente del Valle de México</p>
+              <p>Av. Nezahualcóyotl 241<br>Sta. María Nativitas, C.P. 56333<br>Chimalhuacán, Estado de México</p>
+              <a href="https://maps.google.com/?q=Av.+Nezahualcóyotl+241,+Sta+Maria+Nativitas,+56333+Chimalhuacán,+Méx." target="_blank" style="font-size:.85rem;color:var(--azul-claro);font-weight:600">📍 Ver en Google Maps →</a>
             </div>
           </div>
           <div class="contact-card">
@@ -874,9 +968,9 @@
         </div>
       </div>
       <div class="col-lg-7">
-        <div style="border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.1);height:420px;background:#e8efff;display:flex;align-items:center;justify-content:center">
+        <div style="border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.1);height:420px;">
           <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3764.0!2d-98.9551!3d19.4202!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sCHIMALHUAC%C3%81N!5e0!3m2!1ses-419!2smx!4v1234567890"
+            src="https://www.google.com/maps?q=Av.+Nezahualcoyotl+241,+Santa+Maria+Nativitas,+56333+Chimalhuacan,+Mexico&output=embed"
             width="100%" height="420" style="border:0" allowfullscreen="" loading="lazy"
             referrerpolicy="no-referrer-when-downgrade">
           </iframe>
