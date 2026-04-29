@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — CONAMAT Chimalhuacán</title>
+  <link rel="icon" type="image/png" href="../assets/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+<!-- ══ SIDEBAR OVERLAY (mobile) ══ -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+<!-- ══ SIDEBAR ══ -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <img src="../assets/logo-conamat.png" alt="CONAMAT">
+    <div class="sidebar-logo-text">
+      <div class="name">CONAMAT</div>
+      <span class="role-tag role-admin">Administrador</span>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Principal</div>
+    <a class="nav-item active" onclick="showSection('dashboard')" href="#">
+      <i class="fas fa-chart-pie"></i> Dashboard
+    </a>
+    <a class="nav-item" onclick="showSection('usuarios')" href="#">
+      <i class="fas fa-users"></i> Usuarios
+      <span class="badge" id="pendingBadge" style="display:none">0</span>
+    </a>
+    <a class="nav-item" onclick="showSection('clases')" href="#">
+      <i class="fas fa-chalkboard-teacher"></i> Clases
+    </a>
+    <a class="nav-item" onclick="showSection('profesores')" href="#">
+      <i class="fas fa-user-tie"></i> Profesores
+    </a>
+
+    <div class="nav-section-label" style="margin-top:8px">Sistema</div>
+    <a class="nav-item" onclick="showSection('configuracion')" href="#">
+      <i class="fas fa-cog"></i> Configuración
+    </a>
+    <a class="nav-item" href="../" target="_blank">
+      <i class="fas fa-external-link-alt"></i> Ver sitio web
+    </a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="user-card">
+      <div class="user-avatar" id="sidebarAvatar">A</div>
+      <div class="user-info">
+        <div class="u-name" id="sidebarName">Admin</div>
+        <div class="u-role">Administrador</div>
+      </div>
+    </div>
+    <button class="btn-logout" onclick="handleLogout()">
+      <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+    </button>
+  </div>
+</aside>
+
+<!-- ══ HEADER ══ -->
+<header class="main-header">
+  <div class="header-left">
+    <button class="menu-toggle" onclick="toggleSidebar()">
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="page-breadcrumb">
+      CONAMAT Admin / <span id="currentSection">Dashboard</span>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="header-search">
+      <i class="fas fa-search"></i>
+      <input type="text" placeholder="Buscar usuario, clase..." id="globalSearch">
+    </div>
+    <button class="header-btn" title="Notificaciones">
+      <i class="fas fa-bell"></i>
+      <div class="notif-dot" id="notifDot" style="display:none"></div>
+    </button>
+    <button class="header-btn" title="Actualizar datos" onclick="loadAllData()">
+      <i class="fas fa-sync-alt"></i>
+    </button>
+  </div>
+</header>
+
+<!-- ══ MAIN CONTENT ══ -->
+<main class="main-content">
+
+  <!-- ════ DASHBOARD ════ -->
+  <section class="content-area active" id="sec-dashboard">
+    <div class="section-header">
+      <div>
+        <h1>Dashboard</h1>
+        <p>Resumen general de la plataforma</p>
+      </div>
+      <button class="btn btn-primary" onclick="loadAllData()">
+        <i class="fas fa-sync-alt"></i> Actualizar
+      </button>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid">
+      <div class="stat-card stat-blue">
+        <div class="stat-icon"><i class="fas fa-users"></i></div>
+        <div class="stat-body">
+          <div class="num" id="statAlumnos">—</div>
+          <div class="lbl">Alumnos activos</div>
+          <div class="change up"><i class="fas fa-arrow-up"></i><span id="statAlumnosPct">Cargando...</span></div>
+        </div>
+      </div>
+      <div class="stat-card stat-orange">
+        <div class="stat-icon"><i class="fas fa-clock"></i></div>
+        <div class="stat-body">
+          <div class="num" id="statPendientes">—</div>
+          <div class="lbl">Pendientes de activar</div>
+          <div class="change" style="color:var(--naranja)"><i class="fas fa-exclamation-circle"></i> Requieren atención</div>
+        </div>
+      </div>
+      <div class="stat-card stat-green">
+        <div class="stat-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+        <div class="stat-body">
+          <div class="num" id="statClases">—</div>
+          <div class="lbl">Clases activas</div>
+        </div>
+      </div>
+      <div class="stat-card stat-teal">
+        <div class="stat-icon"><i class="fas fa-user-tie"></i></div>
+        <div class="stat-body">
+          <div class="num" id="statProfesores">—</div>
+          <div class="lbl">Profesores</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <!-- Gráfica inscripciones -->
+      <div class="panel">
+        <div class="panel-header">
+          <h3><i class="fas fa-chart-line" style="color:var(--azul-claro);margin-right:8px"></i>Inscripciones del mes</h3>
+        </div>
+        <div class="panel-body">
+          <div class="chart-wrap">
+            <canvas id="chartInscripciones"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Actividad reciente -->
+      <div class="panel">
+        <div class="panel-header">
+          <h3><i class="fas fa-history" style="color:var(--naranja);margin-right:8px"></i>Actividad reciente</h3>
+        </div>
+        <div class="panel-body" id="actividadReciente">
+          <div class="loading-spinner"><div class="spinner"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pendientes de activar -->
+    <div class="panel">
+      <div class="panel-header">
+        <h3><i class="fas fa-user-clock" style="color:var(--naranja);margin-right:8px"></i>Alumnos pendientes de activación</h3>
+        <button class="btn btn-primary btn-sm" onclick="showSection('usuarios')">Ver todos</button>
+      </div>
+      <div class="panel-body" id="pendientesList">
+        <div class="loading-spinner"><div class="spinner"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ USUARIOS ════ -->
+  <section class="content-area" id="sec-usuarios">
+    <div class="section-header">
+      <div>
+        <h1>Usuarios</h1>
+        <p>Gestiona alumnos, profesores y administradores</p>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <select class="form-select" style="width:auto;padding:9px 14px" id="filterRole" onchange="filterUsers()">
+          <option value="">Todos los roles</option>
+          <option value="alumno">Alumnos</option>
+          <option value="profesor">Profesores</option>
+          <option value="admin">Administradores</option>
+        </select>
+        <select class="form-select" style="width:auto;padding:9px 14px" id="filterStatus" onchange="filterUsers()">
+          <option value="">Todos los estados</option>
+          <option value="true">Activos</option>
+          <option value="false">Inactivos</option>
+        </select>
+        <button class="btn btn-primary" onclick="openModal('modalCrearUsuario')">
+          <i class="fas fa-user-plus"></i> Nuevo usuario
+        </button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header">
+        <h3>Lista de usuarios</h3>
+        <span style="font-size:.82rem;color:var(--gris-texto)" id="usersCount">Cargando...</span>
+      </div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Usuario</th>
+              <th>Rol</th>
+              <th>Estado</th>
+              <th>Clases</th>
+              <th>Registro</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="usersTableBody">
+            <tr><td colspan="6"><div class="loading-spinner"><div class="spinner"></div></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ CLASES ════ -->
+  <section class="content-area" id="sec-clases">
+    <div class="section-header">
+      <div>
+        <h1>Clases</h1>
+        <p>Todas las clases en la plataforma</p>
+      </div>
+      <button class="btn btn-primary" onclick="openModal('modalCrearClase')">
+        <i class="fas fa-plus"></i> Nueva clase
+      </button>
+    </div>
+    <div id="clasesGrid">
+      <div class="loading-spinner"><div class="spinner"></div></div>
+    </div>
+  </section>
+
+  <!-- ════ PROFESORES ════ -->
+  <section class="content-area" id="sec-profesores">
+    <div class="section-header">
+      <div><h1>Profesores</h1><p>Gestión del equipo docente</p></div>
+      <button class="btn btn-primary" onclick="openModal('modalCrearUsuario', 'profesor')">
+        <i class="fas fa-user-plus"></i> Agregar profesor
+      </button>
+    </div>
+    <div class="panel">
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr><th>Profesor</th><th>Email</th><th>Clases asignadas</th><th>Estado</th><th>Acciones</th></tr>
+          </thead>
+          <tbody id="profesoresTableBody">
+            <tr><td colspan="5"><div class="loading-spinner"><div class="spinner"></div></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ CONFIGURACIÓN ════ -->
+  <section class="content-area" id="sec-configuracion">
+    <div class="section-header">
+      <div><h1>Configuración</h1><p>Ajustes generales de la plataforma</p></div>
+    </div>
+    <div class="grid-2">
+      <div class="panel">
+        <div class="panel-header"><h3>Información del plantel</h3></div>
+        <div class="panel-body">
+          <div class="form-group">
+            <label class="form-label">Nombre del plantel</label>
+            <input class="form-input" value="CONAMAT Chimalhuacán">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Dirección</label>
+            <input class="form-input" value="Av. Nezahualcóyotl 241, Sta. María Nativitas, 56333 Chimalhuacán">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Teléfono WhatsApp</label>
+            <input class="form-input" value="+52 55 1465 6210">
+          </div>
+          <button class="btn btn-primary"><i class="fas fa-save"></i> Guardar cambios</button>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-header"><h3>Registro de alumnos</h3></div>
+        <div class="panel-body">
+          <div class="form-group">
+            <label class="form-label">Activación automática de cuentas nuevas</label>
+            <select class="form-select">
+              <option value="manual" selected>Manual (admin activa)</option>
+              <option value="auto">Automática</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Mensaje de bienvenida (WhatsApp)</label>
+            <textarea class="form-textarea">¡Bienvenido a CONAMAT Chimalhuacán! Tu cuenta ha sido activada. Ingresa en: https://conamat-chimalhuacan.com/login/</textarea>
+          </div>
+          <button class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ══════════════════════════════════
+     MODALES
+══════════════════════════════════ -->
+
+<!-- Modal: Crear/Editar Usuario -->
+<div class="modal-overlay" id="modalCrearUsuario">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 id="modalUsuarioTitle">Nuevo usuario</h3>
+      <button class="modal-close" onclick="closeModal('modalCrearUsuario')">✕</button>
+    </div>
+    <input type="hidden" id="editUserId">
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Nombre(s) <span>*</span></label>
+        <input class="form-input" id="uNombre" placeholder="Juan">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Apellidos <span>*</span></label>
+        <input class="form-input" id="uApellido" placeholder="García">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Edad</label>
+        <input class="form-input" type="number" id="uEdad" placeholder="17">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Teléfono</label>
+        <input class="form-input" id="uTel" placeholder="55 1234 5678">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Correo <span>*</span></label>
+      <input class="form-input" type="email" id="uEmail" placeholder="alumno@correo.com">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Rol <span>*</span></label>
+        <select class="form-select" id="uRole">
+          <option value="alumno">Alumno</option>
+          <option value="profesor">Profesor</option>
+          <option value="admin">Administrador</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Estado</label>
+        <select class="form-select" id="uActivo">
+          <option value="true">Activo</option>
+          <option value="false">Inactivo</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group" id="passwordGroup">
+      <label class="form-label">Contraseña temporal <span>*</span></label>
+      <input class="form-input" type="password" id="uPassword" placeholder="Mínimo 8 caracteres">
+      <div style="font-size:.75rem;color:var(--gris-texto);margin-top:4px">El usuario podrá cambiarla desde su perfil.</div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Asignar a clase</label>
+      <select class="form-select" id="uClase">
+        <option value="">Sin clase por ahora</option>
+      </select>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('modalCrearUsuario')">Cancelar</button>
+      <button class="btn btn-primary" id="btnGuardarUsuario" onclick="guardarUsuario()">
+        <i class="fas fa-save"></i> Guardar
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Crear Clase -->
+<div class="modal-overlay" id="modalCrearClase">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3>Nueva clase</h3>
+      <button class="modal-close" onclick="closeModal('modalCrearClase')">✕</button>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Nombre de la clase <span>*</span></label>
+      <input class="form-input" id="claseNombre" placeholder="Ej: Ingreso UNAM 2026">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Descripción</label>
+      <textarea class="form-textarea" id="claseDesc" placeholder="Describe el objetivo del curso..."></textarea>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Profesor asignado <span>*</span></label>
+        <select class="form-select" id="claseProfesor">
+          <option value="">Selecciona un profesor</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Categoría</label>
+        <select class="form-select" id="claseCategoria">
+          <option value="unam">Ingreso UNAM</option>
+          <option value="ipn">Ingreso IPN</option>
+          <option value="uaem">Ingreso UAEM</option>
+          <option value="ecoems">Bachillerato ECOEMS</option>
+          <option value="prepa">Prepa Intensiva</option>
+          <option value="regularizacion">Regularización</option>
+          <option value="diplomado">Diplomado</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Fecha inicio</label>
+        <input class="form-input" type="date" id="claseFechaInicio">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Fecha fin</label>
+        <input class="form-input" type="date" id="claseFechaFin">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('modalCrearClase')">Cancelar</button>
+      <button class="btn btn-primary" onclick="guardarClase()">
+        <i class="fas fa-plus"></i> Crear clase
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Asignar alumno a clase -->
+<div class="modal-overlay" id="modalAsignarClase">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3>Asignar alumno a clase</h3>
+      <button class="modal-close" onclick="closeModal('modalAsignarClase')">✕</button>
+    </div>
+    <div style="margin-bottom:16px">
+      <div style="font-weight:700;color:var(--azul-marino)" id="asignarAlumnoNombre">—</div>
+      <div style="font-size:.85rem;color:var(--gris-texto)" id="asignarAlumnoEmail">—</div>
+    </div>
+    <input type="hidden" id="asignarAlumnoId">
+    <div class="form-group">
+      <label class="form-label">Selecciona la clase <span>*</span></label>
+      <select class="form-select" id="asignarClaseSelect">
+        <option value="">Cargando clases...</option>
+      </select>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('modalAsignarClase')">Cancelar</button>
+      <button class="btn btn-success" onclick="confirmarAsignarClase()">
+        <i class="fas fa-check"></i> Asignar
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Confirmar acción -->
+<div class="modal-overlay" id="modalConfirmar">
+  <div class="modal-box" style="max-width:380px">
+    <div class="modal-header">
+      <h3 id="confirmarTitle">¿Estás seguro?</h3>
+      <button class="modal-close" onclick="closeModal('modalConfirmar')">✕</button>
+    </div>
+    <p id="confirmarMsg" style="color:var(--gris-texto);font-size:.93rem"></p>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('modalConfirmar')">Cancelar</button>
+      <button class="btn btn-danger" id="confirmarBtn">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FIREBASE + LÓGICA ══ -->
+<script type="module">
+import { auth, db } from '../app/firebase-config.js';
+import {
+  collection, getDocs, doc, getDoc, setDoc, updateDoc,
+  addDoc, deleteDoc, query, where, orderBy, limit,
+  serverTimestamp, onSnapshot
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import {
+  createUserWithEmailAndPassword, onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { requireAuth, redirectByRole, showToast, formatDate, generateCode } from '../app/utils.js';
+
+// ── Estado global ──
+let allUsers   = [];
+let allClases  = [];
+let currentUserData = null;
+
+// ── Verificar auth ──
+const { user, userData } = await requireAuth(['admin']);
+currentUserData = userData;
+document.getElementById('sidebarName').textContent   = userData.nombre + ' ' + userData.apellido;
+document.getElementById('sidebarAvatar').textContent = userData.nombre[0] + userData.apellido[0];
+
+// ── Cargar todos los datos ──
+window.loadAllData = async function() {
+  await Promise.all([loadUsers(), loadClases()]);
+  renderDashboard();
+};
+
+// ── CARGAR USUARIOS ──
+async function loadUsers() {
+  const snap = await getDocs(collection(db, 'users'));
+  allUsers = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  renderUsersTable(allUsers);
+  renderProfesoresTable(allUsers.filter(u => u.role === 'profesor'));
+  populateProfesorSelect();
+  updateBadges();
+}
+
+// ── CARGAR CLASES ──
+async function loadClases() {
+  const snap = await getDocs(collection(db, 'clases'));
+  allClases = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  renderClasesGrid();
+  populateClaseSelects();
+}
+
+// ── DASHBOARD ──
+function renderDashboard() {
+  const alumnos    = allUsers.filter(u => u.role === 'alumno' && u.activo).length;
+  const pendientes = allUsers.filter(u => u.role === 'alumno' && !u.activo).length;
+  const profesores = allUsers.filter(u => u.role === 'profesor').length;
+
+  document.getElementById('statAlumnos').textContent    = alumnos;
+  document.getElementById('statPendientes').textContent = pendientes;
+  document.getElementById('statClases').textContent     = allClases.length;
+  document.getElementById('statProfesores').textContent = profesores;
+  document.getElementById('statAlumnosPct').textContent = `${alumnos} registrados`;
+
+  if (pendientes > 0) {
+    document.getElementById('pendingBadge').style.display = '';
+    document.getElementById('pendingBadge').textContent   = pendientes;
+    document.getElementById('notifDot').style.display     = '';
+  }
+
+  renderPendientesList();
+  renderActividadReciente();
+  renderChart();
+}
+
+function renderPendientesList() {
+  const pendientes = allUsers.filter(u => u.role === 'alumno' && !u.activo);
+  const el = document.getElementById('pendientesList');
+  if (!pendientes.length) {
+    el.innerHTML = `<div class="empty-state"><div class="icon">✅</div><h4>Sin pendientes</h4><p>Todos los alumnos han sido activados</p></div>`;
+    return;
+  }
+  el.innerHTML = `<div class="table-wrap"><table class="data-table">
+    <thead><tr><th>Alumno</th><th>Email</th><th>Registro</th><th>Acciones</th></tr></thead>
+    <tbody>${pendientes.map(u => `
+      <tr>
+        <td><div style="display:flex;align-items:center;gap:10px">
+          <div class="avatar" style="background:var(--naranja);font-size:.75rem">${u.nombre?.[0]}${u.apellido?.[0]}</div>
+          <span class="td-name">${u.nombre} ${u.apellido}</span></div></td>
+        <td>${u.email}</td>
+        <td>${formatDate(u.createdAt)}</td>
+        <td style="display:flex;gap:6px">
+          <button class="btn btn-success btn-sm" onclick="toggleUserStatus('${u.id}', true)">
+            <i class="fas fa-check"></i> Activar
+          </button>
+          <button class="btn btn-sm" style="background:rgba(45,125,210,0.1);color:var(--azul-claro)"
+            onclick="openAsignarClase('${u.id}','${u.nombre} ${u.apellido}','${u.email}')">
+            <i class="fas fa-chalkboard-teacher"></i> Asignar clase
+          </button>
+        </td>
+      </tr>`).join('')}
+    </tbody></table></div>`;
+}
+
+function renderActividadReciente() {
+  const recientes = [...allUsers].sort((a,b) => (b.createdAt?.seconds||0) - (a.createdAt?.seconds||0)).slice(0,6);
+  document.getElementById('actividadReciente').innerHTML = recientes.map(u => `
+    <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--gris-borde)">
+      <div class="avatar" style="background:${u.role==='admin'?'var(--rojo-acento)':u.role==='profesor'?'var(--azul-claro)':'var(--verde)'};font-size:.72rem;width:32px;height:32px">
+        ${u.nombre?.[0]}${u.apellido?.[0]}
+      </div>
+      <div style="flex:1">
+        <div style="font-weight:700;font-size:.85rem;color:var(--azul-marino)">${u.nombre} ${u.apellido}</div>
+        <div style="font-size:.75rem;color:var(--gris-texto)">Se registró · ${formatDate(u.createdAt)}</div>
+      </div>
+      <span class="badge badge-${u.activo?'active':'pending'}">${u.activo?'Activo':'Pendiente'}</span>
+    </div>`).join('');
+}
+
+function renderChart() {
+  const ctx = document.getElementById('chartInscripciones');
+  if (!ctx) return;
+  const months = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+  const counts  = new Array(12).fill(0);
+  allUsers.filter(u => u.role === 'alumno').forEach(u => {
+    if (u.createdAt?.seconds) {
+      const m = new Date(u.createdAt.seconds * 1000).getMonth();
+      counts[m]++;
+    }
+  });
+  if (window._chartInscripciones) window._chartInscripciones.destroy();
+  window._chartInscripciones = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: months,
+      datasets: [{
+        label: 'Inscripciones', data: counts,
+        borderColor: '#1648a0', backgroundColor: 'rgba(22,72,160,0.1)',
+        borderWidth: 2.5, fill: true, tension: 0.4,
+        pointBackgroundColor: '#1648a0', pointRadius: 4
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        y: { beginAtZero: true, ticks: { stepSize: 1 }, grid: { color: '#f0f4fb' } },
+        x: { grid: { display: false } }
+      }
+    }
+  });
+}
+
+// ── TABLA USUARIOS ──
+function renderUsersTable(users) {
+  document.getElementById('usersCount').textContent = `${users.length} usuarios`;
+  const roleColors = { admin:'badge-admin', profesor:'badge-profesor', alumno:'badge-alumno' };
+  document.getElementById('usersTableBody').innerHTML = !users.length
+    ? `<tr><td colspan="6"><div class="empty-state"><div class="icon">👥</div><h4>Sin usuarios</h4></div></td></tr>`
+    : users.map(u => {
+      const ini = `${u.nombre?.[0]||'?'}${u.apellido?.[0]||'?'}`;
+      const bgColors = { admin:'var(--rojo-acento)', profesor:'var(--azul-claro)', alumno:'var(--verde)' };
+      return `<tr>
+        <td><div style="display:flex;align-items:center;gap:10px">
+          <div class="avatar" style="background:${bgColors[u.role]};font-size:.72rem;width:34px;height:34px">${ini}</div>
+          <div><div class="td-name">${u.nombre} ${u.apellido}</div>
+          <div style="font-size:.75rem;color:#aaa">${u.email}</div></div></div></td>
+        <td><span class="badge ${roleColors[u.role]}">${u.role}</span></td>
+        <td><span class="badge ${u.activo?'badge-active':'badge-inactive'}">${u.activo?'Activo':'Inactivo'}</span></td>
+        <td style="font-size:.83rem">${(u.clases||[]).length} clase(s)</td>
+        <td style="font-size:.82rem;color:var(--gris-texto)">${formatDate(u.createdAt)}</td>
+        <td><div style="display:flex;gap:4px;flex-wrap:wrap">
+          <button class="btn btn-sm btn-icon" title="Editar" style="background:rgba(22,72,160,0.1);color:var(--azul-principal)"
+            onclick="editUser('${u.id}')"><i class="fas fa-edit"></i></button>
+          <button class="btn btn-sm btn-icon" title="${u.activo?'Desactivar':'Activar'}"
+            style="background:${u.activo?'rgba(230,57,70,0.1)':'rgba(26,122,60,0.1)'};color:${u.activo?'var(--rojo-acento)':'var(--verde)'}"
+            onclick="toggleUserStatus('${u.id}', ${!u.activo})">
+            <i class="fas fa-${u.activo?'ban':'check'}"></i></button>
+          ${u.role==='alumno'?`<button class="btn btn-sm btn-icon" title="Asignar clase"
+            style="background:rgba(45,125,210,0.1);color:var(--azul-claro)"
+            onclick="openAsignarClase('${u.id}','${u.nombre} ${u.apellido}','${u.email}')">
+            <i class="fas fa-chalkboard-teacher"></i></button>`:''}
+        </div></td>
+      </tr>`;
+    }).join('');
+}
+
+// ── TABLA PROFESORES ──
+function renderProfesoresTable(profesores) {
+  document.getElementById('profesoresTableBody').innerHTML = !profesores.length
+    ? `<tr><td colspan="5"><div class="empty-state"><div class="icon">👨‍🏫</div><h4>Sin profesores</h4></div></td></tr>`
+    : profesores.map(p => {
+      const clasesProfe = allClases.filter(c => c.profesorId === p.id);
+      return `<tr>
+        <td><div style="display:flex;align-items:center;gap:10px">
+          <div class="avatar" style="background:var(--azul-claro);font-size:.72rem;width:34px;height:34px">${p.nombre?.[0]}${p.apellido?.[0]}</div>
+          <div class="td-name">${p.nombre} ${p.apellido}</div></div></td>
+        <td style="font-size:.85rem">${p.email}</td>
+        <td>${clasesProfe.map(c=>`<span class="badge badge-alumno" style="margin:2px">${c.nombre}</span>`).join('') || '<span style="color:#ccc;font-size:.82rem">Sin clases</span>'}</td>
+        <td><span class="badge ${p.activo?'badge-active':'badge-inactive'}">${p.activo?'Activo':'Inactivo'}</span></td>
+        <td><div style="display:flex;gap:4px">
+          <button class="btn btn-sm btn-icon" style="background:rgba(22,72,160,0.1);color:var(--azul-principal)" onclick="editUser('${p.id}')"><i class="fas fa-edit"></i></button>
+          <button class="btn btn-sm btn-icon" style="background:${p.activo?'rgba(230,57,70,0.1)':'rgba(26,122,60,0.1)'};color:${p.activo?'var(--rojo-acento)':'var(--verde)'}"
+            onclick="toggleUserStatus('${p.id}', ${!p.activo})"><i class="fas fa-${p.activo?'ban':'check'}"></i></button>
+        </div></td>
+      </tr>`;
+    }).join('');
+}
+
+// ── GRID CLASES ──
+function renderClasesGrid() {
+  const catColors = { unam:'#e88a00', ipn:'#cc0000', uaem:'#1648a0', ecoems:'#2d7dd2', prepa:'#e88a00', regularizacion:'#1a7a3c', diplomado:'#0077b6' };
+  const catIcons  = { unam:'🎓', ipn:'🔬', uaem:'🏛️', ecoems:'📐', prepa:'⚡', regularizacion:'🧮', diplomado:'🏅' };
+  document.getElementById('clasesGrid').innerHTML = !allClases.length
+    ? `<div class="empty-state"><div class="icon">🎓</div><h4>No hay clases</h4><p>Crea la primera clase desde el botón superior</p></div>`
+    : `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px">${
+        allClases.map(c => {
+          const profe = allUsers.find(u => u.id === c.profesorId);
+          const color = catColors[c.categoria] || 'var(--azul-principal)';
+          const icon  = catIcons[c.categoria] || '📚';
+          const alumnosCount = 0;
+          return `<div class="panel" style="margin:0">
+            <div style="height:6px;background:${color}"></div>
+            <div class="panel-body">
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px">
+                <div style="font-size:2rem">${icon}</div>
+                <span class="badge" style="background:${color}22;color:${color}">${c.categoria||'general'}</span>
+              </div>
+              <h4 style="font-family:'Barlow Condensed',sans-serif;font-size:1.2rem;font-weight:800;color:var(--azul-marino);margin-bottom:6px">${c.nombre}</h4>
+              <p style="font-size:.83rem;color:var(--gris-texto);margin-bottom:14px">${c.descripcion||'Sin descripción'}</p>
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+                <div class="avatar" style="background:var(--azul-claro);font-size:.65rem;width:28px;height:28px">${profe?profe.nombre[0]+profe.apellido[0]:'?'}</div>
+                <span style="font-size:.82rem;color:var(--gris-texto)">${profe?profe.nombre+' '+profe.apellido:'Sin profesor'}</span>
+              </div>
+              <div style="display:flex;gap:6px;font-size:.78rem;color:var(--gris-texto);margin-bottom:14px">
+                <span>📅 ${formatDate(c.fechaInicio)}</span>
+                <span>•</span>
+                <span>🔑 <code style="background:var(--gris-claro);padding:1px 6px;border-radius:4px">${c.codigo||'—'}</code></span>
+              </div>
+              <div style="display:flex;gap:6px">
+                <button class="btn btn-sm btn-primary" style="flex:1" onclick="verDetalleClase('${c.id}')">
+                  <i class="fas fa-eye"></i> Ver detalle
+                </button>
+                <button class="btn btn-sm btn-danger btn-icon" onclick="confirmarEliminarClase('${c.id}','${c.nombre}')">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            </div>
+          </div>`;
+        }).join('')
+      }</div>`;
+}
+
+// ── SELECTS AUXILIARES ──
+function populateProfesorSelect() {
+  const profs = allUsers.filter(u => u.role === 'profesor' && u.activo);
+  ['claseProfesor'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.innerHTML = `<option value="">Selecciona un profesor</option>${profs.map(p=>`<option value="${p.id}">${p.nombre} ${p.apellido}</option>`).join('')}`;
+  });
+}
+function populateClaseSelects() {
+  ['uClase','asignarClaseSelect'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.innerHTML = `<option value="">Sin clase</option>${allClases.map(c=>`<option value="${c.id}">${c.nombre}</option>`).join('')}`;
+  });
+}
+function updateBadges() {
+  const p = allUsers.filter(u=>u.role==='alumno'&&!u.activo).length;
+  document.getElementById('pendingBadge').style.display = p ? '' : 'none';
+  document.getElementById('pendingBadge').textContent   = p;
+}
+
+// ── ACCIONES USUARIO ──
+window.toggleUserStatus = async function(uid, activo) {
+  await updateDoc(doc(db,'users',uid), { activo });
+  showToast(activo ? 'Usuario activado ✅' : 'Usuario desactivado', activo?'success':'info');
+  await loadUsers();
+  renderDashboard();
+};
+
+window.editUser = function(uid) {
+  const u = allUsers.find(x => x.id === uid);
+  if (!u) return;
+  document.getElementById('editUserId').value  = uid;
+  document.getElementById('modalUsuarioTitle').textContent = 'Editar usuario';
+  document.getElementById('uNombre').value   = u.nombre || '';
+  document.getElementById('uApellido').value = u.apellido || '';
+  document.getElementById('uEdad').value     = u.edad || '';
+  document.getElementById('uTel').value      = u.telefono || '';
+  document.getElementById('uEmail').value    = u.email || '';
+  document.getElementById('uRole').value     = u.role || 'alumno';
+  document.getElementById('uActivo').value   = String(u.activo);
+  document.getElementById('passwordGroup').style.display = 'none';
+  openModal('modalCrearUsuario');
+};
+
+window.guardarUsuario = async function() {
+  const uid     = document.getElementById('editUserId').value;
+  const nombre  = document.getElementById('uNombre').value.trim();
+  const apellido= document.getElementById('uApellido').value.trim();
+  const edad    = parseInt(document.getElementById('uEdad').value)||null;
+  const tel     = document.getElementById('uTel').value.trim();
+  const email   = document.getElementById('uEmail').value.trim();
+  const role    = document.getElementById('uRole').value;
+  const activo  = document.getElementById('uActivo').value === 'true';
+  const claseId = document.getElementById('uClase').value;
+  const pwd     = document.getElementById('uPassword').value;
+
+  if (!nombre || !apellido || !email) { showToast('Completa los campos requeridos','error'); return; }
+
+  const btn = document.getElementById('btnGuardarUsuario');
+  btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Guardando...';
+
+  try {
+    if (uid) {
+      await updateDoc(doc(db,'users',uid), { nombre, apellido, edad, telefono:tel, role, activo });
+    } else {
+      if (!pwd || pwd.length < 8) { showToast('Contraseña mínimo 8 caracteres','error'); return; }
+      const cred = await createUserWithEmailAndPassword(auth, email, pwd);
+      await setDoc(doc(db,'users',cred.user.uid), {
+        uid:cred.user.uid, email, nombre, apellido, edad, telefono:tel,
+        role, activo, createdAt:serverTimestamp(), clases: claseId?[claseId]:[]
+      });
+      if (claseId) await updateDoc(doc(db,'clases',claseId,'alumnos',cred.user.uid), { uid:cred.user.uid, activo:true, inscritoEn:serverTimestamp() });
+    }
+    closeModal('modalCrearUsuario');
+    showToast('Usuario guardado ✅','success');
+    await loadUsers();
+    renderDashboard();
+  } catch(e) {
+    showToast('Error: '+e.message,'error');
+  } finally {
+    btn.disabled=false;btn.innerHTML='<i class="fas fa-save"></i> Guardar';
+  }
+};
+
+window.guardarClase = async function() {
+  const nombre   = document.getElementById('claseNombre').value.trim();
+  const desc     = document.getElementById('claseDesc').value.trim();
+  const profId   = document.getElementById('claseProfesor').value;
+  const cat      = document.getElementById('claseCategoria').value;
+  const inicio   = document.getElementById('claseFechaInicio').value;
+  const fin      = document.getElementById('claseFechaFin').value;
+  if (!nombre || !profId) { showToast('Nombre y profesor son requeridos','error'); return; }
+  await addDoc(collection(db,'clases'), {
+    nombre, descripcion:desc, profesorId:profId,
+    categoria:cat, codigo:generateCode(),
+    fechaInicio:inicio||null, fechaFin:fin||null,
+    activo:true, createdAt:serverTimestamp()
+  });
+  closeModal('modalCrearClase');
+  showToast('Clase creada ✅','success');
+  await loadClases();
+};
+
+window.openAsignarClase = function(uid, nombre, email) {
+  document.getElementById('asignarAlumnoId').value          = uid;
+  document.getElementById('asignarAlumnoNombre').textContent = nombre;
+  document.getElementById('asignarAlumnoEmail').textContent  = email;
+  populateClaseSelects();
+  openModal('modalAsignarClase');
+};
+
+window.confirmarAsignarClase = async function() {
+  const uid     = document.getElementById('asignarAlumnoId').value;
+  const claseId = document.getElementById('asignarClaseSelect').value;
+  if (!claseId) { showToast('Selecciona una clase','error'); return; }
+  const userRef = doc(db,'users',uid);
+  const ud      = allUsers.find(u=>u.id===uid);
+  const clases  = ud?.clases||[];
+  if (!clases.includes(claseId)) clases.push(claseId);
+  await updateDoc(userRef,{ clases, activo:true });
+  await setDoc(doc(db,'clases',claseId,'alumnos',uid),{ uid, activo:true, inscritoEn:serverTimestamp() });
+  closeModal('modalAsignarClase');
+  showToast('Alumno asignado y activado ✅','success');
+  await loadUsers();
+  renderDashboard();
+};
+
+window.confirmarEliminarClase = function(id, nombre) {
+  document.getElementById('confirmarTitle').textContent = '¿Eliminar clase?';
+  document.getElementById('confirmarMsg').textContent   = `Se eliminará la clase "${nombre}" permanentemente.`;
+  document.getElementById('confirmarBtn').onclick = async () => {
+    await deleteDoc(doc(db,'clases',id));
+    closeModal('modalConfirmar');
+    showToast('Clase eliminada','info');
+    await loadClases();
+  };
+  openModal('modalConfirmar');
+};
+
+window.verDetalleClase = function(id) {
+  showToast('Panel de clase — disponible en Parte 4','info');
+};
+
+// ── FILTROS ──
+window.filterUsers = function() {
+  const role   = document.getElementById('filterRole').value;
+  const status = document.getElementById('filterStatus').value;
+  let filtered = [...allUsers];
+  if (role)   filtered = filtered.filter(u=>u.role===role);
+  if (status!=='') filtered = filtered.filter(u=>String(u.activo)===status);
+  renderUsersTable(filtered);
+};
+
+// ── NAV ──
+window.showSection = function(name) {
+  document.querySelectorAll('.content-area').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(i=>i.classList.remove('active'));
+  document.getElementById('sec-'+name).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(i=>{ if(i.textContent.toLowerCase().includes(name.substring(0,4))) i.classList.add('active'); });
+  document.getElementById('currentSection').textContent = name.charAt(0).toUpperCase()+name.slice(1);
+  if (window.innerWidth < 769) toggleSidebar();
+};
+
+window.toggleSidebar = function() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebarOverlay').classList.toggle('show');
+};
+
+window.openModal  = function(id, extra) {
+  if (id==='modalCrearUsuario') {
+    document.getElementById('editUserId').value = '';
+    document.getElementById('modalUsuarioTitle').textContent = 'Nuevo usuario';
+    document.getElementById('passwordGroup').style.display = '';
+    if (extra) document.getElementById('uRole').value = extra;
+    ['uNombre','uApellido','uEdad','uTel','uEmail','uPassword'].forEach(f=>document.getElementById(f).value='');
+    document.getElementById('uActivo').value='true';
+  }
+  document.getElementById(id).classList.add('open');
+};
+window.closeModal = function(id) { document.getElementById(id).classList.remove('open'); };
+
+window.handleLogout = async function() {
+  const { logoutUser } = await import('../app/auth.js');
+  logoutUser();
+};
+
+// Cerrar modal con Escape
+document.addEventListener('keydown', e => {
+  if (e.key==='Escape') document.querySelectorAll('.modal-overlay.open').forEach(m=>m.classList.remove('open'));
+});
+
+// ── INIT ──
+await loadAllData();
+
+// Búsqueda global
+document.getElementById('globalSearch').addEventListener('input', function() {
+  const q = this.value.toLowerCase();
+  const filtered = allUsers.filter(u =>
+    (u.nombre+' '+u.apellido+' '+u.email).toLowerCase().includes(q)
+  );
+  renderUsersTable(filtered);
+  if (!document.getElementById('sec-usuarios').classList.contains('active')) showSection('usuarios');
+});
+
+</script>
+</body>
+</html>
