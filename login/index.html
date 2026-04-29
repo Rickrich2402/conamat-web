@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Acceso — CONAMAT Chimalhuacán</title>
+  <link rel="icon" type="image/png" href="../assets/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    :root {
+      --azul-marino:    #0a2463;
+      --azul-principal: #1648a0;
+      --azul-medio:     #1e5cbf;
+      --azul-claro:     #2d7dd2;
+      --rojo-acento:    #e63946;
+      --dorado:         #f4a261;
+      --gris-claro:     #f0f4fb;
+      --gris-texto:     #4a5568;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Barlow', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      background: linear-gradient(135deg, var(--azul-marino) 0%, var(--azul-medio) 60%, var(--azul-claro) 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Fondo animado con partículas */
+    .bg-particles {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    }
+    .particle {
+      position: absolute;
+      width: 4px; height: 4px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 50%;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) rotate(0deg);   opacity: 0; }
+      10%  { opacity: 1; }
+      90%  { opacity: 1; }
+      100% { transform: translateY(-100px) rotate(720deg); opacity: 0; }
+    }
+
+    /* Layout principal */
+    .auth-container {
+      position: relative; z-index: 1;
+      display: flex; width: 100%; min-height: 100vh;
+    }
+
+    /* Panel izquierdo — branding */
+    .auth-brand {
+      flex: 1; display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+      padding: 60px 48px; text-align: center;
+      background: rgba(0,0,0,0.15);
+    }
+    .auth-brand img.logo-main {
+      max-width: 220px; width: 100%;
+      filter: brightness(0) invert(1);
+      margin-bottom: 24px;
+      animation: fadeInDown .8s ease both;
+    }
+    @keyframes fadeInDown { from { opacity:0; transform:translateY(-30px); } to { opacity:1; transform:translateY(0); } }
+    .auth-brand h1 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 2.4rem; font-weight: 800;
+      color: white; line-height: 1.1;
+      animation: fadeInDown .9s ease both;
+    }
+    .auth-brand h1 span { color: var(--dorado); }
+    .auth-brand p {
+      color: rgba(255,255,255,0.75); font-size: 1rem;
+      margin-top: 12px; max-width: 320px;
+      animation: fadeInDown 1s ease both;
+    }
+    .brand-features {
+      display: flex; flex-direction: column; gap: 14px;
+      margin-top: 40px; text-align: left;
+      animation: fadeInDown 1.1s ease both;
+    }
+    .brand-feature {
+      display: flex; align-items: center; gap: 12px;
+      color: rgba(255,255,255,0.85);
+    }
+    .brand-feature i {
+      width: 36px; height: 36px; border-radius: 8px;
+      background: rgba(255,255,255,0.12);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .9rem; flex-shrink: 0;
+    }
+    .brand-feature span { font-size: .92rem; font-weight: 500; }
+
+    /* Panel derecho — formulario */
+    .auth-form-panel {
+      width: 480px; flex-shrink: 0;
+      background: white;
+      display: flex; flex-direction: column;
+      justify-content: center; padding: 48px 44px;
+      overflow-y: auto;
+      animation: slideIn .7s ease both;
+    }
+    @keyframes slideIn { from { transform: translateX(60px); opacity:0; } to { transform: translateX(0); opacity:1; } }
+
+    .form-header { margin-bottom: 32px; }
+    .form-header .back-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      color: var(--azul-claro); font-size: .85rem; font-weight: 600;
+      text-decoration: none; margin-bottom: 20px;
+      transition: gap .2s;
+    }
+    .form-header .back-link:hover { gap: 10px; }
+    .form-header h2 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 2.2rem; font-weight: 800;
+      color: var(--azul-marino); line-height: 1;
+    }
+    .form-header p { color: var(--gris-texto); font-size: .92rem; margin-top: 6px; }
+
+    /* Tabs login/registro */
+    .auth-tabs {
+      display: flex; gap: 0; margin-bottom: 28px;
+      background: var(--gris-claro); border-radius: 10px; padding: 4px;
+    }
+    .auth-tab {
+      flex: 1; padding: 10px; border: none; background: none;
+      border-radius: 8px; font-weight: 700; font-size: .9rem;
+      cursor: pointer; color: var(--gris-texto); transition: all .25s;
+    }
+    .auth-tab.active {
+      background: white; color: var(--azul-marino);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    /* Formulario */
+    .form-section { display: none; }
+    .form-section.active { display: block; animation: fadeIn .3s ease; }
+    @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+
+    .form-group { margin-bottom: 18px; }
+    .form-group label {
+      display: block; font-weight: 600; font-size: .85rem;
+      color: var(--azul-marino); margin-bottom: 6px;
+    }
+    .form-group label span { color: var(--rojo-acento); }
+    .form-control {
+      width: 100%; padding: 12px 14px; border-radius: 8px;
+      border: 2px solid #e2e8f0; font-family: 'Barlow', sans-serif;
+      font-size: .93rem; color: #1a202c; transition: border-color .25s;
+      outline: none;
+    }
+    .form-control:focus { border-color: var(--azul-claro); }
+    .form-control.error { border-color: var(--rojo-acento); }
+    .input-wrap { position: relative; }
+    .input-wrap i {
+      position: absolute; right: 14px; top: 50%;
+      transform: translateY(-50%);
+      color: #aaa; cursor: pointer; font-size: .9rem;
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+    .error-msg {
+      font-size: .8rem; color: var(--rojo-acento);
+      margin-top: 4px; display: none;
+    }
+    .error-msg.show { display: block; }
+
+    /* Botón principal */
+    .btn-auth {
+      width: 100%; padding: 14px; border: none; border-radius: 10px;
+      background: linear-gradient(135deg, var(--azul-marino), var(--azul-medio));
+      color: white; font-family: 'Barlow', sans-serif;
+      font-weight: 800; font-size: 1rem; cursor: pointer;
+      transition: all .3s; position: relative; overflow: hidden;
+      margin-top: 8px;
+    }
+    .btn-auth:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(22,72,160,0.35); }
+    .btn-auth:disabled { opacity: .7; cursor: not-allowed; transform: none; }
+    .btn-auth .spinner {
+      display: none; width: 20px; height: 20px;
+      border: 3px solid rgba(255,255,255,0.3);
+      border-top-color: white; border-radius: 50%;
+      animation: spin .7s linear infinite;
+      margin: 0 auto;
+    }
+    .btn-auth.loading .btn-text { display: none; }
+    .btn-auth.loading .spinner { display: block; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Link olvidé contraseña */
+    .forgot-link {
+      text-align: right; margin-top: -10px; margin-bottom: 18px;
+    }
+    .forgot-link a {
+      font-size: .82rem; color: var(--azul-claro); font-weight: 600;
+      text-decoration: none;
+    }
+    .forgot-link a:hover { text-decoration: underline; }
+
+    /* Alerta de error general */
+    .auth-alert {
+      padding: 12px 14px; border-radius: 8px;
+      font-size: .88rem; font-weight: 600; margin-bottom: 18px;
+      display: none;
+    }
+    .auth-alert.show { display: flex; align-items: center; gap: 8px; }
+    .auth-alert.error   { background: #fff0f0; color: var(--rojo-acento); border: 1px solid #fdd; }
+    .auth-alert.success { background: #f0fff4; color: #1a7a3c; border: 1px solid #c3e6cb; }
+
+    /* Terms */
+    .terms-text {
+      font-size: .78rem; color: #888; text-align: center; margin-top: 16px;
+    }
+    .terms-text a { color: var(--azul-claro); text-decoration: none; }
+
+    /* Divisor */
+    .divider-or {
+      display: flex; align-items: center; gap: 12px;
+      color: #ccc; font-size: .82rem; margin: 20px 0;
+    }
+    .divider-or::before, .divider-or::after {
+      content: ''; flex: 1; height: 1px; background: #e2e8f0;
+    }
+
+    /* Footer del form */
+    .form-footer {
+      margin-top: 28px; padding-top: 20px;
+      border-top: 1px solid #f0f4fb;
+      text-align: center;
+    }
+    .form-footer a {
+      color: var(--azul-claro); font-weight: 600;
+      text-decoration: none; font-size: .9rem;
+    }
+    .form-footer p { font-size: .85rem; color: var(--gris-texto); }
+
+    /* Reset password panel */
+    .reset-panel { display: none; }
+    .reset-panel.active { display: block; animation: fadeIn .3s ease; }
+
+    /* Responsivo */
+    @media (max-width: 900px) {
+      .auth-brand { display: none; }
+      .auth-form-panel { width: 100%; padding: 40px 28px; }
+    }
+    @media (max-width: 480px) {
+      .auth-form-panel { padding: 32px 20px; }
+      .form-row { grid-template-columns: 1fr; }
+      .auth-brand h1 { font-size: 1.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Partículas de fondo -->
+<div class="bg-particles" id="particles"></div>
+
+<div class="auth-container">
+
+  <!-- ── PANEL IZQUIERDO: Branding ── -->
+  <div class="auth-brand">
+    <img src="../assets/logo-conamat.png" alt="CONAMAT" class="logo-main">
+    <h1>Plataforma <span>Educativa</span><br>CONAMAT</h1>
+    <p>Accede a tus clases, materiales y evaluaciones en un solo lugar.</p>
+    <div class="brand-features">
+      <div class="brand-feature">
+        <i class="fas fa-graduation-cap"></i>
+        <span>Cursos de admisión UNAM, IPN y más</span>
+      </div>
+      <div class="brand-feature">
+        <i class="fas fa-video"></i>
+        <span>Videos, PDFs y materiales en línea</span>
+      </div>
+      <div class="brand-feature">
+        <i class="fas fa-chart-line"></i>
+        <span>Seguimiento de progreso en tiempo real</span>
+      </div>
+      <div class="brand-feature">
+        <i class="fas fa-robot"></i>
+        <span>Evaluaciones generadas con IA</span>
+      </div>
+      <div class="brand-feature">
+        <i class="fas fa-shield-alt"></i>
+        <span>Contenido desbloqueado por módulo (Drip)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PANEL DERECHO: Formulario ── -->
+  <div class="auth-form-panel">
+
+    <div class="form-header">
+      <a href="../" class="back-link">
+        <i class="fas fa-arrow-left"></i> Volver al sitio
+      </a>
+      <h2 id="formTitle">Bienvenido</h2>
+      <p id="formSubtitle">Ingresa a tu cuenta para continuar</p>
+    </div>
+
+    <!-- Tabs -->
+    <div class="auth-tabs" id="authTabs">
+      <button class="auth-tab active" onclick="switchTab('login')">Iniciar sesión</button>
+      <button class="auth-tab" onclick="switchTab('register')">Crear cuenta</button>
+    </div>
+
+    <!-- Alerta general -->
+    <div class="auth-alert" id="authAlert">
+      <i class="fas fa-exclamation-circle"></i>
+      <span id="authAlertMsg"></span>
+    </div>
+
+    <!-- ══ FORMULARIO LOGIN ══ -->
+    <div class="form-section active" id="loginForm">
+      <div class="form-group">
+        <label>Correo electrónico <span>*</span></label>
+        <input type="email" class="form-control" id="loginEmail" placeholder="tu@correo.com" autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label>Contraseña <span>*</span></label>
+        <div class="input-wrap">
+          <input type="password" class="form-control" id="loginPassword" placeholder="••••••••" autocomplete="current-password">
+          <i class="fas fa-eye" id="toggleLoginPwd" onclick="togglePwd('loginPassword','toggleLoginPwd')"></i>
+        </div>
+      </div>
+      <div class="forgot-link">
+        <a href="#" onclick="showReset()">¿Olvidaste tu contraseña?</a>
+      </div>
+      <button class="btn-auth" id="btnLogin" onclick="handleLogin()">
+        <span class="btn-text"><i class="fas fa-sign-in-alt me-2"></i> Entrar</span>
+        <div class="spinner"></div>
+      </button>
+      <div class="terms-text" style="margin-top:20px">
+        Al iniciar sesión aceptas nuestros <a href="#">Términos de uso</a> y <a href="#">Privacidad</a>
+      </div>
+    </div>
+
+    <!-- ══ FORMULARIO REGISTRO ══ -->
+    <div class="form-section" id="registerForm">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nombre(s) <span>*</span></label>
+          <input type="text" class="form-control" id="regNombre" placeholder="Juan">
+          <div class="error-msg" id="errNombre">Ingresa tu nombre</div>
+        </div>
+        <div class="form-group">
+          <label>Apellidos <span>*</span></label>
+          <input type="text" class="form-control" id="regApellido" placeholder="García López">
+          <div class="error-msg" id="errApellido">Ingresa tus apellidos</div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Edad <span>*</span></label>
+          <input type="number" class="form-control" id="regEdad" placeholder="17" min="10" max="60">
+          <div class="error-msg" id="errEdad">Ingresa tu edad</div>
+        </div>
+        <div class="form-group">
+          <label>Teléfono</label>
+          <input type="tel" class="form-control" id="regTel" placeholder="55 1234 5678">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Correo electrónico <span>*</span></label>
+        <input type="email" class="form-control" id="regEmail" placeholder="tu@correo.com">
+        <div class="error-msg" id="errEmail">Ingresa un correo válido</div>
+      </div>
+      <div class="form-group">
+        <label>Contraseña <span>*</span></label>
+        <div class="input-wrap">
+          <input type="password" class="form-control" id="regPassword" placeholder="Mínimo 8 caracteres">
+          <i class="fas fa-eye" id="toggleRegPwd" onclick="togglePwd('regPassword','toggleRegPwd')"></i>
+        </div>
+        <div class="error-msg" id="errPassword">Mínimo 8 caracteres</div>
+        <!-- Indicador de fuerza -->
+        <div style="margin-top:8px;display:flex;gap:4px" id="strengthBars">
+          <div style="height:3px;flex:1;background:#e2e8f0;border-radius:2px;transition:background .3s" class="sbar"></div>
+          <div style="height:3px;flex:1;background:#e2e8f0;border-radius:2px;transition:background .3s" class="sbar"></div>
+          <div style="height:3px;flex:1;background:#e2e8f0;border-radius:2px;transition:background .3s" class="sbar"></div>
+          <div style="height:3px;flex:1;background:#e2e8f0;border-radius:2px;transition:background .3s" class="sbar"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Confirmar contraseña <span>*</span></label>
+        <div class="input-wrap">
+          <input type="password" class="form-control" id="regConfirm" placeholder="Repite tu contraseña">
+          <i class="fas fa-eye" id="toggleConf" onclick="togglePwd('regConfirm','toggleConf')"></i>
+        </div>
+        <div class="error-msg" id="errConfirm">Las contraseñas no coinciden</div>
+      </div>
+      <button class="btn-auth" id="btnRegister" onclick="handleRegister()" style="background:linear-gradient(135deg,var(--rojo-acento),#c1121f)">
+        <span class="btn-text"><i class="fas fa-user-plus"></i> Crear mi cuenta</span>
+        <div class="spinner"></div>
+      </button>
+      <p style="font-size:.78rem;color:#888;text-align:center;margin-top:12px">
+        Tu cuenta estará pendiente de activación por el administrador para acceder a clases.
+      </p>
+    </div>
+
+    <!-- ══ RESET PASSWORD ══ -->
+    <div class="reset-panel" id="resetPanel">
+      <div style="text-align:center;margin-bottom:24px">
+        <div style="font-size:2.5rem;margin-bottom:12px">🔒</div>
+        <h3 style="font-family:'Barlow Condensed',sans-serif;font-size:1.6rem;color:var(--azul-marino)">Recuperar contraseña</h3>
+        <p style="color:var(--gris-texto);font-size:.9rem;margin-top:6px">Te enviaremos un enlace a tu correo para restablecer tu contraseña.</p>
+      </div>
+      <div class="form-group">
+        <label>Correo electrónico</label>
+        <input type="email" class="form-control" id="resetEmail" placeholder="tu@correo.com">
+      </div>
+      <button class="btn-auth" id="btnReset" onclick="handleReset()">
+        <span class="btn-text"><i class="fas fa-paper-plane"></i> Enviar enlace</span>
+        <div class="spinner"></div>
+      </button>
+      <div style="text-align:center;margin-top:16px">
+        <a href="#" onclick="showLogin()" style="color:var(--azul-claro);font-weight:600;font-size:.9rem;text-decoration:none">
+          ← Volver al inicio de sesión
+        </a>
+      </div>
+    </div>
+
+    <div class="form-footer">
+      <p>¿Necesitas ayuda? <a href="https://wa.me/525514656210" target="_blank">Contáctanos por WhatsApp</a></p>
+    </div>
+  </div>
+
+</div>
+
+<!-- Firebase SDK (type=module en archivo separado) -->
+<script type="module">
+  import { auth, db } from '../app/firebase-config.js';
+  import {
+    signInWithEmailAndPassword,
+    createUserWithEmailAndPassword,
+    sendPasswordResetEmail,
+    onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  import { getUserData, redirectByRole, showToast } from '../app/utils.js';
+
+  // ── Si ya hay sesión, redirigir ──
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      const data = await getUserData(user.uid);
+      if (data) redirectByRole(data.role);
+    }
+  });
+
+  // ── FUNCIONES GLOBALES ──
+  window.switchTab = function(tab) {
+    document.querySelectorAll('.auth-tab').forEach((t,i) => t.classList.toggle('active', (tab==='login'&&i===0)||(tab==='register'&&i===1)));
+    document.getElementById('loginForm').classList.toggle('active', tab==='login');
+    document.getElementById('registerForm').classList.toggle('active', tab==='register');
+    document.getElementById('authTabs').style.display = '';
+    document.getElementById('resetPanel').classList.remove('active');
+    document.getElementById('formTitle').textContent = tab==='login' ? 'Bienvenido' : 'Crear cuenta';
+    document.getElementById('formSubtitle').textContent = tab==='login' ? 'Ingresa a tu cuenta para continuar' : 'Regístrate para empezar';
+    hideAlert();
+  };
+
+  window.showReset = function() {
+    document.getElementById('loginForm').classList.remove('active');
+    document.getElementById('registerForm').classList.remove('active');
+    document.getElementById('resetPanel').classList.add('active');
+    document.getElementById('authTabs').style.display = 'none';
+    document.getElementById('formTitle').textContent = 'Recuperar acceso';
+    document.getElementById('formSubtitle').textContent = '';
+    hideAlert();
+  };
+
+  window.showLogin = function() { window.switchTab('login'); };
+
+  window.togglePwd = function(inputId, iconId) {
+    const input = document.getElementById(inputId);
+    const icon  = document.getElementById(iconId);
+    if (input.type === 'password') {
+      input.type = 'text'; icon.classList.replace('fa-eye','fa-eye-slash');
+    } else {
+      input.type = 'password'; icon.classList.replace('fa-eye-slash','fa-eye');
+    }
+  };
+
+  function showAlert(msg, type='error') {
+    const el = document.getElementById('authAlert');
+    el.className = `auth-alert show ${type}`;
+    document.getElementById('authAlertMsg').textContent = msg;
+  }
+  function hideAlert() {
+    document.getElementById('authAlert').classList.remove('show');
+  }
+  function setLoading(btnId, loading) {
+    const btn = document.getElementById(btnId);
+    btn.classList.toggle('loading', loading);
+    btn.disabled = loading;
+  }
+
+  // Fuerza de contraseña
+  document.getElementById('regPassword')?.addEventListener('input', function() {
+    const v = this.value;
+    let score = 0;
+    if (v.length >= 8) score++;
+    if (/[A-Z]/.test(v)) score++;
+    if (/[0-9]/.test(v)) score++;
+    if (/[^A-Za-z0-9]/.test(v)) score++;
+    const colors = ['#e63946','#e88a00','#f4a261','#1a7a3c'];
+    document.querySelectorAll('.sbar').forEach((b,i) => {
+      b.style.background = i < score ? colors[score-1] : '#e2e8f0';
+    });
+  });
+
+  // ── LOGIN ──
+  window.handleLogin = async function() {
+    hideAlert();
+    const email    = document.getElementById('loginEmail').value.trim();
+    const password = document.getElementById('loginPassword').value;
+    if (!email || !password) { showAlert('Completa todos los campos.'); return; }
+    setLoading('btnLogin', true);
+    try {
+      const cred = await signInWithEmailAndPassword(auth, email, password);
+      const data = await getUserData(cred.user.uid);
+      if (!data?.activo) {
+        await auth.signOut();
+        showAlert('Tu cuenta está desactivada. Contacta al administrador.');
+        return;
+      }
+      showToast('¡Bienvenido, ' + data.nombre + '!', 'success');
+      setTimeout(() => redirectByRole(data.role), 800);
+    } catch (e) {
+      const msgs = {
+        'auth/user-not-found':  'No existe una cuenta con ese correo.',
+        'auth/wrong-password':  'Contraseña incorrecta.',
+        'auth/invalid-email':   'Correo inválido.',
+        'auth/too-many-requests':'Demasiados intentos. Espera unos minutos.',
+        'auth/invalid-credential':'Correo o contraseña incorrectos.'
+      };
+      showAlert(msgs[e.code] || 'Error al iniciar sesión: ' + e.message);
+    } finally {
+      setLoading('btnLogin', false);
+    }
+  };
+
+  // ── REGISTRO ──
+  window.handleRegister = async function() {
+    hideAlert();
+    const nombre   = document.getElementById('regNombre').value.trim();
+    const apellido = document.getElementById('regApellido').value.trim();
+    const edad     = document.getElementById('regEdad').value;
+    const email    = document.getElementById('regEmail').value.trim();
+    const password = document.getElementById('regPassword').value;
+    const confirm  = document.getElementById('regConfirm').value;
+    const tel      = document.getElementById('regTel').value.trim();
+
+    let valid = true;
+    const check = (id, errId, cond) => {
+      document.getElementById(id).classList.toggle('error', !cond);
+      document.getElementById(errId).classList.toggle('show', !cond);
+      if (!cond) valid = false;
+    };
+    check('regNombre',   'errNombre',   nombre.length > 1);
+    check('regApellido', 'errApellido', apellido.length > 1);
+    check('regEdad',     'errEdad',     edad >= 10 && edad <= 60);
+    check('regEmail',    'errEmail',    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
+    check('regPassword', 'errPassword', password.length >= 8);
+    check('regConfirm',  'errConfirm',  password === confirm);
+    if (!valid) return;
+
+    setLoading('btnRegister', true);
+    try {
+      const cred = await createUserWithEmailAndPassword(auth, email, password);
+      await setDoc(doc(db, 'users', cred.user.uid), {
+        uid: cred.user.uid, email, nombre, apellido,
+        edad: parseInt(edad), telefono: tel,
+        role: 'alumno', activo: false,
+        createdAt: serverTimestamp(), clases: []
+      });
+      await auth.signOut();
+      showAlert('✅ Cuenta creada. El administrador la activará pronto. Te notificaremos por WhatsApp.', 'success');
+      setTimeout(() => window.switchTab('login'), 3000);
+    } catch (e) {
+      const msgs = {
+        'auth/email-already-in-use': 'Ese correo ya está registrado.',
+        'auth/weak-password':        'Contraseña muy débil.',
+        'auth/invalid-email':        'Correo inválido.'
+      };
+      showAlert(msgs[e.code] || 'Error al registrar: ' + e.message);
+    } finally {
+      setLoading('btnRegister', false);
+    }
+  };
+
+  // ── RESET PASSWORD ──
+  window.handleReset = async function() {
+    hideAlert();
+    const email = document.getElementById('resetEmail').value.trim();
+    if (!email) { showAlert('Ingresa tu correo.'); return; }
+    setLoading('btnReset', true);
+    try {
+      await sendPasswordResetEmail(auth, email);
+      showAlert('✅ Enlace enviado. Revisa tu bandeja de entrada.', 'success');
+    } catch (e) {
+      showAlert('No encontramos ese correo.');
+    } finally {
+      setLoading('btnReset', false);
+    }
+  };
+
+  // Enter key en inputs
+  document.addEventListener('keydown', e => {
+    if (e.key !== 'Enter') return;
+    if (document.getElementById('loginForm').classList.contains('active'))    window.handleLogin();
+    if (document.getElementById('registerForm').classList.contains('active')) window.handleRegister();
+    if (document.getElementById('resetPanel').classList.contains('active'))   window.handleReset();
+  });
+</script>
+
+<!-- Generar partículas -->
+<script>
+  const container = document.getElementById('particles');
+  for (let i = 0; i < 25; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = Math.random() * 5 + 2;
+    p.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${Math.random()*100}%;
+      animation-duration:${Math.random()*15+8}s;
+      animation-delay:${Math.random()*8}s;
+    `;
+    container.appendChild(p);
+  }
+</script>
+</body>
+</html>
