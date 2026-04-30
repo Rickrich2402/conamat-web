@@ -13,31 +13,35 @@
 </head>
 <body>
 
-<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<!-- Overlay sidebar móvil -->
+<div id="sidebarOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:150"></div>
 
+<!-- SIDEBAR -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-logo">
-    <img src="../assets/logo-conamat.png" alt="CONAMAT">
+    <img src="../assets/logo-conamat.png" alt="CONAMAT" style="height:40px;width:auto;filter:brightness(0) invert(1)">
     <div class="sidebar-logo-text">
       <div class="name">CONAMAT</div>
       <span class="role-tag role-admin">Administrador</span>
     </div>
   </div>
+
   <nav class="sidebar-nav">
     <div class="nav-section-label">Principal</div>
-    <a class="nav-item active" data-section="dashboard" href="#"><i class="fas fa-chart-pie"></i> Dashboard</a>
-    <a class="nav-item" data-section="usuarios" href="#"><i class="fas fa-users"></i> Usuarios <span class="badge" id="pendingBadge" style="display:none">0</span></a>
-    <a class="nav-item" data-section="clases" href="#"><i class="fas fa-chalkboard-teacher"></i> Clases</a>
-    <a class="nav-item" data-section="profesores" href="#"><i class="fas fa-user-tie"></i> Profesores</a>
+    <button class="nav-item active" id="nav-dashboard"><i class="fas fa-chart-pie"></i> Dashboard</button>
+    <button class="nav-item" id="nav-usuarios"><i class="fas fa-users"></i> Usuarios <span class="badge" id="pendingBadge" style="display:none">0</span></button>
+    <button class="nav-item" id="nav-clases"><i class="fas fa-chalkboard-teacher"></i> Clases</button>
+    <button class="nav-item" id="nav-profesores"><i class="fas fa-user-tie"></i> Profesores</button>
     <div class="nav-section-label" style="margin-top:8px">Sistema</div>
-    <a class="nav-item" data-section="configuracion" href="#"><i class="fas fa-cog"></i> Configuración</a>
-    <a class="nav-item" href="../" target="_blank"><i class="fas fa-external-link-alt"></i> Ver sitio web</a>
+    <button class="nav-item" id="nav-configuracion"><i class="fas fa-cog"></i> Configuración</button>
+    <a class="nav-item" href="../" target="_blank" style="text-decoration:none"><i class="fas fa-external-link-alt"></i> Ver sitio web</a>
   </nav>
+
   <div class="sidebar-footer">
     <div class="user-card">
       <div class="user-avatar" id="sidebarAvatar">A</div>
       <div class="user-info">
-        <div class="u-name" id="sidebarName">Admin</div>
+        <div class="u-name" id="sidebarName">Cargando...</div>
         <div class="u-role">Administrador</div>
       </div>
     </div>
@@ -45,6 +49,7 @@
   </div>
 </aside>
 
+<!-- HEADER -->
 <header class="main-header">
   <div class="header-left">
     <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
@@ -53,46 +58,63 @@
   <div class="header-right">
     <div class="header-search">
       <i class="fas fa-search"></i>
-      <input type="text" placeholder="Buscar usuario..." id="globalSearch">
+      <input type="text" id="globalSearch" placeholder="Buscar usuario...">
     </div>
-    <button class="header-btn" id="btnRefresh" title="Actualizar"><i class="fas fa-sync-alt"></i></button>
+    <button class="header-btn" id="btnRefresh" title="Actualizar datos"><i class="fas fa-sync-alt"></i></button>
   </div>
 </header>
 
+<!-- CONTENIDO PRINCIPAL -->
 <main class="main-content">
 
-  <!-- DASHBOARD -->
+  <!-- ── DASHBOARD ── -->
   <section class="content-area active" id="sec-dashboard">
     <div class="section-header">
       <div><h1>Dashboard</h1><p>Resumen general de la plataforma</p></div>
       <button class="btn btn-primary" id="btnRefreshDash"><i class="fas fa-sync-alt"></i> Actualizar</button>
     </div>
     <div class="stats-grid">
-      <div class="stat-card stat-blue"><div class="stat-icon"><i class="fas fa-users"></i></div><div class="stat-body"><div class="num" id="statAlumnos">—</div><div class="lbl">Alumnos activos</div></div></div>
-      <div class="stat-card stat-orange"><div class="stat-icon"><i class="fas fa-clock"></i></div><div class="stat-body"><div class="num" id="statPendientes">—</div><div class="lbl">Pendientes de activar</div></div></div>
-      <div class="stat-card stat-green"><div class="stat-icon"><i class="fas fa-chalkboard-teacher"></i></div><div class="stat-body"><div class="num" id="statClases">—</div><div class="lbl">Clases activas</div></div></div>
-      <div class="stat-card stat-teal"><div class="stat-icon"><i class="fas fa-user-tie"></i></div><div class="stat-body"><div class="num" id="statProfesores">—</div><div class="lbl">Profesores</div></div></div>
+      <div class="stat-card stat-blue">
+        <div class="stat-icon"><i class="fas fa-users"></i></div>
+        <div class="stat-body"><div class="num" id="statAlumnos">—</div><div class="lbl">Alumnos activos</div></div>
+      </div>
+      <div class="stat-card stat-orange">
+        <div class="stat-icon"><i class="fas fa-clock"></i></div>
+        <div class="stat-body"><div class="num" id="statPendientes">—</div><div class="lbl">Pendientes de activar</div></div>
+      </div>
+      <div class="stat-card stat-green">
+        <div class="stat-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+        <div class="stat-body"><div class="num" id="statClases">—</div><div class="lbl">Clases activas</div></div>
+      </div>
+      <div class="stat-card stat-teal">
+        <div class="stat-icon"><i class="fas fa-user-tie"></i></div>
+        <div class="stat-body"><div class="num" id="statProfesores">—</div><div class="lbl">Profesores</div></div>
+      </div>
     </div>
     <div class="grid-2">
       <div class="panel">
-        <div class="panel-header"><h3><i class="fas fa-chart-line" style="color:var(--azul-claro);margin-right:8px"></i>Inscripciones por mes</h3></div>
+        <div class="panel-header"><h3>Inscripciones por mes</h3></div>
         <div class="panel-body"><div class="chart-wrap"><canvas id="chartInscripciones"></canvas></div></div>
       </div>
       <div class="panel">
-        <div class="panel-header"><h3><i class="fas fa-history" style="color:var(--naranja);margin-right:8px"></i>Actividad reciente</h3></div>
-        <div class="panel-body" id="actividadReciente"><div class="loading-spinner"><div class="spinner"></div></div></div>
+        <div class="panel-header"><h3>Actividad reciente</h3></div>
+        <div class="panel-body" id="actividadReciente">
+          <div class="loading-spinner"><div class="spinner"></div></div>
+        </div>
       </div>
     </div>
     <div class="panel">
       <div class="panel-header">
-        <h3><i class="fas fa-user-clock" style="color:var(--naranja);margin-right:8px"></i>Alumnos pendientes de activación</h3>
-        <button class="btn btn-primary btn-sm" id="btnVerTodos">Ver todos</button>
+        <h3>Alumnos pendientes de activación</h3>
+        <button class="btn btn-primary btn-sm" id="btnVerTodosUsuarios">Ver todos</button>
       </div>
-      <div class="panel-body" id="pendientesList"><div class="loading-spinner"><div class="spinner"></div></div></div>
+      <div class="panel-body" id="pendientesList">
+        <div class="loading-spinner"><div class="spinner"></div></div>
+      </div>
     </div>
   </section>
 
-  <!-- USUARIOS -->
+  <!-- ── USUARIOS ── -->
   <section class="content-area" id="sec-usuarios">
     <div class="section-header">
       <div><h1>Usuarios</h1><p>Gestiona alumnos, profesores y administradores</p></div>
@@ -101,7 +123,7 @@
           <option value="">Todos los roles</option>
           <option value="alumno">Alumnos</option>
           <option value="profesor">Profesores</option>
-          <option value="admin">Administradores</option>
+          <option value="admin">Admins</option>
         </select>
         <select class="form-select" style="width:auto;padding:9px 14px" id="filterStatus">
           <option value="">Todos los estados</option>
@@ -112,26 +134,37 @@
       </div>
     </div>
     <div class="panel">
-      <div class="panel-header"><h3>Lista de usuarios</h3><span style="font-size:.82rem;color:var(--gris-texto)" id="usersCount"></span></div>
+      <div class="panel-header">
+        <h3>Lista de usuarios</h3>
+        <span class="badge badge-alumno" id="usersCount">0 usuarios</span>
+      </div>
       <div class="table-wrap">
         <table class="data-table">
-          <thead><tr><th>Usuario</th><th>Rol</th><th>Estado</th><th>Clases</th><th>Registro</th><th>Acciones</th></tr></thead>
-          <tbody id="usersTableBody"><tr><td colspan="6"><div class="loading-spinner"><div class="spinner"></div></div></td></tr></tbody>
+          <thead>
+            <tr>
+              <th>Usuario</th><th>Rol</th><th>Estado</th><th>Clases</th><th>Registro</th><th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="usersTableBody">
+            <tr><td colspan="6"><div class="loading-spinner"><div class="spinner"></div></div></td></tr>
+          </tbody>
         </table>
       </div>
     </div>
   </section>
 
-  <!-- CLASES -->
+  <!-- ── CLASES ── -->
   <section class="content-area" id="sec-clases">
     <div class="section-header">
       <div><h1>Clases</h1><p>Todas las clases en la plataforma</p></div>
       <button class="btn btn-primary" id="btnNuevaClase"><i class="fas fa-plus"></i> Nueva clase</button>
     </div>
-    <div id="clasesGrid"><div class="loading-spinner"><div class="spinner"></div></div></div>
+    <div id="clasesGrid">
+      <div class="loading-spinner"><div class="spinner"></div></div>
+    </div>
   </section>
 
-  <!-- PROFESORES -->
+  <!-- ── PROFESORES ── -->
   <section class="content-area" id="sec-profesores">
     <div class="section-header">
       <div><h1>Profesores</h1><p>Equipo docente</p></div>
@@ -140,16 +173,20 @@
     <div class="panel">
       <div class="table-wrap">
         <table class="data-table">
-          <thead><tr><th>Profesor</th><th>Email</th><th>Clases</th><th>Estado</th><th>Acciones</th></tr></thead>
-          <tbody id="profesoresTableBody"><tr><td colspan="5"><div class="loading-spinner"><div class="spinner"></div></div></td></tr></tbody>
+          <thead>
+            <tr><th>Profesor</th><th>Email</th><th>Clases</th><th>Estado</th><th>Acciones</th></tr>
+          </thead>
+          <tbody id="profesoresTableBody">
+            <tr><td colspan="5"><div class="loading-spinner"><div class="spinner"></div></div></td></tr>
+          </tbody>
         </table>
       </div>
     </div>
   </section>
 
-  <!-- CONFIGURACIÓN -->
+  <!-- ── CONFIGURACIÓN ── -->
   <section class="content-area" id="sec-configuracion">
-    <div class="section-header"><div><h1>Configuración</h1><p>Ajustes generales</p></div></div>
+    <div class="section-header"><div><h1>Configuración</h1><p>Ajustes generales del sistema</p></div></div>
     <div class="grid-2">
       <div class="panel">
         <div class="panel-header"><h3>Información del plantel</h3></div>
@@ -163,7 +200,8 @@
       <div class="panel">
         <div class="panel-header"><h3>Registro de alumnos</h3></div>
         <div class="panel-body">
-          <div class="form-group"><label class="form-label">Activación de cuentas nuevas</label>
+          <div class="form-group">
+            <label class="form-label">Activación de cuentas nuevas</label>
             <select class="form-select"><option value="manual" selected>Manual (admin activa)</option><option value="auto">Automática</option></select>
           </div>
           <button class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button>
@@ -171,59 +209,85 @@
       </div>
     </div>
   </section>
+
 </main>
 
-<!-- MODALES -->
-<!-- Modal Usuario -->
+<!-- ══════════ MODALES ══════════ -->
+
+<!-- Modal: Crear / Editar Usuario -->
 <div class="modal-overlay" id="modalUsuario">
   <div class="modal-box">
-    <div class="modal-header"><h3 id="modalUsuarioTitle">Nuevo usuario</h3><button class="modal-close" data-close="modalUsuario">✕</button></div>
+    <div class="modal-header">
+      <h3 id="modalUsuarioTitulo">Nuevo usuario</h3>
+      <button class="modal-close" id="cerrarModalUsuario">✕</button>
+    </div>
     <input type="hidden" id="editUserId">
     <div class="form-row">
-      <div class="form-group"><label class="form-label">Nombre(s) <span style="color:red">*</span></label><input class="form-input" id="uNombre" placeholder="Juan"></div>
-      <div class="form-group"><label class="form-label">Apellidos <span style="color:red">*</span></label><input class="form-input" id="uApellido" placeholder="García"></div>
+      <div class="form-group"><label class="form-label">Nombre(s) *</label><input class="form-input" id="uNombre" placeholder="Juan"></div>
+      <div class="form-group"><label class="form-label">Apellidos *</label><input class="form-input" id="uApellido" placeholder="García"></div>
     </div>
     <div class="form-row">
       <div class="form-group"><label class="form-label">Edad</label><input class="form-input" type="number" id="uEdad" placeholder="17"></div>
       <div class="form-group"><label class="form-label">Teléfono</label><input class="form-input" id="uTel" placeholder="55 1234 5678"></div>
     </div>
-    <div class="form-group"><label class="form-label">Correo <span style="color:red">*</span></label><input class="form-input" type="email" id="uEmail" placeholder="correo@ejemplo.com"></div>
+    <div class="form-group"><label class="form-label">Correo *</label><input class="form-input" type="email" id="uEmail" placeholder="correo@ejemplo.com"></div>
     <div class="form-row">
-      <div class="form-group"><label class="form-label">Rol</label>
-        <select class="form-select" id="uRole"><option value="alumno">Alumno</option><option value="profesor">Profesor</option><option value="admin">Administrador</option></select>
+      <div class="form-group">
+        <label class="form-label">Rol</label>
+        <select class="form-select" id="uRole">
+          <option value="alumno">Alumno</option>
+          <option value="profesor">Profesor</option>
+          <option value="admin">Administrador</option>
+        </select>
       </div>
-      <div class="form-group"><label class="form-label">Estado</label>
-        <select class="form-select" id="uActivo"><option value="true">Activo</option><option value="false">Inactivo</option></select>
+      <div class="form-group">
+        <label class="form-label">Estado</label>
+        <select class="form-select" id="uActivo">
+          <option value="true">Activo</option>
+          <option value="false">Inactivo</option>
+        </select>
       </div>
     </div>
-    <div class="form-group" id="passwordGroup">
-      <label class="form-label">Contraseña temporal <span style="color:red">*</span></label>
+    <div class="form-group" id="pwdGroup">
+      <label class="form-label">Contraseña temporal *</label>
       <input class="form-input" type="password" id="uPassword" placeholder="Mínimo 8 caracteres">
+      <div style="font-size:.75rem;color:#888;margin-top:4px">El usuario puede cambiarla desde su perfil.</div>
     </div>
     <div class="form-group">
       <label class="form-label">Asignar a clase</label>
-      <select class="form-select" id="uClase"><option value="">Sin clase</option></select>
+      <select class="form-select" id="uClase"><option value="">Sin clase por ahora</option></select>
     </div>
+    <div id="usuarioMsg" style="display:none;padding:10px 12px;border-radius:8px;font-size:.85rem;font-weight:600;margin-top:8px"></div>
     <div class="modal-footer">
-      <button class="btn btn-outline" data-close="modalUsuario">Cancelar</button>
+      <button class="btn btn-outline" id="cancelarUsuario">Cancelar</button>
       <button class="btn btn-primary" id="btnGuardarUsuario"><i class="fas fa-save"></i> Guardar</button>
     </div>
   </div>
 </div>
 
-<!-- Modal Clase -->
+<!-- Modal: Crear Clase -->
 <div class="modal-overlay" id="modalClase">
   <div class="modal-box">
-    <div class="modal-header"><h3>Nueva clase</h3><button class="modal-close" data-close="modalClase">✕</button></div>
-    <div class="form-group"><label class="form-label">Nombre <span style="color:red">*</span></label><input class="form-input" id="claseNombre" placeholder="Ej: Ingreso UNAM 2026"></div>
+    <div class="modal-header">
+      <h3>Nueva clase</h3>
+      <button class="modal-close" id="cerrarModalClase">✕</button>
+    </div>
+    <div class="form-group"><label class="form-label">Nombre *</label><input class="form-input" id="claseNombre" placeholder="Ej: Ingreso UNAM 2026"></div>
     <div class="form-group"><label class="form-label">Descripción</label><textarea class="form-textarea" id="claseDesc" placeholder="Objetivo del curso..."></textarea></div>
     <div class="form-row">
-      <div class="form-group"><label class="form-label">Profesor <span style="color:red">*</span></label><select class="form-select" id="claseProfesor"><option value="">Selecciona...</option></select></div>
-      <div class="form-group"><label class="form-label">Categoría</label>
+      <div class="form-group">
+        <label class="form-label">Profesor *</label>
+        <select class="form-select" id="claseProfesor"><option value="">Selecciona un profesor...</option></select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Categoría</label>
         <select class="form-select" id="claseCategoria">
-          <option value="unam">Ingreso UNAM</option><option value="ipn">Ingreso IPN</option>
-          <option value="uaem">Ingreso UAEM</option><option value="ecoems">Bachillerato ECOEMS</option>
-          <option value="prepa">Prepa Intensiva</option><option value="regularizacion">Regularización</option>
+          <option value="unam">Ingreso UNAM</option>
+          <option value="ipn">Ingreso IPN</option>
+          <option value="uaem">Ingreso UAEM</option>
+          <option value="ecoems">Bachillerato ECOEMS</option>
+          <option value="prepa">Prepa Intensiva</option>
+          <option value="regularizacion">Regularización</option>
           <option value="diplomado">Diplomado</option>
         </select>
       </div>
@@ -232,533 +296,791 @@
       <div class="form-group"><label class="form-label">Fecha inicio</label><input class="form-input" type="date" id="claseFechaInicio"></div>
       <div class="form-group"><label class="form-label">Fecha fin</label><input class="form-input" type="date" id="claseFechaFin"></div>
     </div>
+    <div id="claseMsg" style="display:none;padding:10px 12px;border-radius:8px;font-size:.85rem;font-weight:600;margin-top:8px"></div>
     <div class="modal-footer">
-      <button class="btn btn-outline" data-close="modalClase">Cancelar</button>
+      <button class="btn btn-outline" id="cancelarClase">Cancelar</button>
       <button class="btn btn-primary" id="btnGuardarClase"><i class="fas fa-plus"></i> Crear clase</button>
     </div>
   </div>
 </div>
 
-<!-- Modal Asignar Clase -->
+<!-- Modal: Asignar Clase -->
 <div class="modal-overlay" id="modalAsignar">
   <div class="modal-box" style="max-width:420px">
-    <div class="modal-header"><h3>Asignar a clase</h3><button class="modal-close" data-close="modalAsignar">✕</button></div>
-    <div style="margin-bottom:14px">
-      <div style="font-weight:700;color:var(--azul-marino)" id="asignarNombre">—</div>
-      <div style="font-size:.83rem;color:var(--gris-texto)" id="asignarEmail">—</div>
+    <div class="modal-header">
+      <h3>Asignar alumno a clase</h3>
+      <button class="modal-close" id="cerrarModalAsignar">✕</button>
+    </div>
+    <div style="padding:12px 14px;background:var(--gris-claro);border-radius:8px;margin-bottom:16px">
+      <div style="font-weight:700;color:var(--azul-marino)" id="asignarNombreText">—</div>
+      <div style="font-size:.83rem;color:var(--gris-texto)" id="asignarEmailText">—</div>
     </div>
     <input type="hidden" id="asignarUid">
-    <div class="form-group"><label class="form-label">Clase <span style="color:red">*</span></label><select class="form-select" id="asignarClaseSelect"><option value="">Selecciona...</option></select></div>
+    <div class="form-group">
+      <label class="form-label">Clase *</label>
+      <select class="form-select" id="asignarClaseSelect"><option value="">Selecciona una clase...</option></select>
+    </div>
     <div class="modal-footer">
-      <button class="btn btn-outline" data-close="modalAsignar">Cancelar</button>
-      <button class="btn btn-success" id="btnConfirmarAsignar"><i class="fas fa-check"></i> Asignar</button>
+      <button class="btn btn-outline" id="cancelarAsignar">Cancelar</button>
+      <button class="btn btn-success" id="btnConfirmarAsignar"><i class="fas fa-check"></i> Asignar y activar</button>
     </div>
   </div>
 </div>
 
-<!-- Modal Confirmar -->
-<div class="modal-overlay" id="modalConfirmar">
-  <div class="modal-box" style="max-width:360px">
-    <div class="modal-header"><h3 id="confirmTitle">¿Estás seguro?</h3><button class="modal-close" data-close="modalConfirmar">✕</button></div>
-    <p id="confirmMsg" style="color:var(--gris-texto);font-size:.93rem"></p>
-    <div class="modal-footer">
-      <button class="btn btn-outline" data-close="modalConfirmar">Cancelar</button>
-      <button class="btn btn-danger" id="confirmBtn">Confirmar</button>
-    </div>
-  </div>
-</div>
-
+<!-- ══════════ FIREBASE + LÓGICA ══════════ -->
 <script type="module">
-// ══════════════════════════════════════════
-// FIREBASE — Config embebida directamente
-// ══════════════════════════════════════════
-import { initializeApp }                           from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth, onAuthStateChanged, signOut, createUserWithEmailAndPassword }
-                                                   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { getFirestore, collection, getDocs, doc, getDoc, setDoc,
-         addDoc, updateDoc, deleteDoc, query, where, orderBy, serverTimestamp }
-                                                   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-// ⚠️ REEMPLAZA con tu configuración real de Firebase
-const firebaseConfig = {
+// ── 1. IMPORTS ──────────────────────────────────────────
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut, createUserWithEmailAndPassword }
+  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFirestore, collection, getDocs, doc, getDoc, setDoc,
+         addDoc, updateDoc, deleteDoc, serverTimestamp }
+  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+// ── 2. CONFIGURACIÓN FIREBASE ──────────────────────────
+const FIREBASE_CONFIG = {
   apiKey:            "AIzaSyCpe3K0RmZTcqmaH2O8SdWFE15-1CMkjK4",
   authDomain:        "conamat-chimalhuacan.firebaseapp.com",
   projectId:         "conamat-chimalhuacan",
   storageBucket:     "conamat-chimalhuacan.firebasestorage.app",
   messagingSenderId: "769823648865",
-  appId:             "1:769823648865:web:5b8bc296ed8921efb4ce20""
+  appId:             "1:769823648865:web:5b8bc296ed8921efb4ce20"
 };
 
-const app  = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db   = getFirestore(app);
+// ── 3. INICIALIZAR ──────────────────────────────────────
+const fbApp = initializeApp(FIREBASE_CONFIG);
+const auth  = getAuth(fbApp);
+const db    = getFirestore(fbApp);
 
-// ── Estado global ──
+// ── 4. VARIABLES DE ESTADO ──────────────────────────────
 let allUsers  = [];
 let allClases = [];
 let currentUser = null;
 
-// ══ HELPERS ══
-function fmt(ts) {
+// ── 5. UTILIDADES ───────────────────────────────────────
+function toast(msg, tipo) {
+  const colores = { ok:'#1a7a3c', error:'#e63946', info:'#1648a0', warn:'#e88a00' };
+  const t = document.createElement('div');
+  t.style.cssText = [
+    'position:fixed', 'bottom:24px', 'right:24px', 'z-index:9999',
+    `background:${colores[tipo] || colores.info}`, 'color:white',
+    'padding:14px 20px', 'border-radius:10px',
+    "font-family:'Barlow',sans-serif", 'font-weight:700', 'font-size:.88rem',
+    'box-shadow:0 6px 24px rgba(0,0,0,.25)', 'max-width:320px', 'line-height:1.4',
+    'transform:translateY(70px)', 'opacity:0',
+    'transition:all .4s cubic-bezier(.34,1.56,.64,1)'
+  ].join(';');
+  t.textContent = msg;
+  document.body.appendChild(t);
+  requestAnimationFrame(() => { t.style.transform = 'translateY(0)'; t.style.opacity = '1'; });
+  setTimeout(() => {
+    t.style.transform = 'translateY(70px)'; t.style.opacity = '0';
+    setTimeout(() => t.remove(), 500);
+  }, 3800);
+}
+
+function formatFecha(ts) {
   if (!ts) return '—';
   const d = ts.toDate ? ts.toDate() : new Date(ts);
   return d.toLocaleDateString('es-MX', { year:'numeric', month:'short', day:'numeric' });
 }
-function genCode() { return Math.random().toString(36).substring(2,8).toUpperCase(); }
 
-function toast(msg, type='success') {
-  const colors = { success:'#1648a0', error:'#e63946', info:'#2d7dd2', warning:'#e88a00' };
-  const t = document.createElement('div');
-  t.style.cssText = `position:fixed;bottom:24px;right:24px;z-index:9999;background:${colors[type]||colors.success};color:white;padding:13px 20px;border-radius:10px;font-family:'Barlow',sans-serif;font-weight:700;font-size:.88rem;box-shadow:0 6px 24px rgba(0,0,0,.2);transform:translateY(60px);opacity:0;transition:all .35s cubic-bezier(.34,1.56,.64,1);max-width:300px;line-height:1.4`;
-  t.textContent = msg;
-  document.body.appendChild(t);
-  requestAnimationFrame(() => { t.style.transform='translateY(0)'; t.style.opacity='1'; });
-  setTimeout(() => { t.style.transform='translateY(60px)'; t.style.opacity='0'; setTimeout(()=>t.remove(),400); }, 3500);
+function generarCodigo() {
+  return Math.random().toString(36).substring(2, 8).toUpperCase();
 }
 
-// ══ AUTH ══
-onAuthStateChanged(auth, async (user) => {
-  if (!user) { window.location.href = '../login/'; return; }
-  const snap = await getDoc(doc(db,'users',user.uid));
-  if (!snap.exists() || snap.data().role !== 'admin' || !snap.data().activo) {
-    await signOut(auth);
-    window.location.href = '../login/';
-    return;
+function abrirModal(id) {
+  document.getElementById(id).classList.add('open');
+}
+function cerrarModal(id) {
+  document.getElementById(id).classList.remove('open');
+}
+
+function mostrarMensajeModal(elementoId, msg, tipo) {
+  const el = document.getElementById(elementoId);
+  el.style.display = 'block';
+  el.style.background = tipo === 'error' ? '#fff0f0' : '#f0fff4';
+  el.style.color = tipo === 'error' ? '#e63946' : '#1a7a3c';
+  el.style.border = `1px solid ${tipo === 'error' ? '#fdd' : '#c3e6cb'}`;
+  el.textContent = msg;
+}
+
+// ── 6. NAVEGACIÓN ───────────────────────────────────────
+const secciones = ['dashboard', 'usuarios', 'clases', 'profesores', 'configuracion'];
+
+function mostrarSeccion(nombre) {
+  // Ocultar todas las secciones
+  secciones.forEach(s => {
+    const el = document.getElementById('sec-' + s);
+    if (el) el.classList.remove('active');
+  });
+
+  // Desactivar todos los botones nav
+  secciones.forEach(s => {
+    const btn = document.getElementById('nav-' + s);
+    if (btn) btn.classList.remove('active');
+  });
+
+  // Mostrar la sección pedida
+  const seccionEl = document.getElementById('sec-' + nombre);
+  if (seccionEl) seccionEl.classList.add('active');
+
+  // Activar el botón nav
+  const navBtn = document.getElementById('nav-' + nombre);
+  if (navBtn) navBtn.classList.add('active');
+
+  // Actualizar breadcrumb
+  const nombres = { dashboard:'Dashboard', usuarios:'Usuarios', clases:'Clases', profesores:'Profesores', configuracion:'Configuración' };
+  document.getElementById('currentSection').textContent = nombres[nombre] || nombre;
+
+  // Cerrar sidebar en móvil
+  if (window.innerWidth < 769) {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('sidebarOverlay').style.display = 'none';
   }
-  currentUser = { uid: user.uid, ...snap.data() };
-  document.getElementById('sidebarName').textContent   = currentUser.nombre + ' ' + currentUser.apellido;
-  document.getElementById('sidebarAvatar').textContent = currentUser.nombre[0] + currentUser.apellido[0];
-  loadAll();
+}
+
+// Asignar listeners a botones del nav
+document.getElementById('nav-dashboard').addEventListener('click', function() { mostrarSeccion('dashboard'); });
+document.getElementById('nav-usuarios').addEventListener('click', function() { mostrarSeccion('usuarios'); });
+document.getElementById('nav-clases').addEventListener('click', function() { mostrarSeccion('clases'); });
+document.getElementById('nav-profesores').addEventListener('click', function() { mostrarSeccion('profesores'); });
+document.getElementById('nav-configuracion').addEventListener('click', function() { mostrarSeccion('configuracion'); });
+
+// ── 7. SIDEBAR MÓVIL ────────────────────────────────────
+document.getElementById('menuToggle').addEventListener('click', function() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+  const abierto = sidebar.classList.toggle('open');
+  overlay.style.display = abierto ? 'block' : 'none';
+});
+document.getElementById('sidebarOverlay').addEventListener('click', function() {
+  document.getElementById('sidebar').classList.remove('open');
+  this.style.display = 'none';
 });
 
-// ══ NAVEGACIÓN ══
-function showSection(name) {
-  document.querySelectorAll('.content-area').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.nav-item[data-section]').forEach(i => i.classList.remove('active'));
-  const sec = document.getElementById('sec-' + name);
-  if (sec) sec.classList.add('active');
-  const nav = document.querySelector(`.nav-item[data-section="${name}"]`);
-  if (nav) nav.classList.add('active');
-  document.getElementById('currentSection').textContent = name.charAt(0).toUpperCase() + name.slice(1);
-  if (window.innerWidth < 769) toggleSidebar();
-}
+// ── 8. CERRAR MODALES ───────────────────────────────────
+document.getElementById('cerrarModalUsuario').addEventListener('click', function() { cerrarModal('modalUsuario'); });
+document.getElementById('cancelarUsuario').addEventListener('click', function() { cerrarModal('modalUsuario'); });
+document.getElementById('cerrarModalClase').addEventListener('click', function() { cerrarModal('modalClase'); });
+document.getElementById('cancelarClase').addEventListener('click', function() { cerrarModal('modalClase'); });
+document.getElementById('cerrarModalAsignar').addEventListener('click', function() { cerrarModal('modalAsignar'); });
+document.getElementById('cancelarAsignar').addEventListener('click', function() { cerrarModal('modalAsignar'); });
 
-document.querySelectorAll('.nav-item[data-section]').forEach(item => {
-  item.addEventListener('click', e => {
-    e.preventDefault();
-    showSection(item.dataset.section);
+// Cerrar al hacer clic fuera
+document.querySelectorAll('.modal-overlay').forEach(function(overlay) {
+  overlay.addEventListener('click', function(e) {
+    if (e.target === overlay) overlay.classList.remove('open');
   });
 });
 
-// ══ SIDEBAR ══
-function toggleSidebar() {
-  document.getElementById('sidebar').classList.toggle('open');
-  document.getElementById('sidebarOverlay').classList.toggle('show');
+// Cerrar con Escape
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.modal-overlay.open').forEach(function(m) {
+      m.classList.remove('open');
+    });
+  }
+});
+
+// ── 9. CERRAR SESIÓN ────────────────────────────────────
+document.getElementById('btnLogout').addEventListener('click', async function() {
+  try {
+    await signOut(auth);
+    window.location.href = '../login/';
+  } catch (e) {
+    toast('Error al cerrar sesión: ' + e.message, 'error');
+  }
+});
+
+// ── 10. VERIFICAR AUTENTICACIÓN ─────────────────────────
+onAuthStateChanged(auth, async function(user) {
+  if (!user) {
+    window.location.href = '../login/';
+    return;
+  }
+
+  try {
+    const snap = await getDoc(doc(db, 'users', user.uid));
+
+    if (!snap.exists()) {
+      await signOut(auth);
+      window.location.href = '../login/';
+      return;
+    }
+
+    const data = snap.data();
+
+    if (data.role !== 'admin' || !data.activo) {
+      await signOut(auth);
+      window.location.href = '../login/';
+      return;
+    }
+
+    currentUser = { uid: user.uid, ...data };
+
+    // Actualizar UI con datos del usuario
+    const iniciales = (data.nombre[0] || '') + (data.apellido[0] || '');
+    document.getElementById('sidebarAvatar').textContent = iniciales.toUpperCase();
+    document.getElementById('sidebarName').textContent   = data.nombre + ' ' + data.apellido;
+
+    // Cargar datos iniciales
+    await cargarTodo();
+
+  } catch (e) {
+    toast('Error de autenticación: ' + e.message, 'error');
+  }
+});
+
+// ── 11. CARGAR DATOS ────────────────────────────────────
+async function cargarTodo() {
+  await Promise.all([cargarUsuarios(), cargarClases()]);
+  renderizarDashboard();
 }
-document.getElementById('menuToggle').addEventListener('click', toggleSidebar);
-document.getElementById('sidebarOverlay').addEventListener('click', toggleSidebar);
 
-// ══ MODALES ══
-function openModal(id) { document.getElementById(id).classList.add('open'); }
-function closeModal(id) { document.getElementById(id).classList.remove('open'); }
-
-document.querySelectorAll('[data-close]').forEach(btn => {
-  btn.addEventListener('click', () => closeModal(btn.dataset.close));
-});
-document.querySelectorAll('.modal-overlay').forEach(overlay => {
-  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.classList.remove('open'); });
-});
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') document.querySelectorAll('.modal-overlay.open').forEach(m => m.classList.remove('open'));
-});
-
-// ══ CARGAR DATOS ══
-async function loadAll() {
-  await Promise.all([loadUsers(), loadClases()]);
-  renderDashboard();
-}
-
-async function loadUsers() {
+async function cargarUsuarios() {
   try {
     const snap = await getDocs(collection(db, 'users'));
-    allUsers = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-    renderUsersTable(allUsers);
-    renderProfesoresTable(allUsers.filter(u => u.role === 'profesor'));
-    updateBadges();
-  } catch(e) { toast('Error cargando usuarios: ' + e.message, 'error'); }
+    allUsers = snap.docs.map(function(d) { return { id: d.id, ...d.data() }; });
+    renderizarTablaUsuarios(allUsers);
+    renderizarTablaProfesor();
+    actualizarBadges();
+  } catch (e) {
+    toast('Error cargando usuarios: ' + e.message, 'error');
+    document.getElementById('usersTableBody').innerHTML = '<tr><td colspan="6" style="text-align:center;color:#e63946;padding:20px">Error al cargar usuarios. Revisa la configuración de Firebase.</td></tr>';
+  }
 }
 
-async function loadClases() {
+async function cargarClases() {
   try {
     const snap = await getDocs(collection(db, 'clases'));
-    allClases = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-    renderClasesGrid();
-    populateSelects();
-  } catch(e) { toast('Error cargando clases: ' + e.message, 'error'); }
+    allClases = snap.docs.map(function(d) { return { id: d.id, ...d.data() }; });
+    renderizarGridClases();
+    llenarSelectsClase();
+  } catch (e) {
+    toast('Error cargando clases: ' + e.message, 'error');
+  }
 }
 
-// ══ DASHBOARD ══
-function renderDashboard() {
-  const alumnos    = allUsers.filter(u => u.role==='alumno' && u.activo).length;
-  const pendientes = allUsers.filter(u => u.role==='alumno' && !u.activo).length;
-  const profesores = allUsers.filter(u => u.role==='profesor').length;
+// ── 12. DASHBOARD ───────────────────────────────────────
+function renderizarDashboard() {
+  const alumnos    = allUsers.filter(function(u) { return u.role === 'alumno' && u.activo; }).length;
+  const pendientes = allUsers.filter(function(u) { return u.role === 'alumno' && !u.activo; }).length;
+  const profesores = allUsers.filter(function(u) { return u.role === 'profesor'; }).length;
+
   document.getElementById('statAlumnos').textContent    = alumnos;
   document.getElementById('statPendientes').textContent = pendientes;
   document.getElementById('statClases').textContent     = allClases.length;
   document.getElementById('statProfesores').textContent = profesores;
-  updateBadges();
-  renderPendientes();
-  renderActividad();
-  renderChart();
+
+  actualizarBadges();
+  renderizarPendientes();
+  renderizarActividad();
+  renderizarGrafica();
 }
 
-function updateBadges() {
-  const p = allUsers.filter(u => u.role==='alumno' && !u.activo).length;
-  const b = document.getElementById('pendingBadge');
-  b.style.display = p ? '' : 'none';
-  b.textContent   = p;
+function actualizarBadges() {
+  const p = allUsers.filter(function(u) { return u.role === 'alumno' && !u.activo; }).length;
+  const badge = document.getElementById('pendingBadge');
+  badge.style.display = p > 0 ? '' : 'none';
+  badge.textContent   = p;
 }
 
-function renderPendientes() {
-  const lista = allUsers.filter(u => u.role==='alumno' && !u.activo);
+function renderizarPendientes() {
+  const pendientes = allUsers.filter(function(u) { return u.role === 'alumno' && !u.activo; });
   const el = document.getElementById('pendientesList');
-  if (!lista.length) {
-    el.innerHTML = `<div class="empty-state"><div class="icon">✅</div><h4>Sin pendientes</h4><p>Todos los alumnos han sido activados.</p></div>`;
+
+  if (!pendientes.length) {
+    el.innerHTML = '<div class="empty-state"><div class="icon">✅</div><h4>Sin pendientes</h4><p>Todos los alumnos han sido activados.</p></div>';
     return;
   }
-  el.innerHTML = `<div class="table-wrap"><table class="data-table">
-    <thead><tr><th>Alumno</th><th>Email</th><th>Registro</th><th>Acciones</th></tr></thead>
-    <tbody>${lista.map(u => `<tr>
-      <td><div style="display:flex;align-items:center;gap:10px">
-        <div class="avatar" style="background:var(--naranja);font-size:.72rem">${u.nombre?.[0]||'?'}${u.apellido?.[0]||'?'}</div>
-        <span class="td-name">${u.nombre} ${u.apellido}</span></div></td>
-      <td>${u.email}</td>
-      <td>${fmt(u.createdAt)}</td>
-      <td style="display:flex;gap:6px">
-        <button class="btn btn-success btn-sm btn-activar" data-uid="${u.id}"><i class="fas fa-check"></i> Activar</button>
-        <button class="btn btn-sm btn-asignar-clase" data-uid="${u.id}" data-nombre="${u.nombre} ${u.apellido}" data-email="${u.email}"
-          style="background:rgba(45,125,210,.1);color:var(--azul-claro)"><i class="fas fa-chalkboard-teacher"></i> Clase</button>
-      </td>
-    </tr>`).join('')}
-    </tbody></table></div>`;
-  bindPendientesButtons();
+
+  let html = '<div class="table-wrap"><table class="data-table"><thead><tr><th>Alumno</th><th>Email</th><th>Registro</th><th>Acciones</th></tr></thead><tbody>';
+  pendientes.forEach(function(u) {
+    const ini = (u.nombre ? u.nombre[0] : '?') + (u.apellido ? u.apellido[0] : '?');
+    html += '<tr>';
+    html += '<td><div style="display:flex;align-items:center;gap:10px"><div class="avatar" style="background:var(--naranja);font-size:.72rem;width:34px;height:34px">' + ini + '</div><span class="td-name">' + (u.nombre||'') + ' ' + (u.apellido||'') + '</span></div></td>';
+    html += '<td style="font-size:.85rem">' + (u.email||'') + '</td>';
+    html += '<td style="font-size:.82rem;color:var(--gris-texto)">' + formatFecha(u.createdAt) + '</td>';
+    html += '<td><div style="display:flex;gap:6px">';
+    html += '<button class="btn btn-success btn-sm" data-accion="activar" data-uid="' + u.id + '"><i class="fas fa-check"></i> Activar</button>';
+    html += '<button class="btn btn-sm" style="background:rgba(45,125,210,.1);color:var(--azul-claro)" data-accion="asignar" data-uid="' + u.id + '" data-nombre="' + (u.nombre||'') + ' ' + (u.apellido||'') + '" data-email="' + (u.email||'') + '"><i class="fas fa-chalkboard-teacher"></i> Clase</button>';
+    html += '</div></td>';
+    html += '</tr>';
+  });
+  html += '</tbody></table></div>';
+  el.innerHTML = html;
+  bindBotonesTabla(el);
 }
 
-function renderActividad() {
+function renderizarActividad() {
   const recientes = [...allUsers]
-    .sort((a,b) => (b.createdAt?.seconds||0) - (a.createdAt?.seconds||0))
+    .sort(function(a, b) { return (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0); })
     .slice(0, 6);
-  const bgMap = { admin:'var(--rojo-acento)', profesor:'var(--azul-claro)', alumno:'var(--verde)' };
-  document.getElementById('actividadReciente').innerHTML = recientes.length
-    ? recientes.map(u => `
-        <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--gris-borde)">
-          <div class="avatar" style="background:${bgMap[u.role]||'#aaa'};font-size:.7rem;width:32px;height:32px">${u.nombre?.[0]||'?'}${u.apellido?.[0]||'?'}</div>
-          <div style="flex:1">
-            <div style="font-weight:700;font-size:.85rem;color:var(--azul-marino)">${u.nombre} ${u.apellido}</div>
-            <div style="font-size:.75rem;color:var(--gris-texto)">Se registró · ${fmt(u.createdAt)}</div>
-          </div>
-          <span class="badge badge-${u.activo?'active':'pending'}">${u.activo?'Activo':'Pendiente'}</span>
-        </div>`).join('')
-    : '<div style="text-align:center;color:var(--gris-texto);padding:20px">Sin actividad reciente</div>';
+
+  if (!recientes.length) {
+    document.getElementById('actividadReciente').innerHTML = '<div style="text-align:center;color:var(--gris-texto);padding:20px;font-size:.9rem">Sin actividad reciente</div>';
+    return;
+  }
+
+  const bgPorRol = { admin: 'var(--rojo-acento)', profesor: 'var(--azul-claro)', alumno: 'var(--verde)' };
+  let html = '';
+  recientes.forEach(function(u) {
+    const ini = (u.nombre ? u.nombre[0] : '?') + (u.apellido ? u.apellido[0] : '?');
+    const bg  = bgPorRol[u.role] || '#aaa';
+    html += '<div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--gris-borde)">';
+    html += '<div class="avatar" style="background:' + bg + ';font-size:.7rem;width:32px;height:32px">' + ini + '</div>';
+    html += '<div style="flex:1"><div style="font-weight:700;font-size:.85rem;color:var(--azul-marino)">' + (u.nombre||'') + ' ' + (u.apellido||'') + '</div>';
+    html += '<div style="font-size:.74rem;color:var(--gris-texto)">Registro · ' + formatFecha(u.createdAt) + '</div></div>';
+    html += '<span class="badge ' + (u.activo ? 'badge-active' : 'badge-pending') + '">' + (u.activo ? 'Activo' : 'Pendiente') + '</span>';
+    html += '</div>';
+  });
+  document.getElementById('actividadReciente').innerHTML = html;
 }
 
-function renderChart() {
+function renderizarGrafica() {
   const ctx = document.getElementById('chartInscripciones');
   if (!ctx) return;
-  const months = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+  const meses  = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
   const counts  = new Array(12).fill(0);
-  allUsers.filter(u => u.role==='alumno').forEach(u => {
-    if (u.createdAt?.seconds) counts[new Date(u.createdAt.seconds*1000).getMonth()]++;
+  allUsers.filter(function(u) { return u.role === 'alumno'; }).forEach(function(u) {
+    if (u.createdAt && u.createdAt.seconds) {
+      const mes = new Date(u.createdAt.seconds * 1000).getMonth();
+      counts[mes]++;
+    }
   });
   if (window._chart) window._chart.destroy();
   window._chart = new Chart(ctx, {
     type: 'line',
-    data: { labels: months, datasets: [{ label:'Inscripciones', data:counts, borderColor:'#1648a0', backgroundColor:'rgba(22,72,160,.1)', borderWidth:2.5, fill:true, tension:.4, pointBackgroundColor:'#1648a0', pointRadius:4 }] },
-    options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{ y:{beginAtZero:true,ticks:{stepSize:1}}, x:{grid:{display:false}} } }
+    data: {
+      labels: meses,
+      datasets: [{
+        label: 'Inscripciones', data: counts,
+        borderColor: '#1648a0', backgroundColor: 'rgba(22,72,160,.1)',
+        borderWidth: 2.5, fill: true, tension: .4,
+        pointBackgroundColor: '#1648a0', pointRadius: 4
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } }, x: { grid: { display: false } } }
+    }
   });
 }
 
-// ══ TABLA USUARIOS ══
-function renderUsersTable(users) {
-  document.getElementById('usersCount').textContent = `${users.length} usuarios`;
-  const bgMap = { admin:'var(--rojo-acento)', profesor:'var(--azul-claro)', alumno:'var(--verde)' };
-  const roleMap = { admin:'badge-admin', profesor:'badge-profesor', alumno:'badge-alumno' };
-  document.getElementById('usersTableBody').innerHTML = !users.length
-    ? `<tr><td colspan="6"><div class="empty-state"><div class="icon">👥</div><h4>Sin usuarios</h4></div></td></tr>`
-    : users.map(u => `<tr>
-        <td><div style="display:flex;align-items:center;gap:10px">
-          <div class="avatar" style="background:${bgMap[u.role]||'#aaa'};font-size:.7rem;width:34px;height:34px">${u.nombre?.[0]||'?'}${u.apellido?.[0]||'?'}</div>
-          <div><div class="td-name">${u.nombre||''} ${u.apellido||''}</div><div style="font-size:.73rem;color:#aaa">${u.email}</div></div></div></td>
-        <td><span class="badge ${roleMap[u.role]||''}">${u.role}</span></td>
-        <td><span class="badge ${u.activo?'badge-active':'badge-inactive'}">${u.activo?'Activo':'Inactivo'}</span></td>
-        <td style="font-size:.83rem">${(u.clases||[]).length} clase(s)</td>
-        <td style="font-size:.82rem;color:var(--gris-texto)">${fmt(u.createdAt)}</td>
-        <td><div style="display:flex;gap:4px;flex-wrap:wrap">
-          <button class="btn btn-sm btn-icon btn-edit-user" data-uid="${u.id}" title="Editar" style="background:rgba(22,72,160,.1);color:var(--azul-principal)"><i class="fas fa-edit"></i></button>
-          <button class="btn btn-sm btn-icon btn-toggle-user" data-uid="${u.id}" data-activo="${!u.activo}" title="${u.activo?'Desactivar':'Activar'}"
-            style="background:${u.activo?'rgba(230,57,70,.1)':'rgba(26,122,60,.1)'};color:${u.activo?'var(--rojo-acento)':'var(--verde)'}">
-            <i class="fas fa-${u.activo?'ban':'check'}"></i></button>
-          ${u.role==='alumno'?`<button class="btn btn-sm btn-icon btn-asignar-clase" data-uid="${u.id}" data-nombre="${u.nombre} ${u.apellido}" data-email="${u.email}"
-            title="Asignar clase" style="background:rgba(45,125,210,.1);color:var(--azul-claro)"><i class="fas fa-chalkboard-teacher"></i></button>`:''}
-        </div></td>
-      </tr>`).join('');
-  bindTableButtons();
+// ── 13. TABLA USUARIOS ──────────────────────────────────
+function renderizarTablaUsuarios(usuarios) {
+  document.getElementById('usersCount').textContent = usuarios.length + ' usuarios';
+
+  if (!usuarios.length) {
+    document.getElementById('usersTableBody').innerHTML = '<tr><td colspan="6"><div class="empty-state"><div class="icon">👥</div><h4>Sin usuarios</h4></div></td></tr>';
+    return;
+  }
+
+  const bgPorRol   = { admin:'var(--rojo-acento)', profesor:'var(--azul-claro)', alumno:'var(--verde)' };
+  const badgePorRol = { admin:'badge-admin', profesor:'badge-profesor', alumno:'badge-alumno' };
+  let html = '';
+
+  usuarios.forEach(function(u) {
+    const ini = (u.nombre ? u.nombre[0] : '?') + (u.apellido ? u.apellido[0] : '?');
+    const bg  = bgPorRol[u.role] || '#aaa';
+    html += '<tr>';
+    html += '<td><div style="display:flex;align-items:center;gap:10px">';
+    html += '<div class="avatar" style="background:' + bg + ';font-size:.7rem;width:34px;height:34px">' + ini + '</div>';
+    html += '<div><div class="td-name">' + (u.nombre||'') + ' ' + (u.apellido||'') + '</div>';
+    html += '<div style="font-size:.73rem;color:#aaa">' + (u.email||'') + '</div></div></div></td>';
+    html += '<td><span class="badge ' + (badgePorRol[u.role]||'') + '">' + (u.role||'') + '</span></td>';
+    html += '<td><span class="badge ' + (u.activo ? 'badge-active' : 'badge-inactive') + '">' + (u.activo ? 'Activo' : 'Inactivo') + '</span></td>';
+    html += '<td style="font-size:.83rem">' + ((u.clases||[]).length) + ' clase(s)</td>';
+    html += '<td style="font-size:.82rem;color:var(--gris-texto)">' + formatFecha(u.createdAt) + '</td>';
+    html += '<td><div style="display:flex;gap:4px;flex-wrap:wrap">';
+    html += '<button class="btn btn-sm btn-icon" style="background:rgba(22,72,160,.1);color:var(--azul-principal)" data-accion="editar" data-uid="' + u.id + '" title="Editar"><i class="fas fa-edit"></i></button>';
+    html += '<button class="btn btn-sm btn-icon" style="background:' + (u.activo ? 'rgba(230,57,70,.1)' : 'rgba(26,122,60,.1)') + ';color:' + (u.activo ? 'var(--rojo-acento)' : 'var(--verde)') + '" data-accion="' + (u.activo ? 'desactivar' : 'activar') + '" data-uid="' + u.id + '" title="' + (u.activo ? 'Desactivar' : 'Activar') + '"><i class="fas fa-' + (u.activo ? 'ban' : 'check') + '"></i></button>';
+    if (u.role === 'alumno') {
+      html += '<button class="btn btn-sm btn-icon" style="background:rgba(45,125,210,.1);color:var(--azul-claro)" data-accion="asignar" data-uid="' + u.id + '" data-nombre="' + (u.nombre||'') + ' ' + (u.apellido||'') + '" data-email="' + (u.email||'') + '" title="Asignar clase"><i class="fas fa-chalkboard-teacher"></i></button>';
+    }
+    html += '</div></td></tr>';
+  });
+
+  document.getElementById('usersTableBody').innerHTML = html;
+  bindBotonesTabla(document.getElementById('usersTableBody'));
 }
 
-function renderProfesoresTable(profesores) {
-  document.getElementById('profesoresTableBody').innerHTML = !profesores.length
-    ? `<tr><td colspan="5"><div class="empty-state"><div class="icon">👨‍🏫</div><h4>Sin profesores</h4></div></td></tr>`
-    : profesores.map(p => {
-        const cp = allClases.filter(c => c.profesorId===p.id);
-        return `<tr>
-          <td><div style="display:flex;align-items:center;gap:10px"><div class="avatar" style="background:var(--azul-claro);font-size:.7rem;width:34px;height:34px">${p.nombre?.[0]}${p.apellido?.[0]}</div><div class="td-name">${p.nombre} ${p.apellido}</div></div></td>
-          <td style="font-size:.85rem">${p.email}</td>
-          <td>${cp.map(c=>`<span class="badge badge-alumno" style="margin:2px">${c.nombre}</span>`).join('')||'<span style="color:#ccc;font-size:.82rem">Sin clases</span>'}</td>
-          <td><span class="badge ${p.activo?'badge-active':'badge-inactive'}">${p.activo?'Activo':'Inactivo'}</span></td>
-          <td><div style="display:flex;gap:4px">
-            <button class="btn btn-sm btn-icon btn-edit-user" data-uid="${p.id}" style="background:rgba(22,72,160,.1);color:var(--azul-principal)"><i class="fas fa-edit"></i></button>
-            <button class="btn btn-sm btn-icon btn-toggle-user" data-uid="${p.id}" data-activo="${!p.activo}"
-              style="background:${p.activo?'rgba(230,57,70,.1)':'rgba(26,122,60,.1)'};color:${p.activo?'var(--rojo-acento)':'var(--verde)'}">
-              <i class="fas fa-${p.activo?'ban':'check'}"></i></button>
-          </div></td>
-        </tr>`;
-      }).join('');
-  bindTableButtons();
-}
+// ── 14. BIND BOTONES EN TABLAS ──────────────────────────
+function bindBotonesTabla(contenedor) {
+  contenedor.querySelectorAll('[data-accion]').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      const accion = btn.getAttribute('data-accion');
+      const uid    = btn.getAttribute('data-uid');
 
-function renderClasesGrid() {
-  const catColors = { unam:'#e88a00',ipn:'#cc0000',uaem:'#1648a0',ecoems:'#2d7dd2',prepa:'#e88a00',regularizacion:'#1a7a3c',diplomado:'#0077b6' };
-  const catIcons  = { unam:'🎓',ipn:'🔬',uaem:'🏛️',ecoems:'📐',prepa:'⚡',regularizacion:'🧮',diplomado:'🏅' };
-  document.getElementById('clasesGrid').innerHTML = !allClases.length
-    ? `<div class="empty-state"><div class="icon">🎓</div><h4>Sin clases</h4><p>Crea la primera clase.</p></div>`
-    : `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:18px">${
-        allClases.map(c => {
-          const profe = allUsers.find(u => u.id===c.profesorId);
-          const color = catColors[c.categoria]||'var(--azul-principal)';
-          return `<div class="panel" style="margin:0">
-            <div style="height:5px;background:${color}"></div>
-            <div class="panel-body">
-              <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px">
-                <div style="font-size:1.8rem">${catIcons[c.categoria]||'📚'}</div>
-                <span class="badge" style="background:${color}22;color:${color}">${c.categoria||'general'}</span>
-              </div>
-              <h4 style="font-family:'Barlow Condensed',sans-serif;font-size:1.15rem;font-weight:800;color:var(--azul-marino);margin-bottom:4px">${c.nombre}</h4>
-              <p style="font-size:.82rem;color:var(--gris-texto);margin-bottom:10px">${c.descripcion||'Sin descripción'}</p>
-              <div style="font-size:.78rem;color:var(--gris-texto);margin-bottom:10px">
-                👨‍🏫 ${profe?profe.nombre+' '+profe.apellido:'Sin profesor'}<br>
-                🔑 <code style="background:var(--gris-claro);padding:1px 6px;border-radius:3px">${c.codigo||'—'}</code>
-              </div>
-              <div style="display:flex;gap:6px">
-                <button class="btn btn-sm btn-danger btn-icon btn-del-clase" data-id="${c.id}" data-nombre="${c.nombre}"><i class="fas fa-trash"></i></button>
-              </div>
-            </div>
-          </div>`;
-        }).join('')
-      }</div>`;
-  bindClaseButtons();
-}
-
-// ══ POPULATES ══
-function populateSelects() {
-  const profs = allUsers.filter(u => u.role==='profesor' && u.activo);
-  document.getElementById('claseProfesor').innerHTML = `<option value="">Selecciona...</option>${profs.map(p=>`<option value="${p.id}">${p.nombre} ${p.apellido}</option>`).join('')}`;
-  const clasesOpts = `<option value="">Sin clase</option>${allClases.map(c=>`<option value="${c.id}">${c.nombre}</option>`).join('')}`;
-  document.getElementById('uClase').innerHTML = clasesOpts;
-  document.getElementById('asignarClaseSelect').innerHTML = clasesOpts;
-}
-
-// ══ BIND BUTTONS — se llama después de cada render ══
-function bindTableButtons() {
-  document.querySelectorAll('.btn-edit-user').forEach(btn => {
-    btn.addEventListener('click', () => abrirEditarUsuario(btn.dataset.uid));
-  });
-  document.querySelectorAll('.btn-toggle-user').forEach(btn => {
-    btn.addEventListener('click', () => toggleUsuario(btn.dataset.uid, btn.dataset.activo==='true'));
-  });
-  document.querySelectorAll('.btn-asignar-clase').forEach(btn => {
-    btn.addEventListener('click', () => abrirAsignarClase(btn.dataset.uid, btn.dataset.nombre, btn.dataset.email));
-  });
-}
-function bindPendientesButtons() {
-  document.querySelectorAll('.btn-activar').forEach(btn => {
-    btn.addEventListener('click', () => toggleUsuario(btn.dataset.uid, true));
-  });
-  document.querySelectorAll('.btn-asignar-clase').forEach(btn => {
-    btn.addEventListener('click', () => abrirAsignarClase(btn.dataset.uid, btn.dataset.nombre, btn.dataset.email));
-  });
-}
-function bindClaseButtons() {
-  document.querySelectorAll('.btn-del-clase').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.getElementById('confirmTitle').textContent = '¿Eliminar clase?';
-      document.getElementById('confirmMsg').textContent   = `Se eliminará "${btn.dataset.nombre}" permanentemente.`;
-      document.getElementById('confirmBtn').onclick = async () => {
-        await deleteDoc(doc(db,'clases',btn.dataset.id));
-        closeModal('modalConfirmar');
-        toast('Clase eliminada','info');
-        await loadClases();
-      };
-      openModal('modalConfirmar');
+      if (accion === 'activar') {
+        cambiarEstadoUsuario(uid, true);
+      } else if (accion === 'desactivar') {
+        cambiarEstadoUsuario(uid, false);
+      } else if (accion === 'editar') {
+        abrirEditarUsuario(uid);
+      } else if (accion === 'asignar') {
+        abrirAsignarClase(uid, btn.getAttribute('data-nombre'), btn.getAttribute('data-email'));
+      }
     });
   });
 }
 
-// ══ ACCIONES ══
-async function toggleUsuario(uid, activo) {
-  await updateDoc(doc(db,'users',uid), { activo });
-  toast(activo ? 'Usuario activado ✅' : 'Usuario desactivado', activo?'success':'info');
-  await loadUsers();
-  renderDashboard();
+// ── 15. TABLA PROFESORES ────────────────────────────────
+function renderizarTablaProfesor() {
+  const profesores = allUsers.filter(function(u) { return u.role === 'profesor'; });
+
+  if (!profesores.length) {
+    document.getElementById('profesoresTableBody').innerHTML = '<tr><td colspan="5"><div class="empty-state"><div class="icon">👨‍🏫</div><h4>Sin profesores registrados</h4></div></td></tr>';
+    return;
+  }
+
+  let html = '';
+  profesores.forEach(function(p) {
+    const clasesPro = allClases.filter(function(c) { return c.profesorId === p.id; });
+    const ini = (p.nombre ? p.nombre[0] : '?') + (p.apellido ? p.apellido[0] : '?');
+    html += '<tr>';
+    html += '<td><div style="display:flex;align-items:center;gap:10px"><div class="avatar" style="background:var(--azul-claro);font-size:.7rem;width:34px;height:34px">' + ini + '</div><span class="td-name">' + (p.nombre||'') + ' ' + (p.apellido||'') + '</span></div></td>';
+    html += '<td style="font-size:.85rem">' + (p.email||'') + '</td>';
+    html += '<td>' + (clasesPro.length ? clasesPro.map(function(c) { return '<span class="badge badge-alumno" style="margin:2px">' + c.nombre + '</span>'; }).join('') : '<span style="color:#ccc;font-size:.82rem">Sin clases</span>') + '</td>';
+    html += '<td><span class="badge ' + (p.activo ? 'badge-active' : 'badge-inactive') + '">' + (p.activo ? 'Activo' : 'Inactivo') + '</span></td>';
+    html += '<td><div style="display:flex;gap:4px">';
+    html += '<button class="btn btn-sm btn-icon" style="background:rgba(22,72,160,.1);color:var(--azul-principal)" data-accion="editar" data-uid="' + p.id + '"><i class="fas fa-edit"></i></button>';
+    html += '<button class="btn btn-sm btn-icon" style="background:' + (p.activo ? 'rgba(230,57,70,.1)' : 'rgba(26,122,60,.1)') + ';color:' + (p.activo ? 'var(--rojo-acento)' : 'var(--verde)') + '" data-accion="' + (p.activo ? 'desactivar' : 'activar') + '" data-uid="' + p.id + '"><i class="fas fa-' + (p.activo ? 'ban' : 'check') + '"></i></button>';
+    html += '</div></td></tr>';
+  });
+
+  document.getElementById('profesoresTableBody').innerHTML = html;
+  bindBotonesTabla(document.getElementById('profesoresTableBody'));
+}
+
+// ── 16. GRID CLASES ─────────────────────────────────────
+function renderizarGridClases() {
+  const colores = { unam:'#e88a00', ipn:'#cc0000', uaem:'#1648a0', ecoems:'#2d7dd2', prepa:'#e88a00', regularizacion:'#1a7a3c', diplomado:'#0077b6' };
+  const iconos  = { unam:'🎓', ipn:'🔬', uaem:'🏛️', ecoems:'📐', prepa:'⚡', regularizacion:'🧮', diplomado:'🏅' };
+
+  if (!allClases.length) {
+    document.getElementById('clasesGrid').innerHTML = '<div class="empty-state"><div class="icon">🎓</div><h4>Sin clases creadas</h4><p>Crea la primera clase con el botón superior.</p></div>';
+    return;
+  }
+
+  let html = '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:18px">';
+  allClases.forEach(function(c) {
+    const profe = allUsers.find(function(u) { return u.id === c.profesorId; });
+    const color = colores[c.categoria] || 'var(--azul-principal)';
+    const icono = iconos[c.categoria] || '📚';
+    html += '<div class="panel" style="margin:0">';
+    html += '<div style="height:5px;background:' + color + '"></div>';
+    html += '<div class="panel-body">';
+    html += '<div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px">';
+    html += '<div style="font-size:1.8rem">' + icono + '</div>';
+    html += '<span class="badge" style="background:' + color + '22;color:' + color + '">' + (c.categoria || 'general') + '</span>';
+    html += '</div>';
+    html += '<h4 style="font-family:\'Barlow Condensed\',sans-serif;font-size:1.15rem;font-weight:800;color:var(--azul-marino);margin-bottom:4px">' + (c.nombre||'Sin nombre') + '</h4>';
+    html += '<p style="font-size:.82rem;color:var(--gris-texto);margin-bottom:10px">' + (c.descripcion || 'Sin descripción') + '</p>';
+    html += '<div style="font-size:.78rem;color:var(--gris-texto);margin-bottom:12px">';
+    html += '👨‍🏫 ' + (profe ? profe.nombre + ' ' + profe.apellido : 'Sin profesor asignado') + '<br>';
+    html += '🔑 <code style="background:var(--gris-claro);padding:1px 6px;border-radius:3px">' + (c.codigo || '—') + '</code>';
+    html += '</div>';
+    html += '<button class="btn btn-sm btn-danger" style="width:100%" data-accion-clase="eliminar" data-cid="' + c.id + '" data-cnombre="' + (c.nombre||'') + '"><i class="fas fa-trash"></i> Eliminar clase</button>';
+    html += '</div></div>';
+  });
+  html += '</div>';
+  document.getElementById('clasesGrid').innerHTML = html;
+
+  // Bind botones de clases
+  document.querySelectorAll('[data-accion-clase="eliminar"]').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      const cid    = btn.getAttribute('data-cid');
+      const nombre = btn.getAttribute('data-cnombre');
+      if (confirm('¿Eliminar la clase "' + nombre + '"? Esta acción no se puede deshacer.')) {
+        eliminarClase(cid);
+      }
+    });
+  });
+}
+
+async function eliminarClase(cid) {
+  try {
+    await deleteDoc(doc(db, 'clases', cid));
+    toast('Clase eliminada', 'info');
+    await cargarClases();
+  } catch (e) {
+    toast('Error al eliminar: ' + e.message, 'error');
+  }
+}
+
+// ── 17. SELECTS AUXILIARES ──────────────────────────────
+function llenarSelectsClase() {
+  const profesores = allUsers.filter(function(u) { return u.role === 'profesor' && u.activo; });
+  let optsProfe = '<option value="">Selecciona un profesor...</option>';
+  profesores.forEach(function(p) { optsProfe += '<option value="' + p.id + '">' + p.nombre + ' ' + p.apellido + '</option>'; });
+  document.getElementById('claseProfesor').innerHTML = optsProfe;
+
+  let optsClase = '<option value="">Sin clase por ahora</option>';
+  allClases.forEach(function(c) { optsClase += '<option value="' + c.id + '">' + c.nombre + '</option>'; });
+  document.getElementById('uClase').innerHTML = optsClase;
+  document.getElementById('asignarClaseSelect').innerHTML = '<option value="">Selecciona una clase...</option>' + allClases.map(function(c) { return '<option value="' + c.id + '">' + c.nombre + '</option>'; }).join('');
+}
+
+// ── 18. ACCIONES DE USUARIO ─────────────────────────────
+async function cambiarEstadoUsuario(uid, activo) {
+  try {
+    await updateDoc(doc(db, 'users', uid), { activo: activo });
+    toast(activo ? 'Usuario activado ✅' : 'Usuario desactivado', activo ? 'ok' : 'warn');
+    await cargarUsuarios();
+    renderizarDashboard();
+  } catch (e) {
+    toast('Error: ' + e.message, 'error');
+  }
 }
 
 function abrirEditarUsuario(uid) {
-  const u = allUsers.find(x => x.id===uid);
-  if (!u) return;
-  document.getElementById('editUserId').value      = uid;
-  document.getElementById('modalUsuarioTitle').textContent = 'Editar usuario';
-  document.getElementById('uNombre').value         = u.nombre   ||'';
-  document.getElementById('uApellido').value       = u.apellido ||'';
-  document.getElementById('uEdad').value           = u.edad     ||'';
-  document.getElementById('uTel').value            = u.telefono ||'';
-  document.getElementById('uEmail').value          = u.email    ||'';
-  document.getElementById('uRole').value           = u.role     ||'alumno';
-  document.getElementById('uActivo').value         = String(u.activo);
-  document.getElementById('passwordGroup').style.display = 'none';
-  openModal('modalUsuario');
+  const u = allUsers.find(function(x) { return x.id === uid; });
+  if (!u) { toast('Usuario no encontrado', 'error'); return; }
+
+  document.getElementById('editUserId').value           = uid;
+  document.getElementById('modalUsuarioTitulo').textContent = 'Editar usuario';
+  document.getElementById('uNombre').value              = u.nombre   || '';
+  document.getElementById('uApellido').value            = u.apellido || '';
+  document.getElementById('uEdad').value                = u.edad     || '';
+  document.getElementById('uTel').value                 = u.telefono || '';
+  document.getElementById('uEmail').value               = u.email    || '';
+  document.getElementById('uRole').value                = u.role     || 'alumno';
+  document.getElementById('uActivo').value              = String(u.activo);
+  document.getElementById('pwdGroup').style.display     = 'none';  // no cambiar pwd al editar
+  document.getElementById('usuarioMsg').style.display   = 'none';
+
+  abrirModal('modalUsuario');
 }
 
 function abrirAsignarClase(uid, nombre, email) {
   document.getElementById('asignarUid').value          = uid;
-  document.getElementById('asignarNombre').textContent = nombre;
-  document.getElementById('asignarEmail').textContent  = email;
-  openModal('modalAsignar');
+  document.getElementById('asignarNombreText').textContent = nombre;
+  document.getElementById('asignarEmailText').textContent  = email;
+  llenarSelectsClase();
+  abrirModal('modalAsignar');
 }
 
-// ══ GUARDAR USUARIO ══
-document.getElementById('btnGuardarUsuario').addEventListener('click', async () => {
+// ── 19. GUARDAR USUARIO ─────────────────────────────────
+document.getElementById('btnGuardarUsuario').addEventListener('click', async function() {
   const uid      = document.getElementById('editUserId').value;
   const nombre   = document.getElementById('uNombre').value.trim();
   const apellido = document.getElementById('uApellido').value.trim();
-  const edad     = parseInt(document.getElementById('uEdad').value)||null;
+  const edad     = parseInt(document.getElementById('uEdad').value) || null;
   const tel      = document.getElementById('uTel').value.trim();
   const email    = document.getElementById('uEmail').value.trim();
   const role     = document.getElementById('uRole').value;
-  const activo   = document.getElementById('uActivo').value==='true';
+  const activo   = document.getElementById('uActivo').value === 'true';
   const claseId  = document.getElementById('uClase').value;
   const pwd      = document.getElementById('uPassword').value;
 
-  if (!nombre || !apellido || !email) { toast('Completa los campos requeridos','error'); return; }
+  if (!nombre || !apellido || !email) {
+    mostrarMensajeModal('usuarioMsg', 'Completa los campos requeridos (nombre, apellido y correo).', 'error');
+    return;
+  }
 
   const btn = document.getElementById('btnGuardarUsuario');
-  btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Guardando...';
 
   try {
     if (uid) {
       // Editar existente
-      await updateDoc(doc(db,'users',uid), { nombre,apellido,edad,telefono:tel,role,activo });
+      await updateDoc(doc(db, 'users', uid), {
+        nombre, apellido, edad, telefono: tel, role, activo
+      });
     } else {
       // Crear nuevo
-      if (!pwd || pwd.length < 8) { toast('Contraseña mínimo 8 caracteres','error'); return; }
+      if (!pwd || pwd.length < 8) {
+        mostrarMensajeModal('usuarioMsg', 'La contraseña debe tener al menos 8 caracteres.', 'error');
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-save"></i> Guardar';
+        return;
+      }
       const cred = await createUserWithEmailAndPassword(auth, email, pwd);
-      await setDoc(doc(db,'users',cred.user.uid), {
-        uid:cred.user.uid, email, nombre, apellido, edad, telefono:tel,
-        role, activo, clases: claseId?[claseId]:[], createdAt:serverTimestamp()
-      });
+      const nuevoDoc = {
+        uid:      cred.user.uid,
+        email, nombre, apellido, edad,
+        telefono: tel || null,
+        role, activo,
+        clases:   claseId ? [claseId] : [],
+        createdAt: serverTimestamp()
+      };
+      await setDoc(doc(db, 'users', cred.user.uid), nuevoDoc);
       if (claseId) {
-        await setDoc(doc(db,'clases',claseId,'alumnos',cred.user.uid), { uid:cred.user.uid, activo:true, inscritoEn:serverTimestamp() });
+        await setDoc(doc(db, 'clases', claseId, 'alumnos', cred.user.uid), {
+          uid: cred.user.uid, activo: true, inscritoEn: serverTimestamp()
+        });
       }
     }
-    closeModal('modalUsuario');
-    toast('Usuario guardado ✅','success');
-    await loadUsers();
-    renderDashboard();
-  } catch(e) {
-    const msgs = { 'auth/email-already-in-use':'Ese correo ya está registrado.', 'auth/weak-password':'Contraseña muy débil.' };
-    toast(msgs[e.code]||'Error: '+e.message,'error');
+
+    cerrarModal('modalUsuario');
+    toast('Usuario guardado correctamente ✅', 'ok');
+    await cargarUsuarios();
+    renderizarDashboard();
+
+  } catch (e) {
+    const mensajes = {
+      'auth/email-already-in-use': 'Ese correo ya está registrado en el sistema.',
+      'auth/weak-password':        'La contraseña es demasiado débil.',
+      'auth/invalid-email':        'El formato del correo no es válido.'
+    };
+    mostrarMensajeModal('usuarioMsg', mensajes[e.code] || 'Error: ' + e.message, 'error');
   } finally {
-    btn.disabled=false; btn.innerHTML='<i class="fas fa-save"></i> Guardar';
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-save"></i> Guardar';
   }
 });
 
-// ══ GUARDAR CLASE ══
-document.getElementById('btnGuardarClase').addEventListener('click', async () => {
+// ── 20. GUARDAR CLASE ───────────────────────────────────
+document.getElementById('btnGuardarClase').addEventListener('click', async function() {
   const nombre  = document.getElementById('claseNombre').value.trim();
   const desc    = document.getElementById('claseDesc').value.trim();
   const profId  = document.getElementById('claseProfesor').value;
   const cat     = document.getElementById('claseCategoria').value;
   const inicio  = document.getElementById('claseFechaInicio').value;
   const fin     = document.getElementById('claseFechaFin').value;
-  if (!nombre || !profId) { toast('Nombre y profesor son requeridos','error'); return; }
-  await addDoc(collection(db,'clases'), { nombre,descripcion:desc,profesorId:profId,categoria:cat,codigo:genCode(),fechaInicio:inicio||null,fechaFin:fin||null,activo:true,createdAt:serverTimestamp() });
-  closeModal('modalClase');
-  toast('Clase creada ✅','success');
-  await loadClases();
+
+  if (!nombre || !profId) {
+    mostrarMensajeModal('claseMsg', 'El nombre y el profesor son campos requeridos.', 'error');
+    return;
+  }
+
+  const btn = document.getElementById('btnGuardarClase');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creando...';
+
+  try {
+    await addDoc(collection(db, 'clases'), {
+      nombre, descripcion: desc,
+      profesorId: profId, categoria: cat,
+      codigo:     generarCodigo(),
+      fechaInicio: inicio || null,
+      fechaFin:    fin    || null,
+      activo:      true,
+      createdAt:   serverTimestamp()
+    });
+    cerrarModal('modalClase');
+    toast('Clase creada correctamente ✅', 'ok');
+    // Limpiar form
+    ['claseNombre', 'claseDesc', 'claseFechaInicio', 'claseFechaFin'].forEach(function(id) {
+      document.getElementById(id).value = '';
+    });
+    await cargarClases();
+  } catch (e) {
+    mostrarMensajeModal('claseMsg', 'Error al crear la clase: ' + e.message, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-plus"></i> Crear clase';
+  }
 });
 
-// ══ CONFIRMAR ASIGNAR CLASE ══
-document.getElementById('btnConfirmarAsignar').addEventListener('click', async () => {
+// ── 21. CONFIRMAR ASIGNAR CLASE ─────────────────────────
+document.getElementById('btnConfirmarAsignar').addEventListener('click', async function() {
   const uid     = document.getElementById('asignarUid').value;
   const claseId = document.getElementById('asignarClaseSelect').value;
-  if (!claseId) { toast('Selecciona una clase','error'); return; }
-  const u = allUsers.find(x=>x.id===uid);
-  const clases = [...(u?.clases||[])];
-  if (!clases.includes(claseId)) clases.push(claseId);
-  await updateDoc(doc(db,'users',uid), { clases, activo:true });
-  await setDoc(doc(db,'clases',claseId,'alumnos',uid), { uid, activo:true, inscritoEn:serverTimestamp() });
-  closeModal('modalAsignar');
-  toast('Alumno asignado y activado ✅','success');
-  await loadUsers();
-  renderDashboard();
+
+  if (!claseId) { toast('Selecciona una clase primero', 'error'); return; }
+
+  const btn = document.getElementById('btnConfirmarAsignar');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+
+  try {
+    const usuario = allUsers.find(function(u) { return u.id === uid; });
+    const clasesActuales = usuario ? (usuario.clases || []) : [];
+    if (!clasesActuales.includes(claseId)) clasesActuales.push(claseId);
+
+    await updateDoc(doc(db, 'users', uid), { clases: clasesActuales, activo: true });
+    await setDoc(doc(db, 'clases', claseId, 'alumnos', uid), {
+      uid, activo: true, inscritoEn: serverTimestamp()
+    });
+
+    cerrarModal('modalAsignar');
+    toast('Alumno asignado y activado ✅', 'ok');
+    await cargarUsuarios();
+    renderizarDashboard();
+  } catch (e) {
+    toast('Error: ' + e.message, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-check"></i> Asignar y activar';
+  }
 });
 
-// ══ BOTONES HEADER ══
-document.getElementById('btnNuevoUsuario').addEventListener('click', () => {
-  document.getElementById('editUserId').value = '';
-  document.getElementById('modalUsuarioTitle').textContent = 'Nuevo usuario';
-  document.getElementById('passwordGroup').style.display = '';
-  ['uNombre','uApellido','uEdad','uTel','uEmail','uPassword'].forEach(id => document.getElementById(id).value='');
-  document.getElementById('uRole').value = 'alumno';
-  document.getElementById('uActivo').value = 'true';
-  openModal('modalUsuario');
+// ── 22. BOTONES ABRIR MODALES ───────────────────────────
+document.getElementById('btnNuevoUsuario').addEventListener('click', function() {
+  document.getElementById('editUserId').value           = '';
+  document.getElementById('modalUsuarioTitulo').textContent = 'Nuevo usuario';
+  document.getElementById('pwdGroup').style.display     = '';
+  document.getElementById('uRole').value                = 'alumno';
+  document.getElementById('uActivo').value              = 'false'; // pendiente por defecto
+  document.getElementById('usuarioMsg').style.display   = 'none';
+  ['uNombre','uApellido','uEdad','uTel','uEmail','uPassword'].forEach(function(id) {
+    document.getElementById(id).value = '';
+  });
+  llenarSelectsClase();
+  abrirModal('modalUsuario');
 });
-document.getElementById('btnNuevoProfesor').addEventListener('click', () => {
-  document.getElementById('editUserId').value = '';
-  document.getElementById('modalUsuarioTitle').textContent = 'Nuevo profesor';
-  document.getElementById('passwordGroup').style.display = '';
-  ['uNombre','uApellido','uEdad','uTel','uEmail','uPassword'].forEach(id => document.getElementById(id).value='');
-  document.getElementById('uRole').value = 'profesor';
-  document.getElementById('uActivo').value = 'true';
-  openModal('modalUsuario');
-});
-document.getElementById('btnNuevaClase').addEventListener('click', () => {
-  ['claseNombre','claseDesc','claseFechaInicio','claseFechaFin'].forEach(id=>document.getElementById(id).value='');
-  populateSelects();
-  openModal('modalClase');
-});
-document.getElementById('btnVerTodos').addEventListener('click', () => showSection('usuarios'));
-document.getElementById('btnRefresh').addEventListener('click', loadAll);
-document.getElementById('btnRefreshDash').addEventListener('click', loadAll);
-document.getElementById('btnLogout').addEventListener('click', async () => { await signOut(auth); window.location.href='../login/'; });
 
-// ══ FILTROS ══
-function applyFilters() {
+document.getElementById('btnNuevoProfesor').addEventListener('click', function() {
+  document.getElementById('editUserId').value           = '';
+  document.getElementById('modalUsuarioTitulo').textContent = 'Nuevo profesor';
+  document.getElementById('pwdGroup').style.display     = '';
+  document.getElementById('uRole').value                = 'profesor';
+  document.getElementById('uActivo').value              = 'true';
+  document.getElementById('usuarioMsg').style.display   = 'none';
+  ['uNombre','uApellido','uEdad','uTel','uEmail','uPassword'].forEach(function(id) {
+    document.getElementById(id).value = '';
+  });
+  llenarSelectsClase();
+  abrirModal('modalUsuario');
+});
+
+document.getElementById('btnNuevaClase').addEventListener('click', function() {
+  document.getElementById('claseMsg').style.display = 'none';
+  ['claseNombre','claseDesc','claseFechaInicio','claseFechaFin'].forEach(function(id) {
+    document.getElementById(id).value = '';
+  });
+  llenarSelectsClase();
+  abrirModal('modalClase');
+});
+
+document.getElementById('btnVerTodosUsuarios').addEventListener('click', function() {
+  mostrarSeccion('usuarios');
+});
+
+// ── 23. ACTUALIZAR ──────────────────────────────────────
+document.getElementById('btnRefresh').addEventListener('click', cargarTodo);
+document.getElementById('btnRefreshDash').addEventListener('click', cargarTodo);
+
+// ── 24. FILTROS ─────────────────────────────────────────
+document.getElementById('filterRole').addEventListener('change', aplicarFiltros);
+document.getElementById('filterStatus').addEventListener('change', aplicarFiltros);
+
+function aplicarFiltros() {
   const role   = document.getElementById('filterRole').value;
   const status = document.getElementById('filterStatus').value;
-  let filtered = [...allUsers];
-  if (role)      filtered = filtered.filter(u=>u.role===role);
-  if (status!=='') filtered = filtered.filter(u=>String(u.activo)===status);
-  renderUsersTable(filtered);
+  let lista = [...allUsers];
+  if (role)      lista = lista.filter(function(u) { return u.role === role; });
+  if (status !== '') lista = lista.filter(function(u) { return String(u.activo) === status; });
+  renderizarTablaUsuarios(lista);
 }
-document.getElementById('filterRole').addEventListener('change', applyFilters);
-document.getElementById('filterStatus').addEventListener('change', applyFilters);
 
-// ══ BÚSQUEDA ══
+// ── 25. BÚSQUEDA GLOBAL ─────────────────────────────────
 document.getElementById('globalSearch').addEventListener('input', function() {
-  const q = this.value.toLowerCase();
-  const filtered = allUsers.filter(u => (u.nombre+' '+u.apellido+' '+u.email).toLowerCase().includes(q));
-  renderUsersTable(filtered);
-  showSection('usuarios');
+  const q = this.value.toLowerCase().trim();
+  if (!q) { renderizarTablaUsuarios(allUsers); return; }
+  const filtrados = allUsers.filter(function(u) {
+    return ((u.nombre||'') + ' ' + (u.apellido||'') + ' ' + (u.email||'')).toLowerCase().includes(q);
+  });
+  renderizarTablaUsuarios(filtrados);
+  mostrarSeccion('usuarios');
 });
+
 </script>
 </body>
 </html>
