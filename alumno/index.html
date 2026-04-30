@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Aula — CONAMAT Chimalhuacán</title>
+  <link rel="icon" type="image/png" href="../assets/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="../admin/style.css">
+  <style>
+    /* ── Alumno extras ── */
+    .clase-card {
+      border-radius: 16px; overflow: hidden;
+      box-shadow: var(--shadow-sm); border: 1px solid var(--gris-borde);
+      transition: all .3s; cursor: pointer; background: white;
+    }
+    .clase-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+    .clase-card-banner {
+      height: 90px; display: flex; align-items: center; justify-content: center;
+      font-size: 2.8rem;
+    }
+    .clase-card-body { padding: 18px 20px; }
+    .clase-card h3 { font-family:'Barlow Condensed',sans-serif; font-size:1.3rem; font-weight:800; color:var(--azul-marino); margin-bottom:4px; }
+    .clase-card .meta { font-size:.78rem; color:var(--gris-texto); margin-bottom:12px; }
+
+    /* Modulo alumno */
+    .modulo-alumno {
+      border-radius: 12px; border: 2px solid var(--gris-borde);
+      margin-bottom: 14px; overflow: hidden; transition: all .25s;
+    }
+    .modulo-alumno.disponible { border-color: rgba(22,72,160,.2); }
+    .modulo-alumno.bloqueado  { opacity: .65; }
+    .modulo-alumno-header {
+      display: flex; align-items: center; gap: 14px;
+      padding: 16px 20px; cursor: pointer;
+    }
+    .modulo-alumno.bloqueado .modulo-alumno-header { cursor: not-allowed; }
+    .modulo-alumno-body { padding: 16px 20px; border-top: 1px solid var(--gris-borde); display: none; }
+    .modulo-alumno-body.open { display: block; }
+
+    .modulo-status-icon {
+      width: 42px; height: 42px; border-radius: 10px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
+    }
+    .status-disponible { background: rgba(22,72,160,.1); color: var(--azul-principal); }
+    .status-bloqueado  { background: rgba(170,170,170,.15); color: #999; }
+    .status-completado { background: rgba(26,122,60,.12); color: var(--verde); }
+
+    .drip-countdown {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: .78rem; color: var(--naranja); font-weight: 700;
+      background: rgba(232,138,0,.1); padding: 3px 10px; border-radius: 10px;
+    }
+
+    /* Material alumno */
+    .mat-alumno {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 14px; border-radius: 10px; margin-bottom: 8px;
+      border: 1px solid var(--gris-borde); background: white;
+      cursor: pointer; transition: all .22s; text-decoration: none;
+    }
+    .mat-alumno:hover { border-color: var(--azul-claro); background: var(--gris-claro); transform: translateX(4px); }
+    .mat-alumno .mat-icon { width:38px; height:38px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:1.1rem; flex-shrink:0; }
+    .mat-alumno .mat-info { flex: 1; }
+    .mat-alumno .mat-title { font-weight:700; font-size:.88rem; color:var(--azul-marino); }
+    .mat-alumno .mat-meta  { font-size:.73rem; color:var(--gris-texto); margin-top:1px; }
+    .mat-alumno .mat-arrow { color: var(--azul-claro); font-size:.85rem; }
+
+    /* Examen */
+    .examen-card {
+      border: 2px solid var(--gris-borde); border-radius: 12px;
+      padding: 18px 20px; margin-bottom: 10px; transition: all .22s;
+    }
+    .examen-card.pendiente:hover { border-color: var(--azul-claro); box-shadow: var(--shadow-sm); }
+    .examen-card.aprobado  { border-color: rgba(26,122,60,.3); background: rgba(26,122,60,.03); }
+    .examen-card.reprobado { border-color: rgba(230,57,70,.3); background: rgba(230,57,70,.03); }
+
+    /* Quiz en pantalla completa */
+    .quiz-overlay {
+      position: fixed; inset: 0; z-index: 2000;
+      background: var(--gris-bg); overflow-y: auto;
+      display: none;
+    }
+    .quiz-overlay.open { display: block; }
+    .quiz-header {
+      background: var(--azul-marino); color: white;
+      padding: 16px 28px; display: flex; align-items: center;
+      justify-content: space-between; position: sticky; top: 0; z-index: 10;
+    }
+    .quiz-header h2 { font-family:'Barlow Condensed',sans-serif; font-size:1.4rem; font-weight:800; }
+    .quiz-body { max-width: 700px; margin: 0 auto; padding: 32px 20px; }
+    .quiz-progress { height: 6px; background: rgba(255,255,255,.2); border-radius: 3px; overflow: hidden; flex: 1; margin: 0 20px; }
+    .quiz-progress-bar { height: 100%; background: var(--dorado); border-radius: 3px; transition: width .4s; }
+
+    .quiz-pregunta {
+      background: white; border-radius: 14px; padding: 28px;
+      box-shadow: var(--shadow-sm); margin-bottom: 20px;
+      animation: fadeIn .3s ease;
+    }
+    .quiz-num { font-size:.8rem; font-weight:700; color:var(--azul-claro); margin-bottom:8px; letter-spacing:1px; text-transform:uppercase; }
+    .quiz-texto { font-size:1.1rem; font-weight:700; color:var(--azul-marino); line-height:1.5; margin-bottom:20px; }
+    .quiz-opcion {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 16px; border-radius: 10px; border: 2px solid var(--gris-borde);
+      margin-bottom: 10px; cursor: pointer; transition: all .22s;
+      font-weight: 600; font-size: .93rem; color: var(--gris-texto);
+    }
+    .quiz-opcion:hover:not(.selected):not(.correct):not(.wrong) {
+      border-color: var(--azul-claro); color: var(--azul-marino); background: var(--gris-claro);
+    }
+    .quiz-opcion.selected  { border-color: var(--azul-principal); background: rgba(22,72,160,.07); color: var(--azul-marino); }
+    .quiz-opcion.correct   { border-color: var(--verde); background: rgba(26,122,60,.08); color: var(--verde); }
+    .quiz-opcion.wrong     { border-color: var(--rojo-acento); background: rgba(230,57,70,.06); color: var(--rojo-acento); }
+    .quiz-opcion .opcion-letra {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--gris-claro); display: flex; align-items: center;
+      justify-content: center; font-weight: 800; font-size: .82rem;
+      flex-shrink: 0; transition: all .22s;
+    }
+    .quiz-opcion.selected  .opcion-letra { background: var(--azul-principal); color: white; }
+    .quiz-opcion.correct   .opcion-letra { background: var(--verde); color: white; }
+    .quiz-opcion.wrong     .opcion-letra { background: var(--rojo-acento); color: white; }
+
+    .quiz-abierta { width:100%; padding:12px 14px; border:2px solid var(--gris-borde); border-radius:10px; font-family:'Barlow',sans-serif; font-size:.95rem; min-height:100px; resize:vertical; outline:none; transition:border .2s; }
+    .quiz-abierta:focus { border-color: var(--azul-claro); }
+
+    .btn-quiz-nav {
+      padding: 13px 28px; border-radius: 10px; border: none;
+      font-family:'Barlow',sans-serif; font-weight:800; font-size:.95rem;
+      cursor: pointer; transition: all .25s;
+    }
+    .btn-quiz-prev { background: var(--gris-claro); color: var(--gris-texto); }
+    .btn-quiz-prev:hover { background: var(--gris-borde); }
+    .btn-quiz-next { background: var(--azul-principal); color: white; }
+    .btn-quiz-next:hover { background: var(--azul-marino); }
+    .btn-quiz-finish { background: var(--verde); color: white; }
+    .btn-quiz-finish:hover { background: #145f30; }
+
+    /* Resultado quiz */
+    .resultado-quiz {
+      text-align: center; padding: 40px 28px;
+      background: white; border-radius: 14px;
+      box-shadow: var(--shadow-sm);
+    }
+    .resultado-score {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 5rem; font-weight: 800; line-height: 1;
+    }
+    .score-circle {
+      width: 140px; height: 140px; border-radius: 50%;
+      margin: 0 auto 20px;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column;
+      border: 8px solid;
+    }
+    .score-aprobado { border-color: var(--verde); color: var(--verde); }
+    .score-reprobado { border-color: var(--rojo-acento); color: var(--rojo-acento); }
+
+    /* Visor de material */
+    .visor-overlay {
+      position: fixed; inset: 0; z-index: 1500;
+      background: rgba(10,26,68,.85); display: none;
+      align-items: center; justify-content: center; padding: 20px;
+      backdrop-filter: blur(4px);
+    }
+    .visor-overlay.open { display: flex; }
+    .visor-box {
+      background: white; border-radius: 16px;
+      width: 100%; max-width: 860px; max-height: 90vh;
+      overflow: hidden; display: flex; flex-direction: column;
+      animation: scaleIn .3s ease;
+    }
+    @keyframes scaleIn { from { transform: scale(.9); opacity:0; } to { transform: scale(1); opacity:1; } }
+    .visor-header {
+      padding: 16px 22px; border-bottom: 1px solid var(--gris-borde);
+      display: flex; align-items: center; gap: 12px;
+    }
+    .visor-header h3 { font-weight:700; color:var(--azul-marino); flex:1; font-size:1rem; }
+    .visor-body { flex:1; overflow-y:auto; padding: 0; }
+    .visor-body iframe { width:100%; height:70vh; border:none; }
+    .visor-body .texto-content { padding:24px; line-height:1.8; font-size:.95rem; color:#1a202c; white-space:pre-wrap; }
+
+    /* Progress ring */
+    .progress-ring { position: relative; display: inline-block; }
+    .progress-ring svg { transform: rotate(-90deg); }
+    .progress-ring .ring-bg { fill: none; stroke: var(--gris-borde); }
+    .progress-ring .ring-fill { fill: none; stroke: var(--azul-principal); stroke-linecap: round; transition: stroke-dashoffset .6s ease; }
+    .progress-ring .ring-text { position: absolute; inset:0; display:flex; align-items:center; justify-content:center; font-family:'Barlow Condensed',sans-serif; font-weight:800; font-size:1.1rem; color:var(--azul-marino); }
+
+    /* Notif banner */
+    .notif-banner {
+      background: linear-gradient(135deg, var(--azul-marino), var(--azul-medio));
+      color: white; border-radius: 12px; padding: 16px 20px;
+      display: flex; align-items: center; gap: 14px; margin-bottom: 20px;
+    }
+    .notif-banner i { font-size: 1.4rem; flex-shrink: 0; }
+    .notif-banner h4 { font-weight:700; font-size:.95rem; margin-bottom:2px; }
+    .notif-banner p  { font-size:.82rem; color:rgba(255,255,255,.8); margin:0; }
+  </style>
+</head>
+<body>
+
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+<!-- ══ SIDEBAR ══ -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <img src="../assets/logo-conamat.png" alt="CONAMAT">
+    <div class="sidebar-logo-text">
+      <div class="name">CONAMAT</div>
+      <span class="role-tag role-alumno">Alumno</span>
+    </div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Mi aula</div>
+    <a class="nav-item active" onclick="showSection('inicio')"  href="#"><i class="fas fa-home"></i> Inicio</a>
+    <a class="nav-item" onclick="showSection('clases')"  href="#"><i class="fas fa-chalkboard-teacher"></i> Mis Clases</a>
+    <a class="nav-item" onclick="showSection('examenes')" href="#"><i class="fas fa-clipboard-list"></i> Mis Exámenes</a>
+    <a class="nav-item" onclick="showSection('perfil')"  href="#"><i class="fas fa-user"></i> Mi Perfil</a>
+    <div class="nav-section-label" style="margin-top:8px">Ayuda</div>
+    <a class="nav-item" href="https://wa.me/525514656210" target="_blank"><i class="fab fa-whatsapp"></i> Contactar soporte</a>
+    <a class="nav-item" href="../" target="_blank"><i class="fas fa-external-link-alt"></i> Sitio web</a>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="user-card">
+      <div class="user-avatar" id="sidebarAvatar">A</div>
+      <div class="user-info">
+        <div class="u-name" id="sidebarName">Alumno</div>
+        <div class="u-role" id="sidebarClase">Sin clase asignada</div>
+      </div>
+    </div>
+    <button class="btn-logout" onclick="handleLogout()"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</button>
+  </div>
+</aside>
+
+<!-- ══ HEADER ══ -->
+<header class="main-header">
+  <div class="header-left">
+    <button class="menu-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+    <div class="page-breadcrumb">CONAMAT / <span id="currentSection">Inicio</span></div>
+  </div>
+  <div class="header-right">
+    <button class="header-btn" id="notifBtn" title="Notificaciones" style="display:none">
+      <i class="fas fa-bell"></i><div class="notif-dot"></div>
+    </button>
+    <button class="header-btn" onclick="loadAllData()" title="Actualizar"><i class="fas fa-sync-alt"></i></button>
+  </div>
+</header>
+
+<!-- ══ MAIN CONTENT ══ -->
+<main class="main-content">
+
+  <!-- ════ INICIO ════ -->
+  <section class="content-area active" id="sec-inicio">
+    <div class="section-header">
+      <div><h1 id="welcomeMsg">Bienvenido</h1><p id="welcomeSub">Continúa donde lo dejaste</p></div>
+    </div>
+
+    <!-- Notificación si hay módulo nuevo -->
+    <div id="notifNuevoModulo" style="display:none" class="notif-banner">
+      <i class="fas fa-unlock-alt"></i>
+      <div>
+        <h4 id="notifTitle">¡Nuevo módulo desbloqueado!</h4>
+        <p id="notifMsg">Tienes contenido nuevo disponible en tu clase.</p>
+      </div>
+      <button class="btn btn-sm" style="background:rgba(255,255,255,.15);color:white;margin-left:auto;flex-shrink:0"
+        onclick="showSection('clases')">Ver ahora →</button>
+    </div>
+
+    <!-- Resumen de progreso -->
+    <div class="stats-grid" style="margin-bottom:24px">
+      <div class="stat-card stat-blue">
+        <div class="stat-icon"><i class="fas fa-book-open"></i></div>
+        <div class="stat-body"><div class="num" id="iClases">—</div><div class="lbl">Clases inscritas</div></div>
+      </div>
+      <div class="stat-card stat-green">
+        <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+        <div class="stat-body"><div class="num" id="iModulosDisp">—</div><div class="lbl">Módulos disponibles</div></div>
+      </div>
+      <div class="stat-card stat-orange">
+        <div class="stat-icon"><i class="fas fa-lock"></i></div>
+        <div class="stat-body"><div class="num" id="iModulosBloq">—</div><div class="lbl">Módulos bloqueados</div></div>
+      </div>
+      <div class="stat-card stat-teal">
+        <div class="stat-icon"><i class="fas fa-clipboard-check"></i></div>
+        <div class="stat-body"><div class="num" id="iEvals">—</div><div class="lbl">Exámenes pendientes</div></div>
+      </div>
+    </div>
+
+    <!-- Progreso por clase -->
+    <div id="progresoClases">
+      <div class="loading-spinner"><div class="spinner"></div></div>
+    </div>
+  </section>
+
+  <!-- ════ MIS CLASES ════ -->
+  <section class="content-area" id="sec-clases">
+    <div class="section-header">
+      <div><h1>Mis Clases</h1><p>Módulos y materiales de estudio</p></div>
+    </div>
+
+    <!-- Selector de clase -->
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px" id="claseTabs"></div>
+
+    <!-- Contenido de la clase seleccionada -->
+    <div id="claseContenido">
+      <div class="loading-spinner"><div class="spinner"></div></div>
+    </div>
+  </section>
+
+  <!-- ════ MIS EXÁMENES ════ -->
+  <section class="content-area" id="sec-examenes">
+    <div class="section-header">
+      <div><h1>Mis Exámenes</h1><p>Historial de evaluaciones</p></div>
+    </div>
+    <div id="examenesContainer">
+      <div class="loading-spinner"><div class="spinner"></div></div>
+    </div>
+  </section>
+
+  <!-- ════ MI PERFIL ════ -->
+  <section class="content-area" id="sec-perfil">
+    <div class="section-header"><div><h1>Mi Perfil</h1><p>Datos personales</p></div></div>
+    <div class="grid-2">
+      <div class="panel">
+        <div class="panel-header"><h3>Información personal</h3></div>
+        <div class="panel-body">
+          <div class="form-group"><label class="form-label">Nombre(s)</label><input class="form-input" id="pNombre"></div>
+          <div class="form-group"><label class="form-label">Apellidos</label><input class="form-input" id="pApellido"></div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Edad</label><input class="form-input" type="number" id="pEdad"></div>
+            <div class="form-group"><label class="form-label">Teléfono</label><input class="form-input" id="pTel"></div>
+          </div>
+          <div class="form-group"><label class="form-label">Correo</label><input class="form-input" id="pEmail" disabled style="opacity:.6"></div>
+          <button class="btn btn-primary" onclick="guardarPerfil()"><i class="fas fa-save"></i> Guardar cambios</button>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-header"><h3>Mi progreso general</h3></div>
+        <div class="panel-body" id="perfilProgreso">
+          <div class="loading-spinner"><div class="spinner"></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ══ QUIZ OVERLAY ══ -->
+<div class="quiz-overlay" id="quizOverlay">
+  <div class="quiz-header">
+    <div>
+      <div style="font-size:.75rem;opacity:.7;margin-bottom:2px">EVALUACIÓN</div>
+      <h2 id="quizTitulo">Examen</h2>
+    </div>
+    <div class="quiz-progress"><div class="quiz-progress-bar" id="quizProgressBar" style="width:0%"></div></div>
+    <div style="text-align:right;flex-shrink:0">
+      <div style="font-size:.75rem;opacity:.7">Pregunta</div>
+      <div style="font-weight:800" id="quizCounter">1 / 1</div>
+    </div>
+  </div>
+  <div class="quiz-body">
+    <div id="quizContent"></div>
+    <div style="display:flex;justify-content:space-between;margin-top:16px" id="quizNavBtns">
+      <button class="btn-quiz-nav btn-quiz-prev" id="btnPrev" onclick="prevPregunta()" style="display:none">
+        <i class="fas fa-arrow-left"></i> Anterior
+      </button>
+      <div style="flex:1"></div>
+      <button class="btn-quiz-nav btn-quiz-next"   id="btnNext"   onclick="nextPregunta()">Siguiente <i class="fas fa-arrow-right"></i></button>
+      <button class="btn-quiz-nav btn-quiz-finish" id="btnFinish" onclick="terminarQuiz()" style="display:none"><i class="fas fa-check"></i> Terminar examen</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ VISOR MATERIAL ══ -->
+<div class="visor-overlay" id="visorOverlay" onclick="e => { if(e.target===this) closeVisor(); }">
+  <div class="visor-box">
+    <div class="visor-header">
+      <div class="material-icon mat-pdf" id="visorIcon" style="width:32px;height:32px;font-size:.9rem"><i class="fas fa-file"></i></div>
+      <h3 id="visorTitulo">Material</h3>
+      <button class="modal-close" onclick="closeVisor()">✕</button>
+    </div>
+    <div class="visor-body" id="visorBody"></div>
+  </div>
+</div>
+
+<!-- ══ FIREBASE LÓGICA ══ -->
+<script type="module">
+import { auth, db } from '../app/firebase-config.js';
+import {
+  collection, getDocs, doc, getDoc, setDoc,
+  addDoc, updateDoc, query, where, orderBy, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { requireAuth, showToast, formatDate } from '../app/utils.js';
+
+// ── Estado global ──
+let userData     = null;
+let misClases    = [];          // datos de cada clase
+let clasesData   = {};          // { claseId: { modulos, materiales, evaluaciones, entregas } }
+let claseActual  = null;
+let quizState    = null;        // estado del quiz en curso
+let respuestas   = {};
+
+// ── Auth ──
+const auth_ = await requireAuth(['alumno']);
+userData = auth_.userData;
+document.getElementById('sidebarName').textContent   = userData.nombre + ' ' + userData.apellido;
+document.getElementById('sidebarAvatar').textContent = userData.nombre[0] + userData.apellido[0];
+document.getElementById('welcomeMsg').textContent    = `¡Hola, ${userData.nombre}! 👋`;
+document.getElementById('pNombre').value   = userData.nombre  || '';
+document.getElementById('pApellido').value = userData.apellido|| '';
+document.getElementById('pEdad').value     = userData.edad    || '';
+document.getElementById('pTel').value      = userData.telefono|| '';
+document.getElementById('pEmail').value    = userData.email   || '';
+
+// ── CARGAR TODO ──
+window.loadAllData = async function() {
+  await loadMisClases();
+  renderInicio();
+  renderClaseTabs();
+  renderExamenes();
+};
+
+async function loadMisClases() {
+  misClases = [];
+  clasesData = {};
+  const claseIds = userData.clases || [];
+  for (const cId of claseIds) {
+    const cSnap = await getDoc(doc(db, 'clases', cId));
+    if (!cSnap.exists()) continue;
+    const clase = { id: cId, ...cSnap.data() };
+    misClases.push(clase);
+
+    // Módulos
+    const modSnap = await getDocs(query(collection(db,'clases',cId,'modulos'), orderBy('orden','asc')));
+    const modulos = modSnap.docs.map(d=>({id:d.id,...d.data()}));
+
+    // Materiales por módulo
+    const materiales = [];
+    for (const m of modulos) {
+      const ms = await getDocs(collection(db,'clases',cId,'modulos',m.id,'materiales'));
+      materiales.push(...ms.docs.map(d=>({id:d.id,moduloId:m.id,...d.data()})));
+    }
+
+    // Evaluaciones
+    const evalSnap = await getDocs(collection(db,'clases',cId,'evaluaciones'));
+    const evaluaciones = evalSnap.docs.map(d=>({id:d.id,...d.data()}));
+
+    // Mis entregas
+    const entSnap = await getDocs(query(collection(db,'clases',cId,'entregas'), where('alumnoId','==',userData.uid)));
+    const entregas = {};
+    entSnap.docs.forEach(d=>{ entregas[d.data().evalId] = {id:d.id,...d.data()}; });
+
+    clasesData[cId] = { clase, modulos, materiales, evaluaciones, entregas };
+  }
+  if (!claseActual && misClases.length) claseActual = misClases[0].id;
+}
+
+// ── Calcular si módulo está desbloqueado ──
+function isModuloDesbloqueado(clase, modulo, index) {
+  if (modulo.estado === 'disponible') return { desbloqueado: true, diasRestantes: 0 };
+  if (index === 0) return { desbloqueado: true, diasRestantes: 0 };
+  const dripConfig = clase.dripConfig || {};
+  const cfg = dripConfig[modulo.id];
+  if (!cfg) return { desbloqueado: modulo.estado !== 'bloqueado', diasRestantes: 0 };
+  const alumnoSnap = clasesData[clase.id]?.inscripcion;
+  const fechaInscripcion = alumnoSnap?.seconds
+    ? new Date(alumnoSnap.seconds * 1000)
+    : new Date();
+  const diasPasados = Math.floor((Date.now() - fechaInscripcion) / (1000 * 60 * 60 * 24));
+  const diasReq = cfg.diasDesbloqueo || 0;
+  const desbloqueado = diasPasados >= diasReq;
+  return { desbloqueado, diasRestantes: Math.max(0, diasReq - diasPasados) };
+}
+
+// ── RENDER INICIO ──
+function renderInicio() {
+  let totalDisp = 0, totalBloq = 0, totalPendEvals = 0;
+  misClases.forEach(c => {
+    const d = clasesData[c.id];
+    if (!d) return;
+    d.modulos.forEach((m,i) => {
+      const { desbloqueado } = isModuloDesbloqueado(c, m, i);
+      if (desbloqueado) totalDisp++; else totalBloq++;
+    });
+    d.evaluaciones.forEach(e => {
+      if (!d.entregas[e.id]) totalPendEvals++;
+    });
+  });
+  document.getElementById('iClases').textContent      = misClases.length;
+  document.getElementById('iModulosDisp').textContent = totalDisp;
+  document.getElementById('iModulosBloq').textContent = totalBloq;
+  document.getElementById('iEvals').textContent       = totalPendEvals;
+
+  if (!misClases.length) {
+    document.getElementById('progresoClases').innerHTML = `
+      <div class="empty-state">
+        <div class="icon">📚</div>
+        <h4>Sin clases asignadas</h4>
+        <p>El administrador te asignará una clase próximamente.<br>Contáctanos por WhatsApp si tienes dudas.</p>
+        <a href="https://wa.me/525514656210" target="_blank" class="btn btn-primary" style="margin-top:16px">
+          <i class="fab fa-whatsapp"></i> Contactar
+        </a>
+      </div>`;
+    return;
+  }
+
+  document.getElementById('welcomeSub').textContent = `Tienes ${totalPendEvals} examen(es) pendiente(s)`;
+  if (totalPendEvals > 0) document.getElementById('notifBtn').style.display = '';
+
+  document.getElementById('progresoClases').innerHTML = misClases.map(c => {
+    const d = clasesData[c.id];
+    if (!d) return '';
+    const dispCount = d.modulos.filter((m,i) => isModuloDesbloqueado(c,m,i).desbloqueado).length;
+    const pct = d.modulos.length ? Math.round(dispCount / d.modulos.length * 100) : 0;
+    const pendEvals = d.evaluaciones.filter(e => !d.entregas[e.id]).length;
+    const catColors = { unam:'#e88a00',ipn:'#cc0000',uaem:'#1648a0',ecoems:'#2d7dd2',prepa:'#e88a00',regularizacion:'#1a7a3c',diplomado:'#0077b6' };
+    const catIcons  = { unam:'🎓',ipn:'🔬',uaem:'🏛️',ecoems:'📐',prepa:'⚡',regularizacion:'🧮',diplomado:'🏅' };
+    const color = catColors[c.categoria] || 'var(--azul-principal)';
+    return `<div class="panel" style="margin-bottom:16px;cursor:pointer" onclick="seleccionarClase('${c.id}');showSection('clases')">
+      <div style="height:5px;background:${color}"></div>
+      <div class="panel-body">
+        <div style="display:flex;align-items:center;gap:16px">
+          <div style="font-size:2.2rem">${catIcons[c.categoria]||'📚'}</div>
+          <div style="flex:1">
+            <div style="font-weight:800;color:var(--azul-marino);font-size:1.05rem;margin-bottom:4px">${c.nombre}</div>
+            <div style="font-size:.78rem;color:var(--gris-texto)">${d.modulos.length} módulos · ${d.materiales.length} materiales${pendEvals?` · <span style="color:var(--rojo-acento);font-weight:700">${pendEvals} examen(es) pendiente(s)</span>`:''}</div>
+            <div class="progress-bar-wrap" style="margin-top:8px">
+              <div class="progress-bar" style="width:${pct}%;background:${color}"></div>
+            </div>
+            <div style="font-size:.72rem;color:var(--gris-texto);margin-top:3px">${pct}% del contenido desbloqueado</div>
+          </div>
+          <i class="fas fa-chevron-right" style="color:var(--gris-borde)"></i>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── RENDER TABS DE CLASES ──
+function renderClaseTabs() {
+  document.getElementById('claseTabs').innerHTML = misClases.map(c =>
+    `<button class="clase-tab ${c.id===claseActual?'active':''}" onclick="seleccionarClase('${c.id}')">${c.nombre}</button>`
+  ).join('');
+  if (claseActual) renderClaseContenido();
+}
+
+window.seleccionarClase = function(id) {
+  claseActual = id;
+  renderClaseTabs();
+};
+
+// ── RENDER CONTENIDO DE CLASE ──
+function renderClaseContenido() {
+  const d = clasesData[claseActual];
+  const c = misClases.find(x => x.id === claseActual);
+  const el = document.getElementById('claseContenido');
+  if (!d || !c) { el.innerHTML = `<div class="empty-state"><div class="icon">📚</div><h4>Sin datos</h4></div>`; return; }
+  if (!d.modulos.length) { el.innerHTML = `<div class="empty-state"><div class="icon">📦</div><h4>Sin módulos aún</h4><p>El profesor está preparando el contenido.</p></div>`; return; }
+
+  el.innerHTML = d.modulos.map((m, i) => {
+    const { desbloqueado, diasRestantes } = isModuloDesbloqueado(c, m, i);
+    const mats  = d.materiales.filter(x => x.moduloId === m.id);
+    const evals = d.evaluaciones.filter(x => x.moduloId === m.id);
+    const statusClass = !desbloqueado ? 'bloqueado' : 'disponible';
+    const iconClass   = !desbloqueado ? 'status-bloqueado' : 'status-disponible';
+    const iconName    = !desbloqueado ? 'fas fa-lock' : 'fas fa-book-open';
+    const matIcons    = { pdf:'fas fa-file-pdf',video:'fas fa-play-circle',imagen:'fas fa-image',link:'fas fa-link',texto:'fas fa-font' };
+    const matColors   = { pdf:'mat-pdf',video:'mat-video',imagen:'mat-img',link:'mat-link',texto:'mat-text' };
+
+    return `<div class="modulo-alumno ${statusClass}">
+      <div class="modulo-alumno-header" onclick="${desbloqueado?`toggleModuloAlumno('ma-${m.id}')`:``}">
+        <div class="modulo-status-icon ${iconClass}"><i class="${iconName}"></i></div>
+        <div style="flex:1">
+          <div style="font-weight:700;color:var(--azul-marino);font-size:.97rem">${m.nombre}</div>
+          <div style="font-size:.75rem;color:var(--gris-texto);margin-top:2px">${m.descripcion||''}</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          ${!desbloqueado
+            ? `<div class="drip-countdown"><i class="fas fa-clock"></i> Disponible en ${diasRestantes} día(s)</div>`
+            : `<span class="badge badge-alumno">${mats.length} materiales</span>
+               ${evals.length?`<span class="badge badge-pending">${evals.length} examen(s)</span>`:''}`
+          }
+          ${desbloqueado?`<i class="fas fa-chevron-down" style="color:var(--gris-texto);transition:transform .25s" id="ico-ma-${m.id}"></i>`:'<i class="fas fa-lock" style="color:#ccc"></i>'}
+        </div>
+      </div>
+      ${desbloqueado ? `
+      <div class="modulo-alumno-body" id="ma-${m.id}">
+        ${!mats.length && !evals.length
+          ? '<div style="text-align:center;padding:16px;color:var(--gris-texto);font-size:.85rem">El profesor aún no ha subido materiales.</div>'
+          : ''
+        }
+        ${mats.map(mat => `
+          <div class="mat-alumno" onclick="abrirMaterial(${JSON.stringify({id:mat.id,titulo:mat.titulo,tipo:mat.tipo,url:mat.url||'',contenido:mat.contenido||''}).replace(/"/g,'&quot;')})">
+            <div class="mat-icon ${matColors[mat.tipo]||'mat-text'}"><i class="${matIcons[mat.tipo]||'fas fa-file'}"></i></div>
+            <div class="mat-info">
+              <div class="mat-title">${mat.titulo}</div>
+              <div class="mat-meta">${(mat.tipo||'').toUpperCase()} · ${formatDate(mat.createdAt)}</div>
+            </div>
+            <i class="fas fa-chevron-right mat-arrow"></i>
+          </div>`).join('')}
+        ${evals.map(e => {
+          const entrega = d.entregas[e.id];
+          const estadoEval = !entrega ? 'pendiente' : entrega.aprobado ? 'aprobado' : 'reprobado';
+          return `<div class="examen-card ${estadoEval}" style="margin-top:10px">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+              <div>
+                <div style="font-weight:800;color:var(--azul-marino)">📝 ${e.nombre}</div>
+                <div style="font-size:.78rem;color:var(--gris-texto);margin-top:2px">
+                  ${e.preguntas?.length||0} preguntas · Mín. ${e.minAprobatoria||60}%
+                  ${entrega?` · Calificación: <strong style="color:${entrega.aprobado?'var(--verde)':'var(--rojo-acento)'}">${entrega.calificacion}%</strong>`:''}
+                </div>
+              </div>
+              <div>
+                ${!entrega
+                  ? `<button class="btn btn-primary btn-sm" onclick="iniciarQuiz('${claseActual}','${e.id}')">
+                      <i class="fas fa-play"></i> Presentar examen
+                    </button>`
+                  : `<span class="badge ${entrega.aprobado?'badge-active':'badge-inactive'}">
+                      ${entrega.aprobado?'✅ Aprobado':'❌ Reprobado'}
+                    </span>`
+                }
+              </div>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+window.toggleModuloAlumno = function(id) {
+  const b   = document.getElementById(id);
+  const ico = document.getElementById('ico-'+id);
+  b.classList.toggle('open');
+  if (ico) ico.style.transform = b.classList.contains('open') ? 'rotate(180deg)' : '';
+};
+
+// ── RENDER EXÁMENES ──
+function renderExamenes() {
+  const el = document.getElementById('examenesContainer');
+  const todasEntregas = [];
+  misClases.forEach(c => {
+    const d = clasesData[c.id];
+    if (!d) return;
+    d.evaluaciones.forEach(e => {
+      const entrega = d.entregas[e.id];
+      todasEntregas.push({ eval: e, entrega, clase: c });
+    });
+  });
+  if (!todasEntregas.length) {
+    el.innerHTML = `<div class="empty-state"><div class="icon">📋</div><h4>Sin exámenes</h4><p>Aquí aparecerán tus evaluaciones cuando el profesor las configure.</p></div>`;
+    return;
+  }
+  el.innerHTML = todasEntregas.map(({ eval:e, entrega, clase:c }) => {
+    const estado = !entrega ? 'pendiente' : entrega.aprobado ? 'aprobado' : 'reprobado';
+    return `<div class="examen-card ${estado}">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+        <div>
+          <div style="font-size:.72rem;color:var(--gris-texto);margin-bottom:4px;font-weight:600">${c.nombre}</div>
+          <div style="font-weight:800;color:var(--azul-marino);font-size:1rem">📝 ${e.nombre}</div>
+          <div style="font-size:.78rem;color:var(--gris-texto);margin-top:2px">
+            ${e.preguntas?.length||0} preguntas · Mín. ${e.minAprobatoria||60}%
+            ${entrega ? ` · Presentado el ${formatDate(entrega.fecha)}` : ''}
+          </div>
+          ${entrega ? `<div style="margin-top:6px">
+            <span style="font-family:'Barlow Condensed',sans-serif;font-size:1.8rem;font-weight:800;color:${entrega.aprobado?'var(--verde)':'var(--rojo-acento)'}">${entrega.calificacion}%</span>
+            <span class="badge ${entrega.aprobado?'badge-active':'badge-inactive'}" style="margin-left:8px">${entrega.aprobado?'Aprobado':'Reprobado'}</span>
+          </div>` : ''}
+        </div>
+        <div>
+          ${!entrega
+            ? `<button class="btn btn-primary" onclick="iniciarQuiz('${c.id}','${e.id}')"><i class="fas fa-play"></i> Presentar examen</button>`
+            : entrega.respuestasDetalle
+              ? `<button class="btn btn-outline btn-sm" onclick="verRevision('${c.id}','${e.id}')"><i class="fas fa-eye"></i> Ver corrección</button>`
+              : ''
+          }
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── ABRIR MATERIAL ──
+window.abrirMaterial = function(mat) {
+  const visor = document.getElementById('visorOverlay');
+  document.getElementById('visorTitulo').textContent = mat.titulo;
+  const iconClasses = { pdf:'mat-pdf fas fa-file-pdf', video:'mat-video fas fa-play-circle', imagen:'mat-img fas fa-image', link:'mat-link fas fa-link', texto:'mat-text fas fa-font' };
+  const ic = (iconClasses[mat.tipo]||'mat-text fas fa-file').split(' ');
+  document.getElementById('visorIcon').className = `material-icon ${ic[0]}`;
+  document.getElementById('visorIcon').innerHTML  = `<i class="${ic.slice(1).join(' ')}"></i>`;
+
+  const body = document.getElementById('visorBody');
+  if (mat.tipo === 'texto') {
+    body.innerHTML = `<div class="texto-content">${mat.contenido}</div>`;
+  } else if (mat.tipo === 'imagen') {
+    body.innerHTML = `<div style="text-align:center;padding:20px"><img src="${mat.url}" style="max-width:100%;border-radius:8px"></div>`;
+  } else if (mat.tipo === 'pdf') {
+    body.innerHTML = `<iframe src="${mat.url}" style="width:100%;height:70vh;border:none"></iframe>`;
+  } else if (mat.tipo === 'video') {
+    const ytMatch = mat.url?.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+    if (ytMatch) {
+      body.innerHTML = `<div style="position:relative;padding-top:56.25%"><iframe src="https://www.youtube.com/embed/${ytMatch[1]}" style="position:absolute;inset:0;width:100%;height:100%;border:none" allowfullscreen></iframe></div>`;
+    } else {
+      body.innerHTML = `<video src="${mat.url}" controls style="width:100%;max-height:70vh"></video>`;
+    }
+  } else if (mat.tipo === 'link') {
+    body.innerHTML = `<div style="padding:32px;text-align:center">
+      <i class="fas fa-external-link-alt" style="font-size:3rem;color:var(--azul-claro);margin-bottom:16px"></i>
+      <h3 style="color:var(--azul-marino);margin-bottom:8px">${mat.titulo}</h3>
+      <p style="color:var(--gris-texto);margin-bottom:20px">Este recurso se abre en una nueva pestaña.</p>
+      <a href="${mat.url}" target="_blank" class="btn btn-primary">Abrir recurso externo</a>
+    </div>`;
+  }
+  visor.classList.add('open');
+};
+
+window.closeVisor = function() {
+  document.getElementById('visorOverlay').classList.remove('open');
+  document.getElementById('visorBody').innerHTML = '';
+};
+document.getElementById('visorOverlay').addEventListener('click', e => { if(e.target===e.currentTarget) closeVisor(); });
+
+// ── QUIZ ──
+window.iniciarQuiz = function(claseId, evalId) {
+  const d = clasesData[claseId];
+  const ev = d?.evaluaciones.find(x=>x.id===evalId);
+  if (!ev) { showToast('Examen no encontrado','error'); return; }
+  quizState = { claseId, evalId, eval: ev, preguntas: ev.preguntas||[], preguntaActual: 0, respuestas:{}, mostrandoRespuesta:false };
+  respuestas = {};
+  document.getElementById('quizTitulo').textContent = ev.nombre;
+  document.getElementById('quizOverlay').classList.add('open');
+  renderPreguntaActual();
+};
+
+function renderPreguntaActual() {
+  if (!quizState) return;
+  const { preguntas, preguntaActual } = quizState;
+  const total = preguntas.length;
+  const p = preguntas[preguntaActual];
+  const letras = ['A','B','C','D','E'];
+  const pct = ((preguntaActual+1) / total * 100).toFixed(0);
+  document.getElementById('quizProgressBar').style.width = pct + '%';
+  document.getElementById('quizCounter').textContent = `${preguntaActual+1} / ${total}`;
+  document.getElementById('btnPrev').style.display   = preguntaActual > 0 ? '' : 'none';
+  document.getElementById('btnNext').style.display   = preguntaActual < total-1 ? '' : 'none';
+  document.getElementById('btnFinish').style.display = preguntaActual === total-1 ? '' : 'none';
+
+  let html = `<div class="quiz-pregunta">
+    <div class="quiz-num">Pregunta ${preguntaActual+1} de ${total}</div>
+    <div class="quiz-texto">${p.texto}</div>`;
+
+  if (p.tipo === 'abierta') {
+    html += `<textarea class="quiz-abierta" id="respAbierta" placeholder="Escribe tu respuesta aquí..."
+      oninput="respuestas['${preguntaActual}']=this.value">${respuestas[preguntaActual]||''}</textarea>`;
+  } else {
+    (p.opciones||[]).forEach((op,j) => {
+      const sel = respuestas[preguntaActual] === j;
+      html += `<div class="quiz-opcion ${sel?'selected':''}" onclick="seleccionarOpcion(${preguntaActual},${j})">
+        <div class="opcion-letra">${letras[j]}</div>
+        <span>${op}</span>
+      </div>`;
+    });
+  }
+  html += '</div>';
+  document.getElementById('quizContent').innerHTML = html;
+}
+
+window.seleccionarOpcion = function(pregIdx, opIdx) {
+  if (quizState.mostrandoRespuesta) return;
+  respuestas[pregIdx] = opIdx;
+  renderPreguntaActual();
+};
+window.nextPregunta = function() { if(quizState.preguntaActual<quizState.preguntas.length-1){quizState.preguntaActual++;renderPreguntaActual();} };
+window.prevPregunta = function() { if(quizState.preguntaActual>0){quizState.preguntaActual--;renderPreguntaActual();} };
+
+window.terminarQuiz = async function() {
+  if (!confirm('¿Estás seguro de terminar el examen? No podrás cambiar tus respuestas.')) return;
+  const { preguntas, claseId, evalId, eval:ev } = quizState;
+  let correctas = 0;
+  const detalle = [];
+  preguntas.forEach((p, i) => {
+    const resp = respuestas[i];
+    const esCorrecta = p.tipo === 'abierta' ? null : resp === p.correcta;
+    if (esCorrecta === true) correctas++;
+    detalle.push({ pregunta: p.texto, tipo: p.tipo, respuestaAlumno: resp, respuestaCorrecta: p.correcta, correcta: esCorrecta, textoAbierto: p.tipo==='abierta'?(resp||''):null });
+  });
+  const preguntasCerradas = preguntas.filter(p=>p.tipo!=='abierta').length;
+  const calificacion = preguntasCerradas > 0 ? Math.round(correctas / preguntasCerradas * 100) : null;
+  const aprobado = calificacion !== null ? calificacion >= (ev.minAprobatoria||60) : null;
+
+  // Mostrar resultado
+  document.getElementById('quizContent').innerHTML = `
+    <div class="resultado-quiz">
+      <div class="score-circle ${aprobado===null?'':'score-'+(aprobado?'aprobado':'reprobado')}" style="${aprobado===null?'border-color:var(--azul-claro);color:var(--azul-claro)':''}">
+        ${calificacion !== null
+          ? `<div class="resultado-score">${calificacion}<span style="font-size:2rem">%</span></div>`
+          : `<div style="font-size:1rem;font-weight:700;text-align:center;padding:10px">Enviado para<br>revisión</div>`
+        }
+      </div>
+      <h2 style="font-family:'Barlow Condensed',sans-serif;font-size:2rem;color:var(--azul-marino);margin-bottom:8px">
+        ${calificacion === null ? '✅ Respuestas enviadas' : aprobado ? '🎉 ¡Aprobado!' : '😔 Reprobado'}
+      </h2>
+      <p style="color:var(--gris-texto);margin-bottom:4px">
+        ${calificacion !== null ? `${correctas} de ${preguntasCerradas} preguntas correctas` : 'Tu profesor revisará las preguntas abiertas pronto.'}
+      </p>
+      ${calificacion !== null ? `<p style="font-size:.85rem;color:var(--gris-texto)">Mínimo aprobatorio: ${ev.minAprobatoria||60}%</p>` : ''}
+      <div style="margin-top:24px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+        <button class="btn btn-primary" onclick="cerrarQuiz()"><i class="fas fa-home"></i> Volver a mis clases</button>
+      </div>
+    </div>`;
+  document.getElementById('quizNavBtns').style.display = 'none';
+
+  // Guardar en Firestore
+  try {
+    await addDoc(collection(db,'clases',claseId,'entregas'),{
+      alumnoId: userData.uid,
+      evalId, calificacion, aprobado,
+      respuestasDetalle: detalle,
+      tipoCalif: ev.tipoCalif || 'auto',
+      fecha: serverTimestamp()
+    });
+    // Actualizar local
+    clasesData[claseId].entregas[evalId] = { calificacion, aprobado, fecha: new Date() };
+  } catch(e) { showToast('Error al guardar resultado: '+e.message,'error'); }
+};
+
+window.cerrarQuiz = function() {
+  document.getElementById('quizOverlay').classList.remove('open');
+  document.getElementById('quizNavBtns').style.display = '';
+  quizState = null; respuestas = {};
+  loadAllData();
+};
+
+// ── PERFIL ──
+window.guardarPerfil = async function() {
+  const nombre   = document.getElementById('pNombre').value.trim();
+  const apellido = document.getElementById('pApellido').value.trim();
+  const edad     = parseInt(document.getElementById('pEdad').value)||null;
+  const tel      = document.getElementById('pTel').value.trim();
+  if (!nombre || !apellido) { showToast('Nombre y apellidos son requeridos','error'); return; }
+  await updateDoc(doc(db,'users',userData.uid),{nombre,apellido,edad,telefono:tel});
+  userData = {...userData,nombre,apellido,edad,telefono:tel};
+  document.getElementById('sidebarName').textContent   = nombre+' '+apellido;
+  document.getElementById('sidebarAvatar').textContent = nombre[0]+apellido[0];
+  showToast('Perfil actualizado ✅','success');
+};
+
+// ── NAV ──
+window.showSection = function(name) {
+  document.querySelectorAll('.content-area').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(i=>i.classList.remove('active'));
+  document.getElementById('sec-'+name).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(i=>{if(i.textContent.toLowerCase().includes(name.substring(0,4)))i.classList.add('active');});
+  document.getElementById('currentSection').textContent=name.charAt(0).toUpperCase()+name.slice(1);
+  if(name==='clases') renderClaseContenido();
+  if(name==='examenes') renderExamenes();
+  if(window.innerWidth<769) toggleSidebar();
+};
+window.toggleSidebar=function(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('sidebarOverlay').classList.toggle('show');};
+window.handleLogout=async function(){const{logoutUser}=await import('../app/auth.js');logoutUser();};
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeVisor();if(!quizState)document.getElementById('quizOverlay').classList.remove('open');}});
+
+// ── INIT ──
+await loadAllData();
+</script>
+</body>
+</html>
