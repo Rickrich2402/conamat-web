@@ -17,37 +17,34 @@
       --rojo-acento:    #e63946;
       --dorado:         #f4a261;
       --gris-claro:     #f0f4fb;
+      --gris-borde:     #e2e8f0;
       --gris-texto:     #4a5568;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
       font-family: 'Barlow', sans-serif;
       min-height: 100vh;
       display: flex;
-      background: linear-gradient(135deg, var(--azul-marino) 0%, var(--azul-medio) 60%, var(--azul-claro) 100%);
-      position: relative;
+      background: linear-gradient(135deg, var(--azul-marino) 0%, var(--azul-medio) 100%);
       overflow: hidden;
     }
 
-    /* Fondo animado con partículas */
-    .bg-particles {
-      position: fixed; inset: 0; pointer-events: none; z-index: 0;
-    }
+    /* Partículas */
+    .bg-particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
     .particle {
-      position: absolute;
-      width: 4px; height: 4px;
-      background: rgba(255,255,255,0.15);
-      border-radius: 50%;
+      position: absolute; border-radius: 50%;
+      background: rgba(255,255,255,0.12);
       animation: float linear infinite;
     }
     @keyframes float {
-      0%   { transform: translateY(100vh) rotate(0deg);   opacity: 0; }
+      0%   { transform: translateY(100vh); opacity: 0; }
       10%  { opacity: 1; }
       90%  { opacity: 1; }
-      100% { transform: translateY(-100px) rotate(720deg); opacity: 0; }
+      100% { transform: translateY(-100px); opacity: 0; }
     }
 
-    /* Layout principal */
+    /* Layout */
     .auth-container {
       position: relative; z-index: 1;
       display: flex; width: 100%; min-height: 100vh;
@@ -60,39 +57,37 @@
       padding: 60px 48px; text-align: center;
       background: rgba(0,0,0,0.15);
     }
-    .auth-brand img.logo-main {
+    .auth-brand img {
       max-width: 220px; width: 100%;
       filter: brightness(0) invert(1);
       margin-bottom: 24px;
-      animation: fadeInDown .8s ease both;
+      animation: fadeDown .8s ease both;
     }
-    @keyframes fadeInDown { from { opacity:0; transform:translateY(-30px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes fadeDown { from { opacity:0; transform:translateY(-24px); } to { opacity:1; transform:translateY(0); } }
     .auth-brand h1 {
       font-family: 'Barlow Condensed', sans-serif;
-      font-size: 2.4rem; font-weight: 800;
-      color: white; line-height: 1.1;
-      animation: fadeInDown .9s ease both;
+      font-size: 2.4rem; font-weight: 800; color: white; line-height: 1.1;
+      animation: fadeDown .9s ease both;
     }
     .auth-brand h1 span { color: var(--dorado); }
     .auth-brand p {
       color: rgba(255,255,255,0.75); font-size: 1rem;
       margin-top: 12px; max-width: 320px;
-      animation: fadeInDown 1s ease both;
+      animation: fadeDown 1s ease both;
     }
     .brand-features {
       display: flex; flex-direction: column; gap: 14px;
       margin-top: 40px; text-align: left;
-      animation: fadeInDown 1.1s ease both;
+      animation: fadeDown 1.1s ease both;
     }
     .brand-feature {
       display: flex; align-items: center; gap: 12px;
       color: rgba(255,255,255,0.85);
     }
-    .brand-feature i {
+    .brand-feature .fi {
       width: 36px; height: 36px; border-radius: 8px;
-      background: rgba(255,255,255,0.12);
-      display: flex; align-items: center; justify-content: center;
-      font-size: .9rem; flex-shrink: 0;
+      background: rgba(255,255,255,0.12); flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center; font-size: .9rem;
     }
     .brand-feature span { font-size: .92rem; font-weight: 500; }
 
@@ -107,205 +102,166 @@
     }
     @keyframes slideIn { from { transform: translateX(60px); opacity:0; } to { transform: translateX(0); opacity:1; } }
 
-    .form-header { margin-bottom: 32px; }
-    .form-header .back-link {
+    /* Header del form */
+    .form-header { margin-bottom: 28px; }
+    .back-link {
       display: inline-flex; align-items: center; gap: 6px;
       color: var(--azul-claro); font-size: .85rem; font-weight: 600;
-      text-decoration: none; margin-bottom: 20px;
-      transition: gap .2s;
+      text-decoration: none; margin-bottom: 20px; transition: gap .2s;
     }
-    .form-header .back-link:hover { gap: 10px; }
+    .back-link:hover { gap: 10px; }
     .form-header h2 {
       font-family: 'Barlow Condensed', sans-serif;
-      font-size: 2.2rem; font-weight: 800;
-      color: var(--azul-marino); line-height: 1;
+      font-size: 2.2rem; font-weight: 800; color: var(--azul-marino); line-height: 1;
     }
     .form-header p { color: var(--gris-texto); font-size: .92rem; margin-top: 6px; }
 
-    /* Tabs login/registro */
+    /* Tabs */
     .auth-tabs {
-      display: flex; gap: 0; margin-bottom: 28px;
+      display: flex; gap: 0; margin-bottom: 24px;
       background: var(--gris-claro); border-radius: 10px; padding: 4px;
     }
     .auth-tab {
       flex: 1; padding: 10px; border: none; background: none;
-      border-radius: 8px; font-weight: 700; font-size: .9rem;
-      cursor: pointer; color: var(--gris-texto); transition: all .25s;
+      border-radius: 8px; font-family: 'Barlow', sans-serif;
+      font-weight: 700; font-size: .9rem; cursor: pointer;
+      color: var(--gris-texto); transition: all .25s;
     }
     .auth-tab.active {
       background: white; color: var(--azul-marino);
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
 
-    /* Formulario */
+    /* Secciones del form */
     .form-section { display: none; }
     .form-section.active { display: block; animation: fadeIn .3s ease; }
-    @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
 
-    .form-group { margin-bottom: 18px; }
+    /* Grupos de inputs */
+    .form-group { margin-bottom: 16px; }
     .form-group label {
-      display: block; font-weight: 600; font-size: .85rem;
+      display: block; font-weight: 600; font-size: .83rem;
       color: var(--azul-marino); margin-bottom: 6px;
     }
-    .form-group label span { color: var(--rojo-acento); }
+    .form-group label .req { color: var(--rojo-acento); }
     .form-control {
-      width: 100%; padding: 12px 14px; border-radius: 8px;
-      border: 2px solid #e2e8f0; font-family: 'Barlow', sans-serif;
-      font-size: .93rem; color: #1a202c; transition: border-color .25s;
-      outline: none;
+      width: 100%; padding: 11px 14px; border-radius: 8px;
+      border: 2px solid var(--gris-borde);
+      font-family: 'Barlow', sans-serif; font-size: .93rem;
+      color: #1a202c; transition: border-color .25s; outline: none;
     }
     .form-control:focus { border-color: var(--azul-claro); }
-    .form-control.error { border-color: var(--rojo-acento); }
+    .form-control.is-error { border-color: var(--rojo-acento); }
     .input-wrap { position: relative; }
-    .input-wrap i {
-      position: absolute; right: 14px; top: 50%;
-      transform: translateY(-50%);
-      color: #aaa; cursor: pointer; font-size: .9rem;
+    .input-wrap .eye-btn {
+      position: absolute; right: 12px; top: 50%;
+      transform: translateY(-50%); background: none; border: none;
+      color: #aaa; cursor: pointer; font-size: .9rem; padding: 4px;
     }
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-
-    .error-msg {
-      font-size: .8rem; color: var(--rojo-acento);
+    .input-wrap .eye-btn:hover { color: var(--azul-claro); }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .field-error {
+      font-size: .78rem; color: var(--rojo-acento);
       margin-top: 4px; display: none;
     }
-    .error-msg.show { display: block; }
+    .field-error.show { display: block; }
 
-    /* Botón principal */
-    .btn-auth {
-      width: 100%; padding: 14px; border: none; border-radius: 10px;
-      background: linear-gradient(135deg, var(--azul-marino), var(--azul-medio));
-      color: white; font-family: 'Barlow', sans-serif;
-      font-weight: 800; font-size: 1rem; cursor: pointer;
-      transition: all .3s; position: relative; overflow: hidden;
-      margin-top: 8px;
-    }
-    .btn-auth:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(22,72,160,0.35); }
-    .btn-auth:disabled { opacity: .7; cursor: not-allowed; transform: none; }
-    .btn-auth .spinner {
-      display: none; width: 20px; height: 20px;
-      border: 3px solid rgba(255,255,255,0.3);
-      border-top-color: white; border-radius: 50%;
-      animation: spin .7s linear infinite;
-      margin: 0 auto;
-    }
-    .btn-auth.loading .btn-text { display: none; }
-    .btn-auth.loading .spinner { display: block; }
-    @keyframes spin { to { transform: rotate(360deg); } }
+    /* Fuerza de contraseña */
+    .strength-bars { display: flex; gap: 4px; margin-top: 7px; }
+    .sbar { height: 3px; flex: 1; background: var(--gris-borde); border-radius: 2px; transition: background .3s; }
 
     /* Link olvidé contraseña */
-    .forgot-link {
-      text-align: right; margin-top: -10px; margin-bottom: 18px;
+    .forgot-wrap { text-align: right; margin: -8px 0 16px; }
+    .forgot-wrap button {
+      background: none; border: none; cursor: pointer;
+      color: var(--azul-claro); font-size: .82rem; font-weight: 600;
+      font-family: 'Barlow', sans-serif;
     }
-    .forgot-link a {
-      font-size: .82rem; color: var(--azul-claro); font-weight: 600;
-      text-decoration: none;
-    }
-    .forgot-link a:hover { text-decoration: underline; }
+    .forgot-wrap button:hover { text-decoration: underline; }
 
-    /* Alerta de error general */
+    /* Alerta */
     .auth-alert {
-      padding: 12px 14px; border-radius: 8px;
-      font-size: .88rem; font-weight: 600; margin-bottom: 18px;
-      display: none;
+      padding: 11px 14px; border-radius: 8px;
+      font-size: .87rem; font-weight: 600;
+      margin-bottom: 16px; display: none;
+      align-items: center; gap: 8px;
     }
-    .auth-alert.show { display: flex; align-items: center; gap: 8px; }
+    .auth-alert.show { display: flex; }
     .auth-alert.error   { background: #fff0f0; color: var(--rojo-acento); border: 1px solid #fdd; }
     .auth-alert.success { background: #f0fff4; color: #1a7a3c; border: 1px solid #c3e6cb; }
 
-    /* Terms */
-    .terms-text {
-      font-size: .78rem; color: #888; text-align: center; margin-top: 16px;
+    /* Botón principal */
+    .btn-auth {
+      width: 100%; padding: 13px; border: none; border-radius: 10px;
+      background: linear-gradient(135deg, var(--azul-marino), var(--azul-medio));
+      color: white; font-family: 'Barlow', sans-serif;
+      font-weight: 800; font-size: 1rem; cursor: pointer;
+      transition: all .3s; position: relative; overflow: hidden; margin-top: 6px;
     }
-    .terms-text a { color: var(--azul-claro); text-decoration: none; }
+    .btn-auth:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(22,72,160,.35); }
+    .btn-auth:disabled { opacity: .7; cursor: not-allowed; }
+    .btn-auth .btn-spinner {
+      display: none; width: 20px; height: 20px; margin: 0 auto;
+      border: 3px solid rgba(255,255,255,.3); border-top-color: white;
+      border-radius: 50%; animation: spin .7s linear infinite;
+    }
+    .btn-auth.loading .btn-text { display: none; }
+    .btn-auth.loading .btn-spinner { display: block; }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* Divisor */
-    .divider-or {
-      display: flex; align-items: center; gap: 12px;
-      color: #ccc; font-size: .82rem; margin: 20px 0;
-    }
-    .divider-or::before, .divider-or::after {
-      content: ''; flex: 1; height: 1px; background: #e2e8f0;
-    }
-
-    /* Footer del form */
+    /* Pie del form */
     .form-footer {
-      margin-top: 28px; padding-top: 20px;
-      border-top: 1px solid #f0f4fb;
-      text-align: center;
+      margin-top: 24px; padding-top: 18px;
+      border-top: 1px solid var(--gris-claro);
+      text-align: center; font-size: .85rem; color: var(--gris-texto);
     }
-    .form-footer a {
-      color: var(--azul-claro); font-weight: 600;
-      text-decoration: none; font-size: .9rem;
-    }
-    .form-footer p { font-size: .85rem; color: var(--gris-texto); }
+    .form-footer a { color: var(--azul-claro); font-weight: 600; text-decoration: none; }
 
-    /* Reset password panel */
-    .reset-panel { display: none; }
-    .reset-panel.active { display: block; animation: fadeIn .3s ease; }
-
-    /* Responsivo */
+    /* Responsive */
     @media (max-width: 900px) {
       .auth-brand { display: none; }
       .auth-form-panel { width: 100%; padding: 40px 28px; }
     }
     @media (max-width: 480px) {
-      .auth-form-panel { padding: 32px 20px; }
+      .auth-form-panel { padding: 32px 18px; }
       .form-row { grid-template-columns: 1fr; }
-      .auth-brand h1 { font-size: 1.8rem; }
     }
   </style>
 </head>
 <body>
 
-<!-- Partículas de fondo -->
+<!-- Partículas -->
 <div class="bg-particles" id="particles"></div>
 
 <div class="auth-container">
 
-  <!-- ── PANEL IZQUIERDO: Branding ── -->
+  <!-- Panel izquierdo -->
   <div class="auth-brand">
-    <img src="../assets/logo-conamat.png" alt="CONAMAT" class="logo-main">
+    <img src="../assets/logo-conamat.png" alt="CONAMAT">
     <h1>Plataforma <span>Educativa</span><br>CONAMAT</h1>
     <p>Accede a tus clases, materiales y evaluaciones en un solo lugar.</p>
     <div class="brand-features">
-      <div class="brand-feature">
-        <i class="fas fa-graduation-cap"></i>
-        <span>Cursos de admisión UNAM, IPN y más</span>
-      </div>
-      <div class="brand-feature">
-        <i class="fas fa-video"></i>
-        <span>Videos, PDFs y materiales en línea</span>
-      </div>
-      <div class="brand-feature">
-        <i class="fas fa-chart-line"></i>
-        <span>Seguimiento de progreso en tiempo real</span>
-      </div>
-      <div class="brand-feature">
-        <i class="fas fa-robot"></i>
-        <span>Evaluaciones</span>
-      </div>
-      <div class="brand-feature">
-        <i class="fas fa-shield-alt"></i>
-        <span>Contenido desbloqueado por módulo (Drip)</span>
-      </div>
+      <div class="brand-feature"><div class="fi"><i class="fas fa-graduation-cap"></i></div><span>Cursos de admisión UNAM, IPN y más</span></div>
+      <div class="brand-feature"><div class="fi"><i class="fas fa-video"></i></div><span>Videos, PDFs y materiales en línea</span></div>
+      <div class="brand-feature"><div class="fi"><i class="fas fa-chart-line"></i></div><span>Seguimiento de progreso en tiempo real</span></div>
+      <div class="brand-feature"><div class="fi"><i class="fas fa-robot"></i></div><span>Evaluaciones generadas con IA</span></div>
+      <div class="brand-feature"><div class="fi"><i class="fas fa-shield-alt"></i></div><span>Contenido por módulo (sistema Drip)</span></div>
     </div>
   </div>
 
-  <!-- ── PANEL DERECHO: Formulario ── -->
+  <!-- Panel derecho -->
   <div class="auth-form-panel">
 
     <div class="form-header">
-      <a href="../" class="back-link">
-        <i class="fas fa-arrow-left"></i> Volver al sitio
-      </a>
+      <a href="../" class="back-link"><i class="fas fa-arrow-left"></i> Volver al sitio</a>
       <h2 id="formTitle">Bienvenido</h2>
       <p id="formSubtitle">Ingresa a tu cuenta para continuar</p>
     </div>
 
     <!-- Tabs -->
     <div class="auth-tabs" id="authTabs">
-      <button class="auth-tab active" onclick="switchTab('login')">Iniciar sesión</button>
-      <button class="auth-tab" onclick="switchTab('register')">Crear cuenta</button>
+      <button class="auth-tab active" id="tabLogin">Iniciar sesión</button>
+      <button class="auth-tab" id="tabRegister">Crear cuenta</button>
     </div>
 
     <!-- Alerta general -->
@@ -314,50 +270,47 @@
       <span id="authAlertMsg"></span>
     </div>
 
-    <!-- ══ FORMULARIO LOGIN ══ -->
+    <!-- ══ LOGIN ══ -->
     <div class="form-section active" id="loginForm">
       <div class="form-group">
-        <label>Correo electrónico <span>*</span></label>
+        <label>Correo electrónico <span class="req">*</span></label>
         <input type="email" class="form-control" id="loginEmail" placeholder="tu@correo.com" autocomplete="email">
       </div>
       <div class="form-group">
-        <label>Contraseña <span>*</span></label>
+        <label>Contraseña <span class="req">*</span></label>
         <div class="input-wrap">
           <input type="password" class="form-control" id="loginPassword" placeholder="••••••••" autocomplete="current-password">
-          <i class="fas fa-eye" id="toggleLoginPwd" onclick="togglePwd('loginPassword','toggleLoginPwd')"></i>
+          <button type="button" class="eye-btn" id="eyeLogin"><i class="fas fa-eye"></i></button>
         </div>
       </div>
-      <div class="forgot-link">
-        <a href="#" onclick="showReset()">¿Olvidaste tu contraseña?</a>
+      <div class="forgot-wrap">
+        <button type="button" id="btnForgot">¿Olvidaste tu contraseña?</button>
       </div>
-      <button class="btn-auth" id="btnLogin" onclick="handleLogin()">
-        <span class="btn-text"><i class="fas fa-sign-in-alt me-2"></i> Entrar</span>
-        <div class="spinner"></div>
+      <button type="button" class="btn-auth" id="btnLogin">
+        <span class="btn-text"><i class="fas fa-sign-in-alt"></i> Entrar</span>
+        <div class="btn-spinner"></div>
       </button>
-      <div class="terms-text" style="margin-top:20px">
-        Al iniciar sesión aceptas nuestros <a href="#">Términos de uso</a> y <a href="#">Privacidad</a>
-      </div>
     </div>
 
-    <!-- ══ FORMULARIO REGISTRO ══ -->
+    <!-- ══ REGISTRO ══ -->
     <div class="form-section" id="registerForm">
       <div class="form-row">
         <div class="form-group">
-          <label>Nombre(s) <span>*</span></label>
+          <label>Nombre(s) <span class="req">*</span></label>
           <input type="text" class="form-control" id="regNombre" placeholder="Juan">
-          <div class="error-msg" id="errNombre">Ingresa tu nombre</div>
+          <div class="field-error" id="errNombre">Ingresa tu nombre</div>
         </div>
         <div class="form-group">
-          <label>Apellidos <span>*</span></label>
-          <input type="text" class="form-control" id="regApellido" placeholder="García López">
-          <div class="error-msg" id="errApellido">Ingresa tus apellidos</div>
+          <label>Apellidos <span class="req">*</span></label>
+          <input type="text" class="form-control" id="regApellido" placeholder="García">
+          <div class="field-error" id="errApellido">Ingresa tus apellidos</div>
         </div>
       </div>
       <div class="form-row">
         <div class="form-group">
-          <label>Edad <span>*</span></label>
-          <input type="number" class="form-control" id="regEdad" placeholder="17" min="10" max="60">
-          <div class="error-msg" id="errEdad">Ingresa tu edad</div>
+          <label>Edad <span class="req">*</span></label>
+          <input type="number" class="form-control" id="regEdad" placeholder="17" min="10" max="80">
+          <div class="field-error" id="errEdad">Edad inválida</div>
         </div>
         <div class="form-group">
           <label>Teléfono</label>
@@ -365,129 +318,114 @@
         </div>
       </div>
       <div class="form-group">
-        <label>Correo electrónico <span>*</span></label>
+        <label>Correo electrónico <span class="req">*</span></label>
         <input type="email" class="form-control" id="regEmail" placeholder="tu@correo.com">
-        <div class="error-msg" id="errEmail">Ingresa un correo válido</div>
+        <div class="field-error" id="errEmail">Correo inválido</div>
       </div>
       <div class="form-group">
-        <label>Contraseña <span>*</span></label>
+        <label>Contraseña <span class="req">*</span></label>
         <div class="input-wrap">
           <input type="password" class="form-control" id="regPassword" placeholder="Mínimo 8 caracteres">
-          <i class="fas fa-eye" id="toggleRegPwd" onclick="togglePwd('regPassword','toggleRegPwd')"></i>
+          <button type="button" class="eye-btn" id="eyeReg"><i class="fas fa-eye"></i></button>
         </div>
-        <div class="error-msg" id="errPassword">Mínimo 8 caracteres</div>
-        <!-- Indicador de fuerza -->
-        <div style="margin-top:8px;display:flex;gap:4px" id="strengthBars">
-          <div style="height:3px;flex:1;background:#e2e8f0;border-radius:2px;transition:background .3s" class="sbar"></div>
-          <div style="height:3px;flex:1;background:#e2e8f0;border-radius:2px;transition:background .3s" class="sbar"></div>
-          <div style="height:3px;flex:1;background:#e2e8f0;border-radius:2px;transition:background .3s" class="sbar"></div>
-          <div style="height:3px;flex:1;background:#e2e8f0;border-radius:2px;transition:background .3s" class="sbar"></div>
+        <div class="field-error" id="errPassword">Mínimo 8 caracteres</div>
+        <div class="strength-bars">
+          <div class="sbar" id="sb1"></div>
+          <div class="sbar" id="sb2"></div>
+          <div class="sbar" id="sb3"></div>
+          <div class="sbar" id="sb4"></div>
         </div>
       </div>
       <div class="form-group">
-        <label>Confirmar contraseña <span>*</span></label>
+        <label>Confirmar contraseña <span class="req">*</span></label>
         <div class="input-wrap">
           <input type="password" class="form-control" id="regConfirm" placeholder="Repite tu contraseña">
-          <i class="fas fa-eye" id="toggleConf" onclick="togglePwd('regConfirm','toggleConf')"></i>
+          <button type="button" class="eye-btn" id="eyeConf"><i class="fas fa-eye"></i></button>
         </div>
-        <div class="error-msg" id="errConfirm">Las contraseñas no coinciden</div>
+        <div class="field-error" id="errConfirm">Las contraseñas no coinciden</div>
       </div>
-      <button class="btn-auth" id="btnRegister" onclick="handleRegister()" style="background:linear-gradient(135deg,var(--rojo-acento),#c1121f)">
+      <button type="button" class="btn-auth" id="btnRegister"
+        style="background:linear-gradient(135deg,var(--rojo-acento),#c1121f)">
         <span class="btn-text"><i class="fas fa-user-plus"></i> Crear mi cuenta</span>
-        <div class="spinner"></div>
+        <div class="btn-spinner"></div>
       </button>
-      <p style="font-size:.78rem;color:#888;text-align:center;margin-top:12px">
-        Tu cuenta estará pendiente de activación por el administrador para acceder a clases.
+      <p style="font-size:.76rem;color:#aaa;text-align:center;margin-top:10px">
+        Tu cuenta quedará pendiente hasta que el administrador la active.
       </p>
     </div>
 
-    <!-- ══ RESET PASSWORD ══ -->
-    <div class="reset-panel" id="resetPanel">
-      <div style="text-align:center;margin-bottom:24px">
-        <div style="font-size:2.5rem;margin-bottom:12px">🔒</div>
-        <h3 style="font-family:'Barlow Condensed',sans-serif;font-size:1.6rem;color:var(--azul-marino)">Recuperar contraseña</h3>
-        <p style="color:var(--gris-texto);font-size:.9rem;margin-top:6px">Te enviaremos un enlace a tu correo para restablecer tu contraseña.</p>
+    <!-- ══ RECUPERAR CONTRASEÑA ══ -->
+    <div class="form-section" id="resetForm">
+      <div style="text-align:center;margin-bottom:20px">
+        <div style="font-size:2.5rem;margin-bottom:10px">🔒</div>
+        <h3 style="font-family:'Barlow Condensed',sans-serif;font-size:1.5rem;color:var(--azul-marino)">Recuperar contraseña</h3>
+        <p style="color:var(--gris-texto);font-size:.88rem;margin-top:6px">Te enviaremos un enlace a tu correo.</p>
       </div>
       <div class="form-group">
         <label>Correo electrónico</label>
         <input type="email" class="form-control" id="resetEmail" placeholder="tu@correo.com">
       </div>
-      <button class="btn-auth" id="btnReset" onclick="handleReset()">
+      <button type="button" class="btn-auth" id="btnReset">
         <span class="btn-text"><i class="fas fa-paper-plane"></i> Enviar enlace</span>
-        <div class="spinner"></div>
+        <div class="btn-spinner"></div>
       </button>
-      <div style="text-align:center;margin-top:16px">
-        <a href="#" onclick="showLogin()" style="color:var(--azul-claro);font-weight:600;font-size:.9rem;text-decoration:none">
+      <div style="text-align:center;margin-top:14px">
+        <button type="button" id="btnBackToLogin"
+          style="background:none;border:none;cursor:pointer;color:var(--azul-claro);font-weight:600;font-size:.88rem;font-family:'Barlow',sans-serif">
           ← Volver al inicio de sesión
-        </a>
+        </button>
       </div>
     </div>
 
     <div class="form-footer">
-      <p>¿Necesitas ayuda? <a href="https://wa.me/525514656210" target="_blank">Contáctanos por WhatsApp</a></p>
+      ¿Necesitas ayuda?
+      <a href="https://wa.me/525514656210" target="_blank">Contáctanos por WhatsApp</a>
     </div>
   </div>
-
 </div>
 
-<!-- Firebase SDK (type=module en archivo separado) -->
+<!-- Firebase (CDN sin bundler) -->
 <script type="module">
-  import { auth, db } from '../app/firebase-config.js';
+  // ── Imports ──
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import {
+    getAuth,
+    onAuthStateChanged,
     signInWithEmailAndPassword,
     createUserWithEmailAndPassword,
     sendPasswordResetEmail,
-    onAuthStateChanged
+    signOut
   } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-  import { doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-  import { getUserData, redirectByRole, showToast } from '../app/utils.js';
+  import {
+    getFirestore,
+    doc,
+    setDoc,
+    getDoc,
+    serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-  // ── Si ya hay sesión, redirigir ──
-  onAuthStateChanged(auth, async (user) => {
-    if (user) {
-      const data = await getUserData(user.uid);
-      if (data) redirectByRole(data.role);
-    }
-  });
-
-  // ── FUNCIONES GLOBALES ──
-  window.switchTab = function(tab) {
-    document.querySelectorAll('.auth-tab').forEach((t,i) => t.classList.toggle('active', (tab==='login'&&i===0)||(tab==='register'&&i===1)));
-    document.getElementById('loginForm').classList.toggle('active', tab==='login');
-    document.getElementById('registerForm').classList.toggle('active', tab==='register');
-    document.getElementById('authTabs').style.display = '';
-    document.getElementById('resetPanel').classList.remove('active');
-    document.getElementById('formTitle').textContent = tab==='login' ? 'Bienvenido' : 'Crear cuenta';
-    document.getElementById('formSubtitle').textContent = tab==='login' ? 'Ingresa a tu cuenta para continuar' : 'Regístrate para empezar';
-    hideAlert();
+  // ── Config Firebase ──
+  // REEMPLAZA con TU configuración real:
+  const firebaseConfig = {
+    apiKey:            "TU_API_KEY",
+    authDomain:        "TU_PROYECTO.firebaseapp.com",
+    projectId:         "TU_PROYECTO",
+    storageBucket:     "TU_PROYECTO.appspot.com",
+    messagingSenderId: "TU_SENDER_ID",
+    appId:             "TU_APP_ID"
   };
 
-  window.showReset = function() {
-    document.getElementById('loginForm').classList.remove('active');
-    document.getElementById('registerForm').classList.remove('active');
-    document.getElementById('resetPanel').classList.add('active');
-    document.getElementById('authTabs').style.display = 'none';
-    document.getElementById('formTitle').textContent = 'Recuperar acceso';
-    document.getElementById('formSubtitle').textContent = '';
-    hideAlert();
-  };
+  const app  = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db   = getFirestore(app);
 
-  window.showLogin = function() { window.switchTab('login'); };
-
-  window.togglePwd = function(inputId, iconId) {
-    const input = document.getElementById(inputId);
-    const icon  = document.getElementById(iconId);
-    if (input.type === 'password') {
-      input.type = 'text'; icon.classList.replace('fa-eye','fa-eye-slash');
-    } else {
-      input.type = 'password'; icon.classList.replace('fa-eye-slash','fa-eye');
-    }
-  };
-
-  function showAlert(msg, type='error') {
-    const el = document.getElementById('authAlert');
-    el.className = `auth-alert show ${type}`;
-    document.getElementById('authAlertMsg').textContent = msg;
+  // ── Helpers de UI ──
+  function showAlert(msg, type = 'error') {
+    const el  = document.getElementById('authAlert');
+    const msg_ = document.getElementById('authAlertMsg');
+    el.className  = `auth-alert show ${type}`;
+    msg_.textContent = msg;
+    el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
   function hideAlert() {
     document.getElementById('authAlert').classList.remove('show');
@@ -497,139 +435,239 @@
     btn.classList.toggle('loading', loading);
     btn.disabled = loading;
   }
+  function showToast(msg, type = 'success') {
+    const colors = { success:'#1648a0', error:'#e63946', info:'#2d7dd2' };
+    const t = document.createElement('div');
+    t.style.cssText = `position:fixed;bottom:24px;right:24px;z-index:9999;background:${colors[type]||colors.success};color:white;padding:13px 20px;border-radius:10px;font-family:'Barlow',sans-serif;font-weight:600;font-size:.9rem;box-shadow:0 6px 24px rgba(0,0,0,.2);transform:translateY(60px);opacity:0;transition:all .35s cubic-bezier(.34,1.56,.64,1);max-width:300px`;
+    t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(() => { t.style.transform = 'translateY(0)'; t.style.opacity = '1'; }, 10);
+    setTimeout(() => { t.style.transform = 'translateY(60px)'; t.style.opacity = '0'; setTimeout(() => t.remove(), 400); }, 3500);
+  }
 
-  // Fuerza de contraseña
-  document.getElementById('regPassword')?.addEventListener('input', function() {
+  // ── Redirigir por rol ──
+  function redirectByRole(role) {
+    const routes = { admin: '../admin/', profesor: '../profesor/', alumno: '../alumno/' };
+    window.location.href = routes[role] || '../login/';
+  }
+
+  // ── Si ya hay sesión activa → redirigir ──
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) return;
+    try {
+      const snap = await getDoc(doc(db, 'users', user.uid));
+      if (snap.exists() && snap.data().activo) {
+        redirectByRole(snap.data().role);
+      }
+    } catch (e) { /* sin sesión válida */ }
+  });
+
+  // ── Navegación entre formularios ──
+  function switchTab(tab) {
+    hideAlert();
+    const isLogin    = tab === 'login';
+    const isRegister = tab === 'register';
+    document.getElementById('loginForm').classList.toggle('active', isLogin);
+    document.getElementById('registerForm').classList.toggle('active', isRegister);
+    document.getElementById('resetForm').classList.remove('active');
+    document.getElementById('authTabs').style.display = '';
+    document.getElementById('tabLogin').classList.toggle('active', isLogin);
+    document.getElementById('tabRegister').classList.toggle('active', isRegister);
+    document.getElementById('formTitle').textContent    = isLogin ? 'Bienvenido' : 'Crear cuenta';
+    document.getElementById('formSubtitle').textContent = isLogin ? 'Ingresa a tu cuenta para continuar' : 'Regístrate para empezar';
+  }
+
+  function showReset() {
+    hideAlert();
+    document.getElementById('loginForm').classList.remove('active');
+    document.getElementById('registerForm').classList.remove('active');
+    document.getElementById('resetForm').classList.add('active');
+    document.getElementById('authTabs').style.display = 'none';
+    document.getElementById('formTitle').textContent    = 'Recuperar acceso';
+    document.getElementById('formSubtitle').textContent = 'Te enviaremos un enlace por correo';
+  }
+
+  // ── Tabs ──
+  document.getElementById('tabLogin').addEventListener('click',    () => switchTab('login'));
+  document.getElementById('tabRegister').addEventListener('click', () => switchTab('register'));
+  document.getElementById('btnForgot').addEventListener('click',   () => showReset());
+  document.getElementById('btnBackToLogin').addEventListener('click', () => switchTab('login'));
+
+  // ── Toggle contraseña ──
+  function toggleEye(inputId, btnId) {
+    const input = document.getElementById(inputId);
+    const icon  = document.getElementById(btnId).querySelector('i');
+    if (input.type === 'password') {
+      input.type = 'text';
+      icon.classList.replace('fa-eye', 'fa-eye-slash');
+    } else {
+      input.type = 'password';
+      icon.classList.replace('fa-eye-slash', 'fa-eye');
+    }
+  }
+  document.getElementById('eyeLogin').addEventListener('click', () => toggleEye('loginPassword', 'eyeLogin'));
+  document.getElementById('eyeReg').addEventListener('click',   () => toggleEye('regPassword',   'eyeReg'));
+  document.getElementById('eyeConf').addEventListener('click',  () => toggleEye('regConfirm',    'eyeConf'));
+
+  // ── Fuerza contraseña ──
+  document.getElementById('regPassword').addEventListener('input', function () {
     const v = this.value;
     let score = 0;
     if (v.length >= 8) score++;
     if (/[A-Z]/.test(v)) score++;
     if (/[0-9]/.test(v)) score++;
     if (/[^A-Za-z0-9]/.test(v)) score++;
-    const colors = ['#e63946','#e88a00','#f4a261','#1a7a3c'];
-    document.querySelectorAll('.sbar').forEach((b,i) => {
-      b.style.background = i < score ? colors[score-1] : '#e2e8f0';
+    const colors = ['#e63946', '#e88a00', '#f4a261', '#1a7a3c'];
+    ['sb1','sb2','sb3','sb4'].forEach((id, i) => {
+      document.getElementById(id).style.background = i < score ? colors[score - 1] : '#e2e8f0';
     });
   });
 
   // ── LOGIN ──
-  window.handleLogin = async function() {
+  async function handleLogin() {
     hideAlert();
     const email    = document.getElementById('loginEmail').value.trim();
     const password = document.getElementById('loginPassword').value;
-    if (!email || !password) { showAlert('Completa todos los campos.'); return; }
+    if (!email || !password) { showAlert('Completa correo y contraseña.'); return; }
+
     setLoading('btnLogin', true);
     try {
       const cred = await signInWithEmailAndPassword(auth, email, password);
-      const data = await getUserData(cred.user.uid);
-      if (!data?.activo) {
-        await auth.signOut();
-        showAlert('Tu cuenta está desactivada. Contacta al administrador.');
+      const snap = await getDoc(doc(db, 'users', cred.user.uid));
+      if (!snap.exists()) {
+        await signOut(auth);
+        showAlert('Cuenta no encontrada en el sistema. Contacta al administrador.');
         return;
       }
-      showToast('¡Bienvenido, ' + data.nombre + '!', 'success');
-      setTimeout(() => redirectByRole(data.role), 800);
+      const data = snap.data();
+      if (!data.activo) {
+        await signOut(auth);
+        showAlert('Tu cuenta está pendiente de activación. Espera que el administrador la active.');
+        return;
+      }
+      showToast(`¡Bienvenido, ${data.nombre}!`, 'success');
+      setTimeout(() => redirectByRole(data.role), 900);
     } catch (e) {
       const msgs = {
-        'auth/user-not-found':  'No existe una cuenta con ese correo.',
-        'auth/wrong-password':  'Contraseña incorrecta.',
-        'auth/invalid-email':   'Correo inválido.',
-        'auth/too-many-requests':'Demasiados intentos. Espera unos minutos.',
-        'auth/invalid-credential':'Correo o contraseña incorrectos.'
+        'auth/user-not-found':     'No existe una cuenta con ese correo.',
+        'auth/wrong-password':     'Contraseña incorrecta.',
+        'auth/invalid-email':      'Formato de correo inválido.',
+        'auth/too-many-requests':  'Demasiados intentos fallidos. Espera unos minutos.',
+        'auth/invalid-credential': 'Correo o contraseña incorrectos.',
+        'auth/network-request-failed': 'Sin conexión a internet. Verifica tu red.'
       };
-      showAlert(msgs[e.code] || 'Error al iniciar sesión: ' + e.message);
+      showAlert(msgs[e.code] || `Error: ${e.message}`);
     } finally {
       setLoading('btnLogin', false);
     }
-  };
+  }
 
   // ── REGISTRO ──
-  window.handleRegister = async function() {
+  async function handleRegister() {
     hideAlert();
     const nombre   = document.getElementById('regNombre').value.trim();
     const apellido = document.getElementById('regApellido').value.trim();
-    const edad     = document.getElementById('regEdad').value;
+    const edad     = parseInt(document.getElementById('regEdad').value);
+    const tel      = document.getElementById('regTel').value.trim();
     const email    = document.getElementById('regEmail').value.trim();
     const password = document.getElementById('regPassword').value;
     const confirm  = document.getElementById('regConfirm').value;
-    const tel      = document.getElementById('regTel').value.trim();
 
-    let valid = true;
-    const check = (id, errId, cond) => {
-      document.getElementById(id).classList.toggle('error', !cond);
+    // Validación
+    let ok = true;
+    function check(fieldId, errId, cond) {
+      document.getElementById(fieldId).classList.toggle('is-error', !cond);
       document.getElementById(errId).classList.toggle('show', !cond);
-      if (!cond) valid = false;
-    };
-    check('regNombre',   'errNombre',   nombre.length > 1);
-    check('regApellido', 'errApellido', apellido.length > 1);
-    check('regEdad',     'errEdad',     edad >= 10 && edad <= 60);
+      if (!cond) ok = false;
+    }
+    check('regNombre',   'errNombre',   nombre.length >= 2);
+    check('regApellido', 'errApellido', apellido.length >= 2);
+    check('regEdad',     'errEdad',     !isNaN(edad) && edad >= 10 && edad <= 80);
     check('regEmail',    'errEmail',    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
     check('regPassword', 'errPassword', password.length >= 8);
     check('regConfirm',  'errConfirm',  password === confirm);
-    if (!valid) return;
+    if (!ok) return;
 
     setLoading('btnRegister', true);
     try {
       const cred = await createUserWithEmailAndPassword(auth, email, password);
       await setDoc(doc(db, 'users', cred.user.uid), {
-        uid: cred.user.uid, email, nombre, apellido,
-        edad: parseInt(edad), telefono: tel,
-        role: 'alumno', activo: false,
-        createdAt: serverTimestamp(), clases: []
+        uid:       cred.user.uid,
+        email,
+        nombre,
+        apellido,
+        edad,
+        telefono:  tel || null,
+        role:      'alumno',   // SIEMPRE alumno — nunca admin ni profesor
+        activo:    false,      // espera activación del admin
+        clases:    [],
+        createdAt: serverTimestamp()
       });
-      await auth.signOut();
-      showAlert('✅ Cuenta creada. El administrador la activará pronto. Te notificaremos por WhatsApp.', 'success');
-      setTimeout(() => window.switchTab('login'), 3000);
+      await signOut(auth);    // cerrar sesión hasta que admin active
+      showAlert('✅ ¡Cuenta creada! El administrador la activará pronto y te avisaremos. Puedes cerrar esta ventana.', 'success');
+      // Limpiar form
+      ['regNombre','regApellido','regEdad','regTel','regEmail','regPassword','regConfirm'].forEach(id => {
+        document.getElementById(id).value = '';
+      });
+      ['sb1','sb2','sb3','sb4'].forEach(id => document.getElementById(id).style.background = '#e2e8f0');
     } catch (e) {
       const msgs = {
-        'auth/email-already-in-use': 'Ese correo ya está registrado.',
-        'auth/weak-password':        'Contraseña muy débil.',
-        'auth/invalid-email':        'Correo inválido.'
+        'auth/email-already-in-use': 'Ese correo ya tiene una cuenta registrada.',
+        'auth/weak-password':        'La contraseña es muy débil.',
+        'auth/invalid-email':        'Formato de correo inválido.',
+        'auth/network-request-failed': 'Sin conexión a internet.'
       };
-      showAlert(msgs[e.code] || 'Error al registrar: ' + e.message);
+      showAlert(msgs[e.code] || `Error: ${e.message}`);
     } finally {
       setLoading('btnRegister', false);
     }
-  };
+  }
 
   // ── RESET PASSWORD ──
-  window.handleReset = async function() {
+  async function handleReset() {
     hideAlert();
     const email = document.getElementById('resetEmail').value.trim();
-    if (!email) { showAlert('Ingresa tu correo.'); return; }
+    if (!email) { showAlert('Ingresa tu correo para continuar.'); return; }
+
     setLoading('btnReset', true);
     try {
       await sendPasswordResetEmail(auth, email);
-      showAlert('✅ Enlace enviado. Revisa tu bandeja de entrada.', 'success');
+      showAlert('✅ Enlace enviado. Revisa tu bandeja de entrada (y la carpeta de spam).', 'success');
+      document.getElementById('resetEmail').value = '';
     } catch (e) {
-      showAlert('No encontramos ese correo.');
+      const msgs = {
+        'auth/user-not-found':  'No encontramos una cuenta con ese correo.',
+        'auth/invalid-email':   'Formato de correo inválido.',
+        'auth/network-request-failed': 'Sin conexión a internet.'
+      };
+      showAlert(msgs[e.code] || `Error: ${e.message}`);
     } finally {
       setLoading('btnReset', false);
     }
-  };
+  }
 
-  // Enter key en inputs
-  document.addEventListener('keydown', e => {
+  // ── Eventos de botones ──
+  document.getElementById('btnLogin').addEventListener('click',    handleLogin);
+  document.getElementById('btnRegister').addEventListener('click', handleRegister);
+  document.getElementById('btnReset').addEventListener('click',    handleReset);
+
+  // ── Enter key ──
+  document.addEventListener('keydown', (e) => {
     if (e.key !== 'Enter') return;
-    if (document.getElementById('loginForm').classList.contains('active'))    window.handleLogin();
-    if (document.getElementById('registerForm').classList.contains('active')) window.handleRegister();
-    if (document.getElementById('resetPanel').classList.contains('active'))   window.handleReset();
+    if (document.getElementById('loginForm').classList.contains('active'))    handleLogin();
+    if (document.getElementById('registerForm').classList.contains('active')) handleRegister();
+    if (document.getElementById('resetForm').classList.contains('active'))    handleReset();
   });
 </script>
 
-<!-- Generar partículas -->
+<!-- Partículas (script normal, no módulo) -->
 <script>
   const container = document.getElementById('particles');
-  for (let i = 0; i < 25; i++) {
+  for (let i = 0; i < 22; i++) {
     const p = document.createElement('div');
     p.className = 'particle';
-    const size = Math.random() * 5 + 2;
-    p.style.cssText = `
-      width:${size}px; height:${size}px;
-      left:${Math.random()*100}%;
-      animation-duration:${Math.random()*15+8}s;
-      animation-delay:${Math.random()*8}s;
-    `;
+    const size = Math.random() * 6 + 3;
+    p.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;animation-duration:${Math.random()*14+8}s;animation-delay:${Math.random()*8}s`;
     container.appendChild(p);
   }
 </script>
