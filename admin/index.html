@@ -10,241 +10,135 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="style.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-
-  <!-- ✅ FIX: forzar estilos de botones nav desde el <head>
-       para que nunca aparezcan blancos ni siquiera por un instante -->
   <style>
-    /* Reset explícito para botones dentro del sidebar */
-    .sidebar .nav-item,
+    /* ── Reset botones nav para que nunca sean blancos ── */
     .sidebar button.nav-item {
-      display: flex !important;
-      align-items: center !important;
-      gap: 11px !important;
-      width: calc(100% - 24px) !important;
-      margin: 2px 12px !important;
-      padding: 10px 14px !important;
-      background: transparent !important;
-      border: none !important;
-      cursor: pointer !important;
-      color: rgba(255,255,255,.62) !important;
-      font-family: 'Barlow', sans-serif !important;
-      font-weight: 600 !important;
-      font-size: .875rem !important;
-      border-radius: 10px !important;
-      text-align: left !important;
-      text-decoration: none !important;
-      outline: none !important;
-      transition: background .18s, color .18s !important;
-      -webkit-appearance: none !important;
-      appearance: none !important;
+      display:flex!important; align-items:center!important; gap:11px!important;
+      width:calc(100% - 24px)!important; margin:2px 12px!important;
+      padding:10px 14px!important; background:transparent!important;
+      border:none!important; cursor:pointer!important;
+      color:rgba(255,255,255,.62)!important;
+      font-family:'Barlow',sans-serif!important; font-weight:600!important; font-size:.875rem!important;
+      border-radius:10px!important; text-align:left!important; outline:none!important;
+      transition:background .18s,color .18s!important; -webkit-appearance:none!important;
     }
-    .sidebar button.nav-item:hover {
-      background: rgba(255,255,255,.09) !important;
-      color: rgba(255,255,255,.95) !important;
-    }
-    .sidebar button.nav-item.active {
-      background: linear-gradient(135deg, rgba(96,165,250,.25), rgba(59,130,246,.18)) !important;
-      color: white !important;
-      font-weight: 700 !important;
-    }
-    .sidebar button.nav-item i {
-      width: 32px !important; height: 32px !important;
-      display: flex !important; align-items: center !important; justify-content: center !important;
-      border-radius: 8px !important;
-      background: rgba(255,255,255,.08) !important;
-      font-size: .85rem !important; flex-shrink: 0 !important;
-    }
-    .sidebar button.nav-item.active i {
-      background: linear-gradient(135deg, #3b82f6, #60a5fa) !important;
-      color: white !important;
-      box-shadow: 0 3px 10px rgba(59,130,246,.45) !important;
-    }
-
-    /* Spinner de carga inicial */
-    #loadingScreen {
-      position: fixed; inset: 0; z-index: 9999;
-      background: linear-gradient(135deg, #0a2463, #1e5cbf);
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center; gap: 16px;
-    }
-    #loadingScreen .ls-spinner {
-      width: 48px; height: 48px; border-radius: 50%;
-      border: 4px solid rgba(255,255,255,.2);
-      border-top-color: white;
-      animation: spin .8s linear infinite;
-    }
-    #loadingScreen p { color: rgba(255,255,255,.8); font-family: 'Barlow', sans-serif; font-size: .95rem; }
-    @keyframes spin { to { transform: rotate(360deg); } }
+    .sidebar button.nav-item:hover { background:rgba(255,255,255,.09)!important; color:rgba(255,255,255,.95)!important; }
+    .sidebar button.nav-item.active { background:linear-gradient(135deg,rgba(96,165,250,.25),rgba(59,130,246,.18))!important; color:white!important; font-weight:700!important; }
+    .sidebar button.nav-item i { width:32px!important; height:32px!important; display:flex!important; align-items:center!important; justify-content:center!important; border-radius:8px!important; background:rgba(255,255,255,.08)!important; font-size:.85rem!important; flex-shrink:0!important; }
+    .sidebar button.nav-item.active i { background:linear-gradient(135deg,#3b82f6,#60a5fa)!important; color:white!important; }
+    /* ── Pantalla de carga ── */
+    #splash { position:fixed; inset:0; z-index:9999; background:linear-gradient(135deg,#0a2463,#1e5cbf); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px; }
+    #splash .sp { width:48px; height:48px; border-radius:50%; border:4px solid rgba(255,255,255,.2); border-top-color:white; animation:spn .8s linear infinite; }
+    #splash p { color:rgba(255,255,255,.8); font-family:'Barlow',sans-serif; font-size:.95rem; }
+    @keyframes spn { to { transform:rotate(360deg); } }
+    /* ── Pantalla de error ── */
+    #errorScreen { display:none; position:fixed; inset:0; z-index:9998; background:#fff; align-items:center; justify-content:center; }
+    #errorScreen.show { display:flex; }
+    .error-box { max-width:440px; text-align:center; padding:40px 32px; border-radius:20px; box-shadow:0 8px 40px rgba(0,0,0,.12); }
   </style>
 </head>
 <body>
 
-<!-- Pantalla de carga inicial — evita que se vea el panel sin datos -->
-<div id="loadingScreen">
-  <div class="ls-spinner"></div>
-  <p>Verificando sesión...</p>
+<!-- Splash de carga -->
+<div id="splash">
+  <div class="sp"></div>
+  <p id="splashMsg">Verificando sesión...</p>
 </div>
 
-<!-- Overlay sidebar móvil -->
-<div id="sidebarOverlay"
-     style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:150"></div>
+<!-- Pantalla de error (reemplaza al bucle) -->
+<div id="errorScreen">
+  <div class="error-box">
+    <div style="font-size:3rem;margin-bottom:16px">⚠️</div>
+    <h2 style="font-family:'Barlow Condensed',sans-serif;font-size:1.8rem;color:#0a2463;margin-bottom:8px">
+      Error de acceso
+    </h2>
+    <p id="errorMsg" style="color:#4a5568;margin-bottom:24px;font-size:.95rem"></p>
+    <a href="../login/" class="btn btn-primary" style="display:inline-flex;align-items:center;gap:8px;text-decoration:none;padding:12px 28px;border-radius:10px;background:#1648a0;color:white;font-weight:700">
+      <i class="fas fa-sign-in-alt"></i> Ir al inicio de sesión
+    </a>
+  </div>
+</div>
 
-<!-- ══ SIDEBAR ══ -->
+<div id="sidebarOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:150"></div>
+
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-logo">
-    <img src="../assets/logo-conamat.png" alt="CONAMAT"
-         style="height:40px;width:auto;filter:brightness(0) invert(1)">
+    <img src="../assets/logo-conamat.png" alt="CONAMAT" style="height:40px;width:auto;filter:brightness(0) invert(1)">
     <div class="sidebar-logo-text">
       <div class="name">CONAMAT</div>
       <span class="role-tag role-admin">Administrador</span>
     </div>
   </div>
-
   <nav class="sidebar-nav">
     <div class="nav-section-label">Principal</div>
-    <button class="nav-item active" id="nav-dashboard">
-      <i class="fas fa-chart-pie"></i> Dashboard
-    </button>
-    <button class="nav-item" id="nav-usuarios">
-      <i class="fas fa-users"></i> Usuarios
-      <span class="badge" id="pendingBadge" style="display:none">0</span>
-    </button>
-    <button class="nav-item" id="nav-clases">
-      <i class="fas fa-chalkboard-teacher"></i> Clases
-    </button>
-    <button class="nav-item" id="nav-profesores">
-      <i class="fas fa-user-tie"></i> Profesores
-    </button>
+    <button class="nav-item active" id="nav-dashboard"><i class="fas fa-chart-pie"></i> Dashboard</button>
+    <button class="nav-item" id="nav-usuarios"><i class="fas fa-users"></i> Usuarios <span class="badge" id="pendingBadge" style="display:none">0</span></button>
+    <button class="nav-item" id="nav-clases"><i class="fas fa-chalkboard-teacher"></i> Clases</button>
+    <button class="nav-item" id="nav-profesores"><i class="fas fa-user-tie"></i> Profesores</button>
     <div class="nav-section-label" style="margin-top:8px">Sistema</div>
-    <button class="nav-item" id="nav-configuracion">
-      <i class="fas fa-cog"></i> Configuración
-    </button>
-    <a class="nav-item" href="../" target="_blank">
-      <i class="fas fa-external-link-alt"></i> Ver sitio web
-    </a>
+    <button class="nav-item" id="nav-configuracion"><i class="fas fa-cog"></i> Configuración</button>
+    <a class="nav-item" href="../" target="_blank"><i class="fas fa-external-link-alt"></i> Ver sitio</a>
   </nav>
-
   <div class="sidebar-footer">
     <div class="user-card">
       <div class="user-avatar" id="sidebarAvatar">A</div>
-      <div class="user-info">
-        <div class="u-name" id="sidebarName">—</div>
-        <div class="u-role">Administrador</div>
-      </div>
+      <div class="user-info"><div class="u-name" id="sidebarName">—</div><div class="u-role">Administrador</div></div>
     </div>
-    <button class="btn-logout" id="btnLogout">
-      <i class="fas fa-sign-out-alt"></i> Cerrar sesión
-    </button>
+    <button class="btn-logout" id="btnLogout"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</button>
   </div>
 </aside>
 
-<!-- ══ HEADER ══ -->
 <header class="main-header">
   <div class="header-left">
-    <button class="menu-toggle" id="menuToggle">
-      <i class="fas fa-bars"></i>
-    </button>
-    <div class="page-breadcrumb">
-      Admin / <span id="currentSection">Dashboard</span>
-    </div>
+    <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+    <div class="page-breadcrumb">Admin / <span id="breadcrumb">Dashboard</span></div>
   </div>
   <div class="header-right">
-    <div class="header-search">
-      <i class="fas fa-search"></i>
-      <input type="text" id="globalSearch" placeholder="Buscar usuario...">
-    </div>
-    <button class="header-btn" id="btnRefresh" title="Actualizar">
-      <i class="fas fa-sync-alt"></i>
-    </button>
+    <div class="header-search"><i class="fas fa-search"></i><input type="text" id="busqueda" placeholder="Buscar usuario..."></div>
+    <button class="header-btn" id="btnRefresh" title="Actualizar"><i class="fas fa-sync-alt"></i></button>
   </div>
 </header>
 
-<!-- ══ CONTENIDO ══ -->
 <main class="main-content">
 
   <!-- DASHBOARD -->
   <section class="content-area active" id="sec-dashboard">
     <div class="section-header">
-      <div><h1>Dashboard</h1><p>Resumen general de la plataforma</p></div>
-      <button class="btn btn-primary" id="btnRefreshDash">
-        <i class="fas fa-sync-alt"></i> Actualizar
-      </button>
+      <div><h1>Dashboard</h1><p>Resumen general</p></div>
+      <button class="btn btn-primary" id="btnRecargar"><i class="fas fa-sync-alt"></i> Actualizar</button>
     </div>
     <div class="stats-grid">
-      <div class="stat-card stat-blue">
-        <div class="stat-icon"><i class="fas fa-users"></i></div>
-        <div class="stat-body"><div class="num" id="statAlumnos">—</div><div class="lbl">Alumnos activos</div></div>
-      </div>
-      <div class="stat-card stat-orange">
-        <div class="stat-icon"><i class="fas fa-clock"></i></div>
-        <div class="stat-body"><div class="num" id="statPendientes">—</div><div class="lbl">Pendientes de activar</div></div>
-      </div>
-      <div class="stat-card stat-green">
-        <div class="stat-icon"><i class="fas fa-chalkboard-teacher"></i></div>
-        <div class="stat-body"><div class="num" id="statClases">—</div><div class="lbl">Clases activas</div></div>
-      </div>
-      <div class="stat-card stat-teal">
-        <div class="stat-icon"><i class="fas fa-user-tie"></i></div>
-        <div class="stat-body"><div class="num" id="statProfesores">—</div><div class="lbl">Profesores</div></div>
-      </div>
+      <div class="stat-card stat-blue"><div class="stat-icon"><i class="fas fa-users"></i></div><div class="stat-body"><div class="num" id="cAlumnos">—</div><div class="lbl">Alumnos activos</div></div></div>
+      <div class="stat-card stat-orange"><div class="stat-icon"><i class="fas fa-clock"></i></div><div class="stat-body"><div class="num" id="cPendientes">—</div><div class="lbl">Pendientes</div></div></div>
+      <div class="stat-card stat-green"><div class="stat-icon"><i class="fas fa-chalkboard-teacher"></i></div><div class="stat-body"><div class="num" id="cClases">—</div><div class="lbl">Clases</div></div></div>
+      <div class="stat-card stat-teal"><div class="stat-icon"><i class="fas fa-user-tie"></i></div><div class="stat-body"><div class="num" id="cProfesores">—</div><div class="lbl">Profesores</div></div></div>
     </div>
     <div class="grid-2">
-      <div class="panel">
-        <div class="panel-header"><h3>Inscripciones por mes</h3></div>
-        <div class="panel-body"><div class="chart-wrap"><canvas id="chartInscripciones"></canvas></div></div>
-      </div>
-      <div class="panel">
-        <div class="panel-header"><h3>Actividad reciente</h3></div>
-        <div class="panel-body" id="actividadReciente">
-          <div class="loading-spinner"><div class="spinner"></div></div>
-        </div>
-      </div>
+      <div class="panel"><div class="panel-header"><h3>Inscripciones por mes</h3></div><div class="panel-body"><div class="chart-wrap"><canvas id="grafica"></canvas></div></div></div>
+      <div class="panel"><div class="panel-header"><h3>Actividad reciente</h3></div><div class="panel-body" id="actividad"><div class="loading-spinner"><div class="spinner"></div></div></div></div>
     </div>
     <div class="panel">
-      <div class="panel-header">
-        <h3>Pendientes de activación</h3>
-        <button class="btn btn-primary btn-sm" id="btnVerTodos">Ver todos</button>
-      </div>
-      <div class="panel-body" id="pendientesList">
-        <div class="loading-spinner"><div class="spinner"></div></div>
-      </div>
+      <div class="panel-header"><h3>Pendientes de activación</h3><button class="btn btn-primary btn-sm" id="btnVerTodos">Ver todos</button></div>
+      <div class="panel-body" id="pendientes"><div class="loading-spinner"><div class="spinner"></div></div></div>
     </div>
   </section>
 
   <!-- USUARIOS -->
   <section class="content-area" id="sec-usuarios">
     <div class="section-header">
-      <div><h1>Usuarios</h1><p>Alumnos, profesores y administradores</p></div>
+      <div><h1>Usuarios</h1></div>
       <div style="display:flex;gap:10px;flex-wrap:wrap">
-        <select class="form-select" style="width:auto;padding:9px 14px" id="filterRole">
-          <option value="">Todos los roles</option>
-          <option value="alumno">Alumnos</option>
-          <option value="profesor">Profesores</option>
-          <option value="admin">Admins</option>
-        </select>
-        <select class="form-select" style="width:auto;padding:9px 14px" id="filterStatus">
-          <option value="">Todos los estados</option>
-          <option value="true">Activos</option>
-          <option value="false">Inactivos</option>
-        </select>
-        <button class="btn btn-primary" id="btnNuevoUsuario">
-          <i class="fas fa-user-plus"></i> Nuevo usuario
-        </button>
+        <select class="form-select" style="width:auto;padding:9px 14px" id="filRol"><option value="">Todos los roles</option><option value="alumno">Alumnos</option><option value="profesor">Profesores</option><option value="admin">Admins</option></select>
+        <select class="form-select" style="width:auto;padding:9px 14px" id="filEstado"><option value="">Todos</option><option value="true">Activos</option><option value="false">Inactivos</option></select>
+        <button class="btn btn-primary" id="btnNuevoUser"><i class="fas fa-user-plus"></i> Nuevo usuario</button>
       </div>
     </div>
     <div class="panel">
-      <div class="panel-header">
-        <h3>Lista de usuarios</h3>
-        <span style="font-size:.82rem;color:var(--gris-texto)" id="usersCount">Cargando...</span>
-      </div>
+      <div class="panel-header"><h3>Lista</h3><span style="font-size:.82rem;color:var(--gris-texto)" id="cuentaUsers"></span></div>
       <div class="table-wrap">
         <table class="data-table">
-          <thead>
-            <tr><th>Usuario</th><th>Rol</th><th>Estado</th><th>Clases</th><th>Registro</th><th>Acciones</th></tr>
-          </thead>
-          <tbody id="usersTableBody">
-            <tr><td colspan="6"><div class="loading-spinner"><div class="spinner"></div></div></td></tr>
-          </tbody>
+          <thead><tr><th>Usuario</th><th>Rol</th><th>Estado</th><th>Clases</th><th>Registro</th><th>Acciones</th></tr></thead>
+          <tbody id="tablaUsers"><tr><td colspan="6"><div class="loading-spinner"><div class="spinner"></div></div></td></tr></tbody>
         </table>
       </div>
     </div>
@@ -253,33 +147,23 @@
   <!-- CLASES -->
   <section class="content-area" id="sec-clases">
     <div class="section-header">
-      <div><h1>Clases</h1><p>Todas las clases en la plataforma</p></div>
-      <button class="btn btn-primary" id="btnNuevaClase">
-        <i class="fas fa-plus"></i> Nueva clase
-      </button>
+      <div><h1>Clases</h1></div>
+      <button class="btn btn-primary" id="btnNuevaClase"><i class="fas fa-plus"></i> Nueva clase</button>
     </div>
-    <div id="clasesGrid">
-      <div class="loading-spinner"><div class="spinner"></div></div>
-    </div>
+    <div id="gridClases"><div class="loading-spinner"><div class="spinner"></div></div></div>
   </section>
 
   <!-- PROFESORES -->
   <section class="content-area" id="sec-profesores">
     <div class="section-header">
-      <div><h1>Profesores</h1><p>Equipo docente</p></div>
-      <button class="btn btn-primary" id="btnNuevoProfesor">
-        <i class="fas fa-user-plus"></i> Agregar profesor
-      </button>
+      <div><h1>Profesores</h1></div>
+      <button class="btn btn-primary" id="btnNuevoProfe"><i class="fas fa-user-plus"></i> Agregar profesor</button>
     </div>
     <div class="panel">
       <div class="table-wrap">
         <table class="data-table">
-          <thead>
-            <tr><th>Profesor</th><th>Email</th><th>Clases</th><th>Estado</th><th>Acciones</th></tr>
-          </thead>
-          <tbody id="profesoresTableBody">
-            <tr><td colspan="5"><div class="loading-spinner"><div class="spinner"></div></div></td></tr>
-          </tbody>
+          <thead><tr><th>Profesor</th><th>Email</th><th>Clases</th><th>Estado</th><th>Acciones</th></tr></thead>
+          <tbody id="tablaProfe"><tr><td colspan="5"><div class="loading-spinner"><div class="spinner"></div></div></td></tr></tbody>
         </table>
       </div>
     </div>
@@ -287,49 +171,31 @@
 
   <!-- CONFIGURACIÓN -->
   <section class="content-area" id="sec-configuracion">
-    <div class="section-header">
-      <div><h1>Configuración</h1><p>Ajustes generales del sistema</p></div>
-    </div>
+    <div class="section-header"><div><h1>Configuración</h1></div></div>
     <div class="grid-2">
-      <div class="panel">
-        <div class="panel-header"><h3>Información del plantel</h3></div>
-        <div class="panel-body">
-          <div class="form-group"><label class="form-label">Nombre del plantel</label><input class="form-input" value="CONAMAT Chimalhuacán"></div>
-          <div class="form-group"><label class="form-label">Dirección</label><input class="form-input" value="Av. Nezahualcóyotl 241, Sta. María Nativitas, 56333 Chimalhuacán"></div>
-          <div class="form-group"><label class="form-label">WhatsApp</label><input class="form-input" value="+52 55 1465 6210"></div>
-          <button class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button>
+      <div class="panel"><div class="panel-header"><h3>Plantel</h3></div><div class="panel-body">
+        <div class="form-group"><label class="form-label">Nombre</label><input class="form-input" value="CONAMAT Chimalhuacán"></div>
+        <div class="form-group"><label class="form-label">Dirección</label><input class="form-input" value="Av. Nezahualcóyotl 241, Sta. María Nativitas, 56333 Chimalhuacán"></div>
+        <div class="form-group"><label class="form-label">WhatsApp</label><input class="form-input" value="+52 55 1465 6210"></div>
+        <button class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button>
+      </div></div>
+      <div class="panel"><div class="panel-header"><h3>Registro de alumnos</h3></div><div class="panel-body">
+        <div class="form-group"><label class="form-label">Activación de cuentas nuevas</label>
+          <select class="form-select"><option selected>Manual (admin activa)</option><option>Automática</option></select>
         </div>
-      </div>
-      <div class="panel">
-        <div class="panel-header"><h3>Registro de alumnos</h3></div>
-        <div class="panel-body">
-          <div class="form-group">
-            <label class="form-label">Activación de cuentas nuevas</label>
-            <select class="form-select">
-              <option value="manual" selected>Manual (admin activa)</option>
-              <option value="auto">Automática</option>
-            </select>
-          </div>
-          <button class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button>
-        </div>
-      </div>
+        <button class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button>
+      </div></div>
     </div>
   </section>
-
 </main>
 
-<!-- ══ MODALES ══ -->
-
-<!-- Modal Usuario -->
-<div class="modal-overlay" id="modalUsuario">
+<!-- MODALES -->
+<div class="modal-overlay" id="mUser">
   <div class="modal-box">
-    <div class="modal-header">
-      <h3 id="tituloModalUsuario">Nuevo usuario</h3>
-      <button class="modal-close" id="xModalUsuario">✕</button>
-    </div>
-    <input type="hidden" id="editUserId">
+    <div class="modal-header"><h3 id="mUserTitulo">Nuevo usuario</h3><button class="modal-close" id="xUser">✕</button></div>
+    <input type="hidden" id="uidEdit">
     <div class="form-row">
-      <div class="form-group"><label class="form-label">Nombre(s) *</label><input class="form-input" id="uNombre" placeholder="Juan"></div>
+      <div class="form-group"><label class="form-label">Nombre *</label><input class="form-input" id="uNombre" placeholder="Juan"></div>
       <div class="form-group"><label class="form-label">Apellidos *</label><input class="form-input" id="uApellido" placeholder="García"></div>
     </div>
     <div class="form-row">
@@ -338,115 +204,61 @@
     </div>
     <div class="form-group"><label class="form-label">Correo *</label><input class="form-input" type="email" id="uEmail" placeholder="correo@ejemplo.com"></div>
     <div class="form-row">
-      <div class="form-group">
-        <label class="form-label">Rol</label>
-        <select class="form-select" id="uRole">
-          <option value="alumno">Alumno</option>
-          <option value="profesor">Profesor</option>
-          <option value="admin">Administrador</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Estado</label>
-        <select class="form-select" id="uActivo">
-          <option value="true">Activo</option>
-          <option value="false">Inactivo / Pendiente</option>
-        </select>
-      </div>
+      <div class="form-group"><label class="form-label">Rol</label><select class="form-select" id="uRol"><option value="alumno">Alumno</option><option value="profesor">Profesor</option><option value="admin">Admin</option></select></div>
+      <div class="form-group"><label class="form-label">Estado</label><select class="form-select" id="uActivo"><option value="true">Activo</option><option value="false">Inactivo</option></select></div>
     </div>
-    <div class="form-group" id="pwdGroup">
-      <label class="form-label">Contraseña temporal *</label>
-      <input class="form-input" type="password" id="uPassword" placeholder="Mínimo 8 caracteres">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Asignar a clase</label>
-      <select class="form-select" id="uClase"><option value="">Sin clase por ahora</option></select>
-    </div>
-    <div id="msgUsuario"
-         style="display:none;padding:10px 14px;border-radius:8px;font-size:.86rem;font-weight:600;margin-top:8px"></div>
+    <div class="form-group" id="grpPwd"><label class="form-label">Contraseña temporal *</label><input class="form-input" type="password" id="uPwd" placeholder="Mínimo 8 caracteres"></div>
+    <div class="form-group"><label class="form-label">Asignar a clase</label><select class="form-select" id="uClase"><option value="">Sin clase</option></select></div>
+    <div id="alertUser" style="display:none;padding:10px 14px;border-radius:8px;font-size:.86rem;font-weight:600;margin-top:8px"></div>
     <div class="modal-footer">
-      <button class="btn btn-outline" id="cancelarModalUsuario">Cancelar</button>
-      <button class="btn btn-primary" id="btnGuardarUsuario">
-        <i class="fas fa-save"></i> Guardar
-      </button>
+      <button class="btn btn-outline" id="cancelUser">Cancelar</button>
+      <button class="btn btn-primary" id="saveUser"><i class="fas fa-save"></i> Guardar</button>
     </div>
   </div>
 </div>
 
-<!-- Modal Clase -->
-<div class="modal-overlay" id="modalClase">
+<div class="modal-overlay" id="mClase">
   <div class="modal-box">
-    <div class="modal-header">
-      <h3>Nueva clase</h3>
-      <button class="modal-close" id="xModalClase">✕</button>
-    </div>
-    <div class="form-group"><label class="form-label">Nombre *</label><input class="form-input" id="claseNombre" placeholder="Ej: Ingreso UNAM 2026"></div>
-    <div class="form-group"><label class="form-label">Descripción</label><textarea class="form-textarea" id="claseDesc" placeholder="Objetivo del curso..."></textarea></div>
+    <div class="modal-header"><h3>Nueva clase</h3><button class="modal-close" id="xClase">✕</button></div>
+    <div class="form-group"><label class="form-label">Nombre *</label><input class="form-input" id="cNombre" placeholder="Ingreso UNAM 2026"></div>
+    <div class="form-group"><label class="form-label">Descripción</label><textarea class="form-textarea" id="cDesc"></textarea></div>
     <div class="form-row">
-      <div class="form-group">
-        <label class="form-label">Profesor *</label>
-        <select class="form-select" id="claseProfesor"><option value="">Selecciona un profesor...</option></select>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Categoría</label>
-        <select class="form-select" id="claseCategoria">
-          <option value="unam">Ingreso UNAM</option>
-          <option value="ipn">Ingreso IPN</option>
-          <option value="uaem">Ingreso UAEM</option>
-          <option value="ecoems">Bachillerato ECOEMS</option>
-          <option value="prepa">Prepa Intensiva</option>
-          <option value="regularizacion">Regularización</option>
+      <div class="form-group"><label class="form-label">Profesor *</label><select class="form-select" id="cProfe"><option value="">Selecciona...</option></select></div>
+      <div class="form-group"><label class="form-label">Categoría</label>
+        <select class="form-select" id="cCat">
+          <option value="unam">Ingreso UNAM</option><option value="ipn">Ingreso IPN</option>
+          <option value="uaem">Ingreso UAEM</option><option value="ecoems">Bachillerato ECOEMS</option>
+          <option value="prepa">Prepa Intensiva</option><option value="regularizacion">Regularización</option>
           <option value="diplomado">Diplomado</option>
         </select>
       </div>
     </div>
-    <div class="form-row">
-      <div class="form-group"><label class="form-label">Fecha inicio</label><input class="form-input" type="date" id="claseFechaInicio"></div>
-      <div class="form-group"><label class="form-label">Fecha fin</label><input class="form-input" type="date" id="claseFechaFin"></div>
-    </div>
-    <div id="msgClase"
-         style="display:none;padding:10px 14px;border-radius:8px;font-size:.86rem;font-weight:600;margin-top:8px"></div>
+    <div id="alertClase" style="display:none;padding:10px 14px;border-radius:8px;font-size:.86rem;font-weight:600;margin-top:8px"></div>
     <div class="modal-footer">
-      <button class="btn btn-outline" id="cancelarModalClase">Cancelar</button>
-      <button class="btn btn-primary" id="btnGuardarClase">
-        <i class="fas fa-plus"></i> Crear clase
-      </button>
+      <button class="btn btn-outline" id="cancelClase">Cancelar</button>
+      <button class="btn btn-primary" id="saveClase"><i class="fas fa-plus"></i> Crear clase</button>
     </div>
   </div>
 </div>
 
-<!-- Modal Asignar -->
-<div class="modal-overlay" id="modalAsignar">
+<div class="modal-overlay" id="mAsignar">
   <div class="modal-box" style="max-width:420px">
-    <div class="modal-header">
-      <h3>Asignar a clase</h3>
-      <button class="modal-close" id="xModalAsignar">✕</button>
+    <div class="modal-header"><h3>Asignar a clase</h3><button class="modal-close" id="xAsignar">✕</button></div>
+    <div style="padding:12px;background:var(--gris-claro);border-radius:8px;margin-bottom:14px">
+      <div style="font-weight:700;color:var(--azul-marino)" id="asigNombre">—</div>
+      <div style="font-size:.83rem;color:var(--gris-texto)" id="asigEmail">—</div>
     </div>
-    <div style="padding:12px 14px;background:var(--gris-claro);border-radius:8px;margin-bottom:16px">
-      <div style="font-weight:700;color:var(--azul-marino)" id="asignarNombre">—</div>
-      <div style="font-size:.83rem;color:var(--gris-texto)" id="asignarEmail">—</div>
-    </div>
-    <input type="hidden" id="asignarUid">
-    <div class="form-group">
-      <label class="form-label">Clase *</label>
-      <select class="form-select" id="asignarSelect"><option value="">Selecciona una clase...</option></select>
-    </div>
+    <input type="hidden" id="asigUid">
+    <div class="form-group"><label class="form-label">Clase *</label><select class="form-select" id="asigClase"><option value="">Selecciona...</option></select></div>
     <div class="modal-footer">
-      <button class="btn btn-outline" id="cancelarModalAsignar">Cancelar</button>
-      <button class="btn btn-success" id="btnConfirmarAsignar">
-        <i class="fas fa-check"></i> Asignar y activar
-      </button>
+      <button class="btn btn-outline" id="cancelAsig">Cancelar</button>
+      <button class="btn btn-success" id="saveAsig"><i class="fas fa-check"></i> Asignar y activar</button>
     </div>
   </div>
 </div>
 
-<!-- ══ SCRIPT ══ -->
 <script type="module">
-
-// ─────────────────────────────────────────────────────
-// IMPORTS
-// ─────────────────────────────────────────────────────
-import { initializeApp }
+import { initializeApp, getApps, getApp }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut, createUserWithEmailAndPassword }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
@@ -454,745 +266,469 @@ import { getFirestore, collection, getDocs, doc, getDoc, setDoc,
          addDoc, updateDoc, deleteDoc, serverTimestamp }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-// ─────────────────────────────────────────────────────
-// ⚠️ REEMPLAZA con tu configuración real de Firebase
-// ─────────────────────────────────────────────────────
-const FB_CONFIG = {
-  apiKey:            "TU_API_KEY",
-  authDomain:        "TU_PROYECTO.firebaseapp.com",
-  projectId:         "TU_PROYECTO",
-  storageBucket:     "TU_PROYECTO.appspot.com",
-  messagingSenderId: "TU_SENDER_ID",
-  appId:             "TU_APP_ID"
+// ══════════════════════════════════════════════
+// ⚠️  REEMPLAZA con tu config real de Firebase
+// ══════════════════════════════════════════════
+const CFG = {
+  apiKey:            "AIzaSyCpe3K0RmZTcqmaH2O8SdWFE15-1CMkjK4",
+  authDomain:        "conamat-chimalhuacan.firebaseapp.com",
+  projectId:         "conamat-chimalhuacan",
+  storageBucket:     "conamat-chimalhuacan.firebasestorage.app",
+  messagingSenderId: "769823648865",
+  appId:             "1:769823648865:web:5b8bc296ed8921efb4ce20"
 };
+// ══════════════════════════════════════════════
 
-// ─────────────────────────────────────────────────────
-// ✅ DOS INSTANCIAS DE FIREBASE:
-//    - appPrincipal: sesión del admin (NUNCA se toca)
-//    - appSecundaria: solo para crear usuarios nuevos
-//      sin afectar la sesión del admin
-// ─────────────────────────────────────────────────────
-const appPrincipal   = initializeApp(FB_CONFIG, 'admin-principal');
-const appSecundaria  = initializeApp(FB_CONFIG, 'crear-usuarios');
+// App principal (sesión admin)
+const appMain = initializeApp(CFG, 'conamat-admin-main');
+// App secundaria SOLO para crear usuarios sin cambiar la sesión activa
+const appAux  = initializeApp(CFG, 'conamat-admin-aux');
 
-const auth   = getAuth(appPrincipal);
-const auth2  = getAuth(appSecundaria);   // solo para crear usuarios
-const db     = getFirestore(appPrincipal);
+const auth    = getAuth(appMain);
+const authAux = getAuth(appAux);
+const db      = getFirestore(appMain);
 
-// ─────────────────────────────────────────────────────
-// ESTADO GLOBAL
-// ─────────────────────────────────────────────────────
-let allUsers  = [];
-let allClases = [];
+// ── Estado ──
+let users = [], clases = [];
 
-// ─────────────────────────────────────────────────────
-// HELPERS
-// ─────────────────────────────────────────────────────
-function ocultarCarga() {
-  const ls = document.getElementById('loadingScreen');
-  if (ls) ls.style.display = 'none';
+// ── Helpers UI ──
+const splash = document.getElementById('splash');
+const errScr = document.getElementById('errorScreen');
+
+function ocultarSplash() { splash.style.display = 'none'; }
+
+function mostrarError(msg) {
+  splash.style.display = 'none';
+  document.getElementById('errorMsg').textContent = msg;
+  errScr.classList.add('show');
 }
 
-function toast(msg, tipo) {
-  const paleta = { ok:'#1a7a3c', error:'#e63946', info:'#1648a0', warn:'#e88a00' };
-  const t = document.createElement('div');
-  t.style.cssText = [
-    'position:fixed','bottom:24px','right:24px','z-index:99999',
-    `background:${paleta[tipo]||paleta.info}`,'color:white',
-    'padding:13px 22px','border-radius:12px',
-    "font-family:'Barlow',sans-serif",'font-weight:700','font-size:.88rem',
-    'box-shadow:0 8px 28px rgba(0,0,0,.22)','max-width:320px','line-height:1.45',
-    'transform:translateY(70px)','opacity:0',
-    'transition:all .4s cubic-bezier(.34,1.56,.64,1)'
-  ].join(';');
-  t.textContent = msg;
-  document.body.appendChild(t);
-  requestAnimationFrame(function() { t.style.transform='translateY(0)'; t.style.opacity='1'; });
-  setTimeout(function() {
-    t.style.transform='translateY(70px)'; t.style.opacity='0';
-    setTimeout(function(){ t.remove(); }, 500);
-  }, 3800);
+function toast(msg, t) {
+  var c = {ok:'#1a7a3c', error:'#e63946', info:'#1648a0', warn:'#e88a00'};
+  var el = document.createElement('div');
+  el.style.cssText = 'position:fixed;bottom:24px;right:24px;z-index:99999;background:'+(c[t]||c.info)+';color:white;padding:13px 22px;border-radius:12px;font-family:"Barlow",sans-serif;font-weight:700;font-size:.88rem;box-shadow:0 8px 28px rgba(0,0,0,.22);max-width:320px;line-height:1.45;transform:translateY(70px);opacity:0;transition:all .4s cubic-bezier(.34,1.56,.64,1)';
+  el.textContent = msg;
+  document.body.appendChild(el);
+  requestAnimationFrame(function(){ el.style.transform='translateY(0)'; el.style.opacity='1'; });
+  setTimeout(function(){ el.style.transform='translateY(70px)'; el.style.opacity='0'; setTimeout(function(){ el.remove(); }, 500); }, 3800);
 }
 
-function fechaFmt(ts) {
+function fmt(ts) {
   if (!ts) return '—';
-  try {
-    const d = ts.toDate ? ts.toDate() : new Date(ts);
-    return d.toLocaleDateString('es-MX', { year:'numeric', month:'short', day:'numeric' });
-  } catch(e) { return '—'; }
+  try { var d = ts.toDate ? ts.toDate() : new Date(ts); return d.toLocaleDateString('es-MX',{year:'numeric',month:'short',day:'numeric'}); }
+  catch(e) { return '—'; }
 }
 
-function genCodigo() {
-  return Math.random().toString(36).substring(2,8).toUpperCase();
-}
+function codigo() { return Math.random().toString(36).substring(2,8).toUpperCase(); }
+function abrirModal(id) { document.getElementById(id).classList.add('open'); }
+function cerrarModal(id) { document.getElementById(id).classList.remove('open'); }
 
-function modalAbrir(id)  { document.getElementById(id).classList.add('open'); }
-function modalCerrar(id) { document.getElementById(id).classList.remove('open'); }
-
-function msgModal(elId, texto, tipo) {
-  const el = document.getElementById(elId);
+function alertModal(id, msg, tipo) {
+  var el = document.getElementById(id);
   el.style.display = 'block';
-  el.style.cssText += [
-    tipo==='error'
-      ? 'background:#fff0f0;color:#e63946;border:1px solid #fdd'
-      : 'background:#f0fff4;color:#1a7a3c;border:1px solid #c3e6cb'
-  ].join(';');
-  el.textContent = texto;
+  el.style.background = tipo==='error' ? '#fff0f0' : '#f0fff4';
+  el.style.color      = tipo==='error' ? '#e63946' : '#1a7a3c';
+  el.style.border     = '1px solid '+(tipo==='error'?'#fdd':'#c3e6cb');
+  el.textContent = msg;
 }
 
-function limpiarMsgModal(elId) {
-  const el = document.getElementById(elId);
-  if (el) el.style.display = 'none';
-}
-
-// ─────────────────────────────────────────────────────
-// NAVEGACIÓN
-// ─────────────────────────────────────────────────────
-const SECCIONES = ['dashboard','usuarios','clases','profesores','configuracion'];
-const NOMBRES   = {
-  dashboard:'Dashboard', usuarios:'Usuarios',
-  clases:'Clases', profesores:'Profesores', configuracion:'Configuración'
-};
-
-function ir(seccion) {
-  SECCIONES.forEach(function(s) {
-    // Sección
-    var sec = document.getElementById('sec-'+s);
-    if (sec) sec.classList.toggle('active', s===seccion);
-    // Botón nav
-    var btn = document.getElementById('nav-'+s);
-    if (btn) btn.classList.toggle('active', s===seccion);
+// ── Navegación ──
+var SECS = ['dashboard','usuarios','clases','profesores','configuracion'];
+function ir(s) {
+  SECS.forEach(function(x) {
+    document.getElementById('sec-'+x).classList.toggle('active', x===s);
+    var b = document.getElementById('nav-'+x); if (b) b.classList.toggle('active', x===s);
   });
-  document.getElementById('currentSection').textContent = NOMBRES[seccion] || seccion;
-  // Cerrar sidebar en móvil
-  if (window.innerWidth < 769) {
-    document.getElementById('sidebar').classList.remove('open');
-    document.getElementById('sidebarOverlay').style.display = 'none';
-  }
+  var nombres = {dashboard:'Dashboard',usuarios:'Usuarios',clases:'Clases',profesores:'Profesores',configuracion:'Configuración'};
+  document.getElementById('breadcrumb').textContent = nombres[s]||s;
+  if (window.innerWidth < 769) { document.getElementById('sidebar').classList.remove('open'); document.getElementById('sidebarOverlay').style.display='none'; }
 }
+['dashboard','usuarios','clases','profesores','configuracion'].forEach(function(s) {
+  document.getElementById('nav-'+s).addEventListener('click', function() { ir(s); });
+});
 
-// Listeners navegación — usando función nombrada para claridad
-document.getElementById('nav-dashboard').addEventListener('click',     function() { ir('dashboard'); });
-document.getElementById('nav-usuarios').addEventListener('click',      function() { ir('usuarios'); });
-document.getElementById('nav-clases').addEventListener('click',        function() { ir('clases'); });
-document.getElementById('nav-profesores').addEventListener('click',    function() { ir('profesores'); });
-document.getElementById('nav-configuracion').addEventListener('click', function() { ir('configuracion'); });
-
-// ─────────────────────────────────────────────────────
-// SIDEBAR MÓVIL
-// ─────────────────────────────────────────────────────
+// Sidebar móvil
 document.getElementById('menuToggle').addEventListener('click', function() {
-  var sidebar  = document.getElementById('sidebar');
-  var overlay  = document.getElementById('sidebarOverlay');
-  var estaAbierto = sidebar.classList.toggle('open');
-  overlay.style.display = estaAbierto ? 'block' : 'none';
+  var sb = document.getElementById('sidebar'); var ov = document.getElementById('sidebarOverlay');
+  var open = sb.classList.toggle('open'); ov.style.display = open?'block':'none';
 });
 document.getElementById('sidebarOverlay').addEventListener('click', function() {
-  document.getElementById('sidebar').classList.remove('open');
-  this.style.display = 'none';
+  document.getElementById('sidebar').classList.remove('open'); this.style.display='none';
 });
 
-// ─────────────────────────────────────────────────────
-// MODALES — cerrar
-// ─────────────────────────────────────────────────────
-['xModalUsuario','cancelarModalUsuario'].forEach(function(id) {
-  document.getElementById(id).addEventListener('click', function() { modalCerrar('modalUsuario'); });
-});
-['xModalClase','cancelarModalClase'].forEach(function(id) {
-  document.getElementById(id).addEventListener('click', function() { modalCerrar('modalClase'); });
-});
-['xModalAsignar','cancelarModalAsignar'].forEach(function(id) {
-  document.getElementById(id).addEventListener('click', function() { modalCerrar('modalAsignar'); });
-});
-document.querySelectorAll('.modal-overlay').forEach(function(ov) {
-  ov.addEventListener('click', function(e) { if (e.target===ov) ov.classList.remove('open'); });
-});
-document.addEventListener('keydown', function(e) {
-  if (e.key==='Escape')
-    document.querySelectorAll('.modal-overlay.open').forEach(function(m) { m.classList.remove('open'); });
-});
+// Cerrar modales
+['xUser','cancelUser'].forEach(function(id){ document.getElementById(id).addEventListener('click', function(){ cerrarModal('mUser'); }); });
+['xClase','cancelClase'].forEach(function(id){ document.getElementById(id).addEventListener('click', function(){ cerrarModal('mClase'); }); });
+['xAsignar','cancelAsig'].forEach(function(id){ document.getElementById(id).addEventListener('click', function(){ cerrarModal('mAsignar'); }); });
+document.querySelectorAll('.modal-overlay').forEach(function(o){ o.addEventListener('click', function(e){ if(e.target===o) o.classList.remove('open'); }); });
+document.addEventListener('keydown', function(e){ if(e.key==='Escape') document.querySelectorAll('.modal-overlay.open').forEach(function(m){ m.classList.remove('open'); }); });
 
-// ─────────────────────────────────────────────────────
-// CERRAR SESIÓN
-// ─────────────────────────────────────────────────────
+// Cerrar sesión
 document.getElementById('btnLogout').addEventListener('click', async function() {
-  try {
-    await signOut(auth);
-    window.location.href = '../login/';
-  } catch(e) {
-    toast('Error al cerrar sesión', 'error');
-  }
+  try { await signOut(auth); window.location.href='../login/'; } catch(e) { toast('Error: '+e.message,'error'); }
 });
 
-// ─────────────────────────────────────────────────────
-// ✅ AUTENTICACIÓN — con bandera para evitar bucle
-// ─────────────────────────────────────────────────────
-var autenticado = false;   // bandera: true cuando ya se verificó al admin
+// ════════════════════════════════════════════════════
+// ✅ AUTH — Anti-bucle:
+//    1. `checado` = true en el PRIMER disparo, nunca redirige de nuevo
+//    2. Si hay error de Firestore NO redirige → muestra error en pantalla
+//    3. Si user===null → pantalla de error con botón manual (NO auto-redirect)
+// ════════════════════════════════════════════════════
+var checado = false;
 
 onAuthStateChanged(auth, async function(user) {
-  // Si ya estamos autenticados y llega otro evento (por crear usuario, etc.)
-  // NO hacer nada — evitar el bucle
-  if (autenticado) return;
+  if (checado) return;   // ← evita cualquier disparo posterior
+  checado = true;
 
+  // Sin sesión activa
   if (!user) {
-    window.location.href = '../login/';
+    mostrarError('No hay sesión activa. Por favor inicia sesión.');
     return;
   }
 
   try {
+    document.getElementById('splashMsg').textContent = 'Cargando panel...';
     var snap = await getDoc(doc(db, 'users', user.uid));
 
-    if (!snap.exists() || snap.data().role !== 'admin' || !snap.data().activo) {
-      await signOut(auth);
-      window.location.href = '../login/';
+    if (!snap.exists()) {
+      mostrarError('Tu cuenta no está registrada en el sistema. Contacta al administrador.');
       return;
     }
 
-    // ✅ Marcar como autenticado ANTES de cualquier otra operación
-    autenticado = true;
-
     var datos = snap.data();
-    var iniciales = (datos.nombre ? datos.nombre[0] : '') + (datos.apellido ? datos.apellido[0] : '');
-    document.getElementById('sidebarAvatar').textContent = iniciales.toUpperCase();
+
+    if (datos.role !== 'admin') {
+      mostrarError('Tu cuenta no tiene permisos de administrador.');
+      return;
+    }
+
+    if (!datos.activo) {
+      mostrarError('Tu cuenta está desactivada. Contacta al administrador.');
+      return;
+    }
+
+    // ✅ Todo OK — mostrar panel
+    var ini = (datos.nombre?datos.nombre[0]:'') + (datos.apellido?datos.apellido[0]:'');
+    document.getElementById('sidebarAvatar').textContent = ini.toUpperCase();
     document.getElementById('sidebarName').textContent   = datos.nombre + ' ' + datos.apellido;
-
-    // Ocultar pantalla de carga y mostrar panel
-    ocultarCarga();
-
-    // Cargar datos
+    ocultarSplash();
     await cargarTodo();
 
   } catch(e) {
-    ocultarCarga();
-    toast('Error de acceso: ' + e.message, 'error');
+    // ✅ Error de red/Firestore → NO redirigir, mostrar mensaje útil
+    mostrarError('Error al verificar tu sesión: ' + e.message + '\n\nVerifica que tu configuración de Firebase (apiKey, projectId) sea correcta en este archivo.');
   }
 });
 
-// ─────────────────────────────────────────────────────
-// CARGA DE DATOS
-// ─────────────────────────────────────────────────────
+// ── Carga de datos ──
 async function cargarTodo() {
-  await Promise.all([cargarUsuarios(), cargarClases()]);
-  renderDashboard();
+  await Promise.all([cargarUsers(), cargarClases()]);
+  renderDash();
 }
 
-async function cargarUsuarios() {
+async function cargarUsers() {
   try {
-    var snap = await getDocs(collection(db, 'users'));
-    allUsers = snap.docs.map(function(d) { return Object.assign({ id: d.id }, d.data()); });
-    renderTablaUsuarios(allUsers);
-    renderTablaProfe();
-    actualizarBadges();
-  } catch(e) {
-    toast('Error cargando usuarios: ' + e.message, 'error');
-    document.getElementById('usersTableBody').innerHTML =
-      '<tr><td colspan="6" style="text-align:center;padding:24px;color:#e63946">Error al cargar. Verifica la configuración de Firebase.</td></tr>';
-  }
+    var s = await getDocs(collection(db,'users'));
+    users = s.docs.map(function(d){ return Object.assign({id:d.id}, d.data()); });
+    renderTablaUsers(users); renderTablaProfe(); actualizarBadge();
+  } catch(e) { toast('Error usuarios: '+e.message,'error'); }
 }
 
 async function cargarClases() {
   try {
-    var snap = await getDocs(collection(db, 'clases'));
-    allClases = snap.docs.map(function(d) { return Object.assign({ id: d.id }, d.data()); });
-    renderGridClases();
-    llenarSelects();
-  } catch(e) {
-    toast('Error cargando clases: ' + e.message, 'error');
-  }
+    var s = await getDocs(collection(db,'clases'));
+    clases = s.docs.map(function(d){ return Object.assign({id:d.id}, d.data()); });
+    renderGridClases(); llenarSelects();
+  } catch(e) { toast('Error clases: '+e.message,'error'); }
 }
 
-// ─────────────────────────────────────────────────────
-// DASHBOARD
-// ─────────────────────────────────────────────────────
-function renderDashboard() {
-  var alumnos    = allUsers.filter(function(u){ return u.role==='alumno'  && u.activo; }).length;
-  var pendientes = allUsers.filter(function(u){ return u.role==='alumno'  && !u.activo; }).length;
-  var profesores = allUsers.filter(function(u){ return u.role==='profesor'; }).length;
-
-  document.getElementById('statAlumnos').textContent    = alumnos;
-  document.getElementById('statPendientes').textContent = pendientes;
-  document.getElementById('statClases').textContent     = allClases.length;
-  document.getElementById('statProfesores').textContent = profesores;
-
-  actualizarBadges();
-  renderPendientes();
-  renderActividad();
-  renderGrafica();
+// ── Dashboard ──
+function renderDash() {
+  document.getElementById('cAlumnos').textContent    = users.filter(function(u){ return u.role==='alumno'&&u.activo; }).length;
+  document.getElementById('cPendientes').textContent = users.filter(function(u){ return u.role==='alumno'&&!u.activo; }).length;
+  document.getElementById('cClases').textContent     = clases.length;
+  document.getElementById('cProfesores').textContent = users.filter(function(u){ return u.role==='profesor'; }).length;
+  actualizarBadge(); renderPendientes(); renderActividad(); renderGrafica();
 }
 
-function actualizarBadges() {
-  var p = allUsers.filter(function(u){ return u.role==='alumno' && !u.activo; }).length;
-  var b = document.getElementById('pendingBadge');
-  b.style.display = p > 0 ? '' : 'none';
-  b.textContent   = p;
+function actualizarBadge() {
+  var p = users.filter(function(u){ return u.role==='alumno'&&!u.activo; }).length;
+  var b = document.getElementById('pendingBadge'); b.style.display=p?'':'none'; b.textContent=p;
 }
 
 function renderPendientes() {
-  var lista = allUsers.filter(function(u){ return u.role==='alumno' && !u.activo; });
-  var el    = document.getElementById('pendientesList');
-
-  if (!lista.length) {
-    el.innerHTML = '<div class="empty-state"><div class="icon">✅</div><h4>Sin pendientes</h4><p>Todos los alumnos están activados.</p></div>';
-    return;
-  }
-
-  var html = '<div class="table-wrap"><table class="data-table"><thead><tr><th>Alumno</th><th>Email</th><th>Registro</th><th>Acciones</th></tr></thead><tbody>';
+  var lista = users.filter(function(u){ return u.role==='alumno'&&!u.activo; });
+  var el = document.getElementById('pendientes');
+  if (!lista.length) { el.innerHTML='<div class="empty-state"><div class="icon">✅</div><h4>Sin pendientes</h4></div>'; return; }
+  var h = '<div class="table-wrap"><table class="data-table"><thead><tr><th>Alumno</th><th>Email</th><th>Registro</th><th>Acciones</th></tr></thead><tbody>';
   lista.forEach(function(u) {
-    var ini = (u.nombre?u.nombre[0]:'?') + (u.apellido?u.apellido[0]:'?');
-    html += '<tr>'
-      + '<td><div style="display:flex;align-items:center;gap:10px"><div class="avatar" style="background:var(--naranja);font-size:.72rem;width:34px;height:34px">'+ini+'</div>'
-      + '<span class="td-name">'+(u.nombre||'')+' '+(u.apellido||'')+'</span></div></td>'
-      + '<td style="font-size:.85rem">'+(u.email||'')+'</td>'
-      + '<td style="font-size:.82rem;color:var(--gris-texto)">'+fechaFmt(u.createdAt)+'</td>'
-      + '<td><div style="display:flex;gap:6px">'
-      + '<button class="btn btn-success btn-sm" data-uid="'+u.id+'" data-acc="activar"><i class="fas fa-check"></i> Activar</button>'
-      + '<button class="btn btn-sm" style="background:rgba(45,125,210,.1);color:var(--azul-claro)" data-uid="'+u.id+'" data-acc="asignar" data-nombre="'+(u.nombre||'')+' '+(u.apellido||'')+'" data-email="'+(u.email||'')+'"><i class="fas fa-chalkboard-teacher"></i> Clase</button>'
-      + '</div></td></tr>';
+    var i=(u.nombre?u.nombre[0]:'?')+(u.apellido?u.apellido[0]:'?');
+    h+='<tr><td><div style="display:flex;align-items:center;gap:10px"><div class="avatar" style="background:var(--naranja);font-size:.72rem;width:34px;height:34px">'+i+'</div><span class="td-name">'+(u.nombre||'')+' '+(u.apellido||'')+'</span></div></td>'
+      +'<td>'+(u.email||'')+'</td><td>'+fmt(u.createdAt)+'</td>'
+      +'<td><div style="display:flex;gap:6px">'
+      +'<button class="btn btn-success btn-sm" data-a="act" data-uid="'+u.id+'"><i class="fas fa-check"></i> Activar</button>'
+      +'<button class="btn btn-sm" style="background:rgba(45,125,210,.1);color:var(--azul-claro)" data-a="asig" data-uid="'+u.id+'" data-n="'+(u.nombre||'')+' '+(u.apellido||'')+'" data-e="'+(u.email||'')+'"><i class="fas fa-chalkboard-teacher"></i> Clase</button>'
+      +'</div></td></tr>';
   });
-  html += '</tbody></table></div>';
-  el.innerHTML = html;
-  bindAccionesDinamicas(el);
+  h+='</tbody></table></div>';
+  el.innerHTML=h; bindDyn(el);
 }
 
 function renderActividad() {
-  var recientes = allUsers
-    .slice()
-    .sort(function(a,b){ return (b.createdAt?.seconds||0) - (a.createdAt?.seconds||0); })
-    .slice(0,6);
-  var bgPorRol = { admin:'var(--rojo-acento)', profesor:'var(--azul-claro)', alumno:'var(--verde)' };
-  var el = document.getElementById('actividadReciente');
-  if (!recientes.length) { el.innerHTML='<p style="text-align:center;color:var(--gris-texto);padding:20px">Sin actividad.</p>'; return; }
-  var html = '';
-  recientes.forEach(function(u) {
-    var ini = (u.nombre?u.nombre[0]:'?')+(u.apellido?u.apellido[0]:'?');
-    html += '<div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--gris-borde)">'
-      + '<div class="avatar" style="background:'+(bgPorRol[u.role]||'#aaa')+';font-size:.7rem;width:32px;height:32px">'+ini+'</div>'
-      + '<div style="flex:1"><div style="font-weight:700;font-size:.85rem;color:var(--azul-marino)">'+(u.nombre||'')+' '+(u.apellido||'')+'</div>'
-      + '<div style="font-size:.74rem;color:var(--gris-texto)">'+fechaFmt(u.createdAt)+'</div></div>'
-      + '<span class="badge '+(u.activo?'badge-active':'badge-pending')+'">'+(u.activo?'Activo':'Pendiente')+'</span>'
-      + '</div>';
+  var rec = users.slice().sort(function(a,b){ return (b.createdAt?.seconds||0)-(a.createdAt?.seconds||0); }).slice(0,6);
+  var bg={admin:'var(--rojo-acento)',profesor:'var(--azul-claro)',alumno:'var(--verde)'};
+  var h='';
+  rec.forEach(function(u){
+    var i=(u.nombre?u.nombre[0]:'?')+(u.apellido?u.apellido[0]:'?');
+    h+='<div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--gris-borde)">'
+      +'<div class="avatar" style="background:'+(bg[u.role]||'#aaa')+';font-size:.7rem;width:32px;height:32px">'+i+'</div>'
+      +'<div style="flex:1"><div style="font-weight:700;font-size:.85rem;color:var(--azul-marino)">'+(u.nombre||'')+' '+(u.apellido||'')+'</div>'
+      +'<div style="font-size:.74rem;color:var(--gris-texto)">'+fmt(u.createdAt)+'</div></div>'
+      +'<span class="badge '+(u.activo?'badge-active':'badge-pending')+'">'+(u.activo?'Activo':'Pendiente')+'</span></div>';
   });
-  el.innerHTML = html;
+  document.getElementById('actividad').innerHTML = h||'<p style="text-align:center;color:var(--gris-texto);padding:20px">Sin actividad.</p>';
 }
 
 function renderGrafica() {
-  var ctx = document.getElementById('chartInscripciones');
-  if (!ctx) return;
-  var meses  = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
-  var counts = new Array(12).fill(0);
-  allUsers.filter(function(u){ return u.role==='alumno'; }).forEach(function(u) {
-    if (u.createdAt && u.createdAt.seconds)
-      counts[new Date(u.createdAt.seconds*1000).getMonth()]++;
-  });
-  if (window._chartAdmin) window._chartAdmin.destroy();
-  window._chartAdmin = new Chart(ctx, {
-    type: 'line',
-    data: { labels:meses, datasets:[{ label:'Inscripciones', data:counts, borderColor:'#1648a0', backgroundColor:'rgba(22,72,160,.1)', borderWidth:2.5, fill:true, tension:.4, pointBackgroundColor:'#1648a0', pointRadius:4 }] },
-    options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{ y:{beginAtZero:true,ticks:{stepSize:1}}, x:{grid:{display:false}} } }
-  });
+  var ctx = document.getElementById('grafica'); if(!ctx) return;
+  var m=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+  var c=new Array(12).fill(0);
+  users.filter(function(u){return u.role==='alumno';}).forEach(function(u){ if(u.createdAt&&u.createdAt.seconds) c[new Date(u.createdAt.seconds*1000).getMonth()]++; });
+  if(window._chart) window._chart.destroy();
+  window._chart=new Chart(ctx,{type:'line',data:{labels:m,datasets:[{label:'Inscripciones',data:c,borderColor:'#1648a0',backgroundColor:'rgba(22,72,160,.1)',borderWidth:2.5,fill:true,tension:.4,pointBackgroundColor:'#1648a0',pointRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{stepSize:1}},x:{grid:{display:false}}}}});
 }
 
-// ─────────────────────────────────────────────────────
-// TABLA USUARIOS
-// ─────────────────────────────────────────────────────
-function renderTablaUsuarios(lista) {
-  document.getElementById('usersCount').textContent = lista.length + ' usuarios';
-  if (!lista.length) {
-    document.getElementById('usersTableBody').innerHTML = '<tr><td colspan="6"><div class="empty-state"><div class="icon">👥</div><h4>Sin usuarios</h4></div></td></tr>';
-    return;
-  }
-  var bgPorRol   = { admin:'var(--rojo-acento)', profesor:'var(--azul-claro)', alumno:'var(--verde)' };
-  var badgePorRol = { admin:'badge-admin', profesor:'badge-profesor', alumno:'badge-alumno' };
-  var html = '';
+// ── Tabla usuarios ──
+function renderTablaUsers(lista) {
+  document.getElementById('cuentaUsers').textContent = lista.length+' usuarios';
+  if (!lista.length) { document.getElementById('tablaUsers').innerHTML='<tr><td colspan="6"><div class="empty-state"><div class="icon">👥</div><h4>Sin usuarios</h4></div></td></tr>'; return; }
+  var bgR={admin:'var(--rojo-acento)',profesor:'var(--azul-claro)',alumno:'var(--verde)'};
+  var bdgR={admin:'badge-admin',profesor:'badge-profesor',alumno:'badge-alumno'};
+  var h='';
   lista.forEach(function(u) {
-    var ini = (u.nombre?u.nombre[0]:'?')+(u.apellido?u.apellido[0]:'?');
-    var bg  = bgPorRol[u.role]||'#aaa';
-    html += '<tr>'
-      + '<td><div style="display:flex;align-items:center;gap:10px">'
-      + '<div class="avatar" style="background:'+bg+';font-size:.7rem;width:34px;height:34px">'+ini+'</div>'
-      + '<div><div class="td-name">'+(u.nombre||'')+' '+(u.apellido||'')+'</div>'
-      + '<div style="font-size:.73rem;color:#aaa">'+(u.email||'')+'</div></div></div></td>'
-      + '<td><span class="badge '+(badgePorRol[u.role]||'')+'">'+u.role+'</span></td>'
-      + '<td><span class="badge '+(u.activo?'badge-active':'badge-inactive')+'">'+(u.activo?'Activo':'Inactivo')+'</span></td>'
-      + '<td style="font-size:.83rem">'+((u.clases||[]).length)+' clase(s)</td>'
-      + '<td style="font-size:.82rem;color:var(--gris-texto)">'+fechaFmt(u.createdAt)+'</td>'
-      + '<td><div style="display:flex;gap:4px;flex-wrap:wrap">'
-      + '<button class="btn btn-sm btn-icon" style="background:rgba(22,72,160,.1);color:var(--azul-principal)" data-uid="'+u.id+'" data-acc="editar" title="Editar"><i class="fas fa-edit"></i></button>'
-      + '<button class="btn btn-sm btn-icon" style="background:'+(u.activo?'rgba(230,57,70,.1)':'rgba(26,122,60,.1)')+';color:'+(u.activo?'var(--rojo-acento)':'var(--verde)')+'" data-uid="'+u.id+'" data-acc="'+(u.activo?'desactivar':'activar')+'"><i class="fas fa-'+(u.activo?'ban':'check')+'"></i></button>'
-      + (u.role==='alumno' ? '<button class="btn btn-sm btn-icon" style="background:rgba(45,125,210,.1);color:var(--azul-claro)" data-uid="'+u.id+'" data-acc="asignar" data-nombre="'+(u.nombre||'')+' '+(u.apellido||'')+'" data-email="'+(u.email||'')+'"><i class="fas fa-chalkboard-teacher"></i></button>' : '')
-      + '</div></td></tr>';
+    var i=(u.nombre?u.nombre[0]:'?')+(u.apellido?u.apellido[0]:'?');
+    h+='<tr>'
+      +'<td><div style="display:flex;align-items:center;gap:10px"><div class="avatar" style="background:'+(bgR[u.role]||'#aaa')+';font-size:.7rem;width:34px;height:34px">'+i+'</div><div><div class="td-name">'+(u.nombre||'')+' '+(u.apellido||'')+'</div><div style="font-size:.73rem;color:#aaa">'+(u.email||'')+'</div></div></div></td>'
+      +'<td><span class="badge '+(bdgR[u.role]||'')+'">'+(u.role||'')+'</span></td>'
+      +'<td><span class="badge '+(u.activo?'badge-active':'badge-inactive')+'">'+(u.activo?'Activo':'Inactivo')+'</span></td>'
+      +'<td>'+(u.clases||[]).length+' clase(s)</td>'
+      +'<td style="font-size:.82rem;color:var(--gris-texto)">'+fmt(u.createdAt)+'</td>'
+      +'<td><div style="display:flex;gap:4px;flex-wrap:wrap">'
+      +'<button class="btn btn-sm btn-icon" style="background:rgba(22,72,160,.1);color:var(--azul-principal)" data-a="edit" data-uid="'+u.id+'" title="Editar"><i class="fas fa-edit"></i></button>'
+      +'<button class="btn btn-sm btn-icon" style="background:'+(u.activo?'rgba(230,57,70,.1)':'rgba(26,122,60,.1)')+';color:'+(u.activo?'var(--rojo-acento)':'var(--verde)')+'" data-a="'+(u.activo?'des':'act')+'" data-uid="'+u.id+'"><i class="fas fa-'+(u.activo?'ban':'check')+'"></i></button>'
+      +(u.role==='alumno'?'<button class="btn btn-sm btn-icon" style="background:rgba(45,125,210,.1);color:var(--azul-claro)" data-a="asig" data-uid="'+u.id+'" data-n="'+(u.nombre||'')+' '+(u.apellido||'')+'" data-e="'+(u.email||'')+'"><i class="fas fa-chalkboard-teacher"></i></button>':'')
+      +'</div></td></tr>';
   });
-  document.getElementById('usersTableBody').innerHTML = html;
-  bindAccionesDinamicas(document.getElementById('usersTableBody'));
+  document.getElementById('tablaUsers').innerHTML=h;
+  bindDyn(document.getElementById('tablaUsers'));
 }
 
-// ─────────────────────────────────────────────────────
-// BIND BOTONES DINÁMICOS
-// ─────────────────────────────────────────────────────
-function bindAccionesDinamicas(contenedor) {
-  contenedor.querySelectorAll('[data-acc]').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-      var acc    = btn.getAttribute('data-acc');
-      var uid    = btn.getAttribute('data-uid');
-      var nombre = btn.getAttribute('data-nombre') || '';
-      var email  = btn.getAttribute('data-email')  || '';
-      if (acc === 'activar')     cambiarEstado(uid, true);
-      else if (acc === 'desactivar') cambiarEstado(uid, false);
-      else if (acc === 'editar')     abrirEditar(uid);
-      else if (acc === 'asignar')    abrirAsignar(uid, nombre, email);
-    });
-  });
-}
-
-// ─────────────────────────────────────────────────────
-// TABLA PROFESORES
-// ─────────────────────────────────────────────────────
 function renderTablaProfe() {
-  var profes = allUsers.filter(function(u){ return u.role==='profesor'; });
-  if (!profes.length) {
-    document.getElementById('profesoresTableBody').innerHTML = '<tr><td colspan="5"><div class="empty-state"><div class="icon">👨‍🏫</div><h4>Sin profesores</h4></div></td></tr>';
-    return;
-  }
-  var html = '';
-  profes.forEach(function(p) {
-    var clasesPro = allClases.filter(function(c){ return c.profesorId===p.id; });
-    var ini = (p.nombre?p.nombre[0]:'?')+(p.apellido?p.apellido[0]:'?');
-    html += '<tr>'
-      + '<td><div style="display:flex;align-items:center;gap:10px"><div class="avatar" style="background:var(--azul-claro);font-size:.7rem;width:34px;height:34px">'+ini+'</div><span class="td-name">'+(p.nombre||'')+' '+(p.apellido||'')+'</span></div></td>'
-      + '<td style="font-size:.85rem">'+(p.email||'')+'</td>'
-      + '<td>'+(clasesPro.length ? clasesPro.map(function(c){ return '<span class="badge badge-alumno" style="margin:2px">'+c.nombre+'</span>'; }).join('') : '<span style="color:#ccc;font-size:.82rem">Sin clases</span>')+'</td>'
-      + '<td><span class="badge '+(p.activo?'badge-active':'badge-inactive')+'">'+(p.activo?'Activo':'Inactivo')+'</span></td>'
-      + '<td><div style="display:flex;gap:4px">'
-      + '<button class="btn btn-sm btn-icon" style="background:rgba(22,72,160,.1);color:var(--azul-principal)" data-uid="'+p.id+'" data-acc="editar"><i class="fas fa-edit"></i></button>'
-      + '<button class="btn btn-sm btn-icon" style="background:'+(p.activo?'rgba(230,57,70,.1)':'rgba(26,122,60,.1)')+';color:'+(p.activo?'var(--rojo-acento)':'var(--verde)')+'" data-uid="'+p.id+'" data-acc="'+(p.activo?'desactivar':'activar')+'"><i class="fas fa-'+(p.activo?'ban':'check')+'"></i></button>'
-      + '</div></td></tr>';
+  var p=users.filter(function(u){return u.role==='profesor';});
+  if(!p.length){ document.getElementById('tablaProfe').innerHTML='<tr><td colspan="5"><div class="empty-state"><div class="icon">👨‍🏫</div><h4>Sin profesores</h4></div></td></tr>'; return; }
+  var h='';
+  p.forEach(function(u) {
+    var cp=clases.filter(function(c){return c.profesorId===u.id;});
+    var i=(u.nombre?u.nombre[0]:'?')+(u.apellido?u.apellido[0]:'?');
+    h+='<tr>'
+      +'<td><div style="display:flex;align-items:center;gap:10px"><div class="avatar" style="background:var(--azul-claro);font-size:.7rem;width:34px;height:34px">'+i+'</div><span class="td-name">'+(u.nombre||'')+' '+(u.apellido||'')+'</span></div></td>'
+      +'<td style="font-size:.85rem">'+(u.email||'')+'</td>'
+      +'<td>'+(cp.length?cp.map(function(c){return '<span class="badge badge-alumno" style="margin:2px">'+c.nombre+'</span>';}).join(''):'<span style="color:#ccc">Sin clases</span>')+'</td>'
+      +'<td><span class="badge '+(u.activo?'badge-active':'badge-inactive')+'">'+(u.activo?'Activo':'Inactivo')+'</span></td>'
+      +'<td><div style="display:flex;gap:4px">'
+      +'<button class="btn btn-sm btn-icon" style="background:rgba(22,72,160,.1);color:var(--azul-principal)" data-a="edit" data-uid="'+u.id+'"><i class="fas fa-edit"></i></button>'
+      +'<button class="btn btn-sm btn-icon" style="background:'+(u.activo?'rgba(230,57,70,.1)':'rgba(26,122,60,.1)')+';color:'+(u.activo?'var(--rojo-acento)':'var(--verde)')+'" data-a="'+(u.activo?'des':'act')+'" data-uid="'+u.id+'"><i class="fas fa-'+(u.activo?'ban':'check')+'"></i></button>'
+      +'</div></td></tr>';
   });
-  document.getElementById('profesoresTableBody').innerHTML = html;
-  bindAccionesDinamicas(document.getElementById('profesoresTableBody'));
+  document.getElementById('tablaProfe').innerHTML=h;
+  bindDyn(document.getElementById('tablaProfe'));
 }
 
-// ─────────────────────────────────────────────────────
-// GRID CLASES
-// ─────────────────────────────────────────────────────
 function renderGridClases() {
-  if (!allClases.length) {
-    document.getElementById('clasesGrid').innerHTML = '<div class="empty-state"><div class="icon">🎓</div><h4>Sin clases creadas</h4><p>Crea la primera clase.</p></div>';
-    return;
-  }
-  var col = { unam:'#e88a00',ipn:'#cc0000',uaem:'#1648a0',ecoems:'#2d7dd2',prepa:'#e88a00',regularizacion:'#1a7a3c',diplomado:'#0077b6' };
-  var ico = { unam:'🎓',ipn:'🔬',uaem:'🏛️',ecoems:'📐',prepa:'⚡',regularizacion:'🧮',diplomado:'🏅' };
-  var html = '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:18px">';
-  allClases.forEach(function(c) {
-    var profe  = allUsers.find(function(u){ return u.id===c.profesorId; });
-    var color  = col[c.categoria] || 'var(--azul-principal)';
-    var icono  = ico[c.categoria] || '📚';
-    html += '<div class="panel" style="margin:0">'
-      + '<div style="height:5px;background:'+color+'"></div>'
-      + '<div class="panel-body">'
-      + '<div style="display:flex;justify-content:space-between;margin-bottom:10px"><div style="font-size:1.8rem">'+icono+'</div><span class="badge" style="background:'+color+'22;color:'+color+'">'+( c.categoria||'general')+'</span></div>'
-      + '<h4 style="font-family:\'Barlow Condensed\',sans-serif;font-size:1.15rem;font-weight:800;color:var(--azul-marino);margin-bottom:4px">'+(c.nombre||'Sin nombre')+'</h4>'
-      + '<p style="font-size:.82rem;color:var(--gris-texto);margin-bottom:10px">'+(c.descripcion||'Sin descripción')+'</p>'
-      + '<div style="font-size:.78rem;color:var(--gris-texto);margin-bottom:12px">👨‍🏫 '+(profe ? profe.nombre+' '+profe.apellido : 'Sin profesor')+'<br>🔑 <code style="background:var(--gris-claro);padding:1px 6px;border-radius:3px">'+(c.codigo||'—')+'</code></div>'
-      + '<button class="btn btn-sm btn-danger" style="width:100%" data-acc-clase="'+c.id+'" data-nombre-clase="'+(c.nombre||'')+'"><i class="fas fa-trash"></i> Eliminar</button>'
-      + '</div></div>';
+  if(!clases.length){ document.getElementById('gridClases').innerHTML='<div class="empty-state"><div class="icon">🎓</div><h4>Sin clases</h4></div>'; return; }
+  var col={unam:'#e88a00',ipn:'#cc0000',uaem:'#1648a0',ecoems:'#2d7dd2',prepa:'#e88a00',regularizacion:'#1a7a3c',diplomado:'#0077b6'};
+  var ico={unam:'🎓',ipn:'🔬',uaem:'🏛️',ecoems:'📐',prepa:'⚡',regularizacion:'🧮',diplomado:'🏅'};
+  var h='<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:18px">';
+  clases.forEach(function(c) {
+    var pr=users.find(function(u){return u.id===c.profesorId;});
+    var color=col[c.categoria]||'var(--azul-principal)';
+    h+='<div class="panel" style="margin:0"><div style="height:5px;background:'+color+'"></div><div class="panel-body">'
+      +'<div style="display:flex;justify-content:space-between;margin-bottom:10px"><div style="font-size:1.8rem">'+(ico[c.categoria]||'📚')+'</div><span class="badge" style="background:'+color+'22;color:'+color+'">'+(c.categoria||'general')+'</span></div>'
+      +'<h4 style="font-family:\'Barlow Condensed\',sans-serif;font-size:1.15rem;font-weight:800;color:var(--azul-marino);margin-bottom:4px">'+(c.nombre||'Sin nombre')+'</h4>'
+      +'<p style="font-size:.82rem;color:var(--gris-texto);margin-bottom:10px">'+(c.descripcion||'Sin descripción')+'</p>'
+      +'<div style="font-size:.78rem;color:var(--gris-texto);margin-bottom:12px">👨‍🏫 '+(pr?pr.nombre+' '+pr.apellido:'Sin profesor')+'<br>🔑 <code style="background:var(--gris-claro);padding:1px 6px;border-radius:3px">'+(c.codigo||'—')+'</code></div>'
+      +'<button class="btn btn-sm btn-danger" style="width:100%" data-del="'+c.id+'" data-dn="'+(c.nombre||'')+'"><i class="fas fa-trash"></i> Eliminar</button>'
+      +'</div></div>';
   });
-  html += '</div>';
-  document.getElementById('clasesGrid').innerHTML = html;
-
-  document.querySelectorAll('[data-acc-clase]').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-      var cid    = btn.getAttribute('data-acc-clase');
-      var nombre = btn.getAttribute('data-nombre-clase');
-      if (confirm('¿Eliminar "'+nombre+'"? Esta acción es permanente.'))
-        eliminarClase(cid);
+  h+='</div>';
+  document.getElementById('gridClases').innerHTML=h;
+  document.querySelectorAll('[data-del]').forEach(function(b){
+    b.addEventListener('click',function(){
+      if(confirm('¿Eliminar "'+b.dataset.dn+'"?')) deleteDoc(doc(db,'clases',b.dataset.del)).then(function(){ toast('Clase eliminada','info'); cargarClases(); });
     });
   });
 }
 
-async function eliminarClase(cid) {
-  try {
-    await deleteDoc(doc(db,'clases',cid));
-    toast('Clase eliminada','info');
-    await cargarClases();
-  } catch(e) { toast('Error: '+e.message,'error'); }
+// ── Bind botones dinámicos ──
+function bindDyn(cont) {
+  cont.querySelectorAll('[data-a]').forEach(function(b) {
+    b.addEventListener('click', function() {
+      var a=b.dataset.a, uid=b.dataset.uid;
+      if (a==='act')  cambiarEstado(uid,true);
+      else if (a==='des')  cambiarEstado(uid,false);
+      else if (a==='edit') abrirEditar(uid);
+      else if (a==='asig') abrirAsignar(uid, b.dataset.n||'', b.dataset.e||'');
+    });
+  });
 }
 
-// ─────────────────────────────────────────────────────
-// SELECTS AUXILIARES
-// ─────────────────────────────────────────────────────
+async function cambiarEstado(uid,activo) {
+  try { await updateDoc(doc(db,'users',uid),{activo}); toast(activo?'Activado ✅':'Desactivado',activo?'ok':'warn'); await cargarUsers(); renderDash(); }
+  catch(e) { toast('Error: '+e.message,'error'); }
+}
+
 function llenarSelects() {
-  var profes = allUsers.filter(function(u){ return u.role==='profesor' && u.activo; });
-  var optsP  = '<option value="">Selecciona un profesor...</option>';
-  profes.forEach(function(p){ optsP += '<option value="'+p.id+'">'+p.nombre+' '+p.apellido+'</option>'; });
-  document.getElementById('claseProfesor').innerHTML = optsP;
-
-  var optsC = '<option value="">Sin clase por ahora</option>';
-  allClases.forEach(function(c){ optsC += '<option value="'+c.id+'">'+c.nombre+'</option>'; });
-  document.getElementById('uClase').innerHTML = optsC;
-  document.getElementById('asignarSelect').innerHTML = '<option value="">Selecciona una clase...</option>' +
-    allClases.map(function(c){ return '<option value="'+c.id+'">'+c.nombre+'</option>'; }).join('');
-}
-
-// ─────────────────────────────────────────────────────
-// ACCIONES DE USUARIO
-// ─────────────────────────────────────────────────────
-async function cambiarEstado(uid, activo) {
-  try {
-    await updateDoc(doc(db,'users',uid), { activo: activo });
-    toast(activo ? 'Usuario activado ✅' : 'Usuario desactivado', activo?'ok':'warn');
-    await cargarUsuarios();
-    renderDashboard();
-  } catch(e) { toast('Error: '+e.message,'error'); }
+  var profs=users.filter(function(u){return u.role==='profesor'&&u.activo;});
+  document.getElementById('cProfe').innerHTML='<option value="">Selecciona...</option>'+profs.map(function(p){return '<option value="'+p.id+'">'+p.nombre+' '+p.apellido+'</option>';}).join('');
+  var oc='<option value="">Sin clase</option>'+clases.map(function(c){return '<option value="'+c.id+'">'+c.nombre+'</option>';}).join('');
+  document.getElementById('uClase').innerHTML=oc;
+  document.getElementById('asigClase').innerHTML='<option value="">Selecciona...</option>'+clases.map(function(c){return '<option value="'+c.id+'">'+c.nombre+'</option>';}).join('');
 }
 
 function abrirEditar(uid) {
-  var u = allUsers.find(function(x){ return x.id===uid; });
-  if (!u) { toast('Usuario no encontrado','error'); return; }
-  document.getElementById('editUserId').value             = uid;
-  document.getElementById('tituloModalUsuario').textContent = 'Editar usuario';
-  document.getElementById('uNombre').value                = u.nombre   || '';
-  document.getElementById('uApellido').value              = u.apellido || '';
-  document.getElementById('uEdad').value                  = u.edad     || '';
-  document.getElementById('uTel').value                   = u.telefono || '';
-  document.getElementById('uEmail').value                 = u.email    || '';
-  document.getElementById('uRole').value                  = u.role     || 'alumno';
-  document.getElementById('uActivo').value                = String(u.activo);
-  document.getElementById('pwdGroup').style.display       = 'none';
-  limpiarMsgModal('msgUsuario');
-  llenarSelects();
-  modalAbrir('modalUsuario');
+  var u=users.find(function(x){return x.id===uid;});
+  if(!u){toast('No encontrado','error');return;}
+  document.getElementById('uidEdit').value=uid;
+  document.getElementById('mUserTitulo').textContent='Editar usuario';
+  document.getElementById('uNombre').value=u.nombre||'';
+  document.getElementById('uApellido').value=u.apellido||'';
+  document.getElementById('uEdad').value=u.edad||'';
+  document.getElementById('uTel').value=u.telefono||'';
+  document.getElementById('uEmail').value=u.email||'';
+  document.getElementById('uRol').value=u.role||'alumno';
+  document.getElementById('uActivo').value=String(u.activo);
+  document.getElementById('grpPwd').style.display='none';
+  document.getElementById('alertUser').style.display='none';
+  llenarSelects(); abrirModal('mUser');
 }
 
-function abrirAsignar(uid, nombre, email) {
-  document.getElementById('asignarUid').value            = uid;
-  document.getElementById('asignarNombre').textContent   = nombre;
-  document.getElementById('asignarEmail').textContent    = email;
-  llenarSelects();
-  modalAbrir('modalAsignar');
+function abrirAsignar(uid,nombre,email) {
+  document.getElementById('asigUid').value=uid;
+  document.getElementById('asigNombre').textContent=nombre;
+  document.getElementById('asigEmail').textContent=email;
+  llenarSelects(); abrirModal('mAsignar');
 }
 
-// ─────────────────────────────────────────────────────
-// GUARDAR USUARIO
-// ─────────────────────────────────────────────────────
-document.getElementById('btnGuardarUsuario').addEventListener('click', async function() {
-  var uid      = document.getElementById('editUserId').value;
-  var nombre   = document.getElementById('uNombre').value.trim();
-  var apellido = document.getElementById('uApellido').value.trim();
-  var edad     = parseInt(document.getElementById('uEdad').value) || null;
-  var tel      = document.getElementById('uTel').value.trim();
-  var email    = document.getElementById('uEmail').value.trim();
-  var role     = document.getElementById('uRole').value;
-  var activo   = document.getElementById('uActivo').value === 'true';
-  var claseId  = document.getElementById('uClase').value;
-  var pwd      = document.getElementById('uPassword').value;
-
-  if (!nombre || !apellido || !email) {
-    msgModal('msgUsuario', 'Completa nombre, apellidos y correo.', 'error');
-    return;
-  }
-
-  var btn = document.getElementById('btnGuardarUsuario');
-  btn.disabled = true;
-  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Guardando...';
-  limpiarMsgModal('msgUsuario');
-
+// ── Guardar usuario ──
+document.getElementById('saveUser').addEventListener('click', async function() {
+  var uid=document.getElementById('uidEdit').value;
+  var nombre=document.getElementById('uNombre').value.trim();
+  var apellido=document.getElementById('uApellido').value.trim();
+  var edad=parseInt(document.getElementById('uEdad').value)||null;
+  var tel=document.getElementById('uTel').value.trim();
+  var email=document.getElementById('uEmail').value.trim();
+  var rol=document.getElementById('uRol').value;
+  var activo=document.getElementById('uActivo').value==='true';
+  var claseId=document.getElementById('uClase').value;
+  var pwd=document.getElementById('uPwd').value;
+  if(!nombre||!apellido||!email){alertModal('alertUser','Completa nombre, apellidos y correo.','error');return;}
+  var btn=this; btn.disabled=true; btn.innerHTML='<i class="fas fa-spinner fa-spin"></i>';
+  document.getElementById('alertUser').style.display='none';
   try {
-    if (uid) {
-      // ── Editar usuario existente ──
-      await updateDoc(doc(db,'users',uid), { nombre,apellido,edad,telefono:tel,role,activo });
-
+    if(uid) {
+      await updateDoc(doc(db,'users',uid),{nombre,apellido,edad,telefono:tel,role:rol,activo});
     } else {
-      // ── Crear usuario nuevo ──
-      // ✅ Usamos appSecundaria para no afectar la sesión del admin
-      if (!pwd || pwd.length < 8) {
-        msgModal('msgUsuario','La contraseña debe tener al menos 8 caracteres.','error');
-        btn.disabled = false;
-        btn.innerHTML = '<i class="fas fa-save"></i> Guardar';
-        return;
-      }
-
-      var cred = await createUserWithEmailAndPassword(auth2, email, pwd);
-
-      await setDoc(doc(db,'users',cred.user.uid), {
-        uid:      cred.user.uid,
-        email, nombre, apellido, edad,
-        telefono: tel || null,
-        role, activo,
-        clases:   claseId ? [claseId] : [],
-        createdAt: serverTimestamp()
-      });
-
-      if (claseId) {
-        await setDoc(doc(db,'clases',claseId,'alumnos',cred.user.uid), {
-          uid: cred.user.uid, activo: true, inscritoEn: serverTimestamp()
-        });
-      }
-
-      // ✅ Cerrar sesión en la app secundaria
-      // (la principal nunca se tocó)
-      await signOut(auth2);
+      if(!pwd||pwd.length<8){alertModal('alertUser','Contraseña mínimo 8 caracteres.','error');btn.disabled=false;btn.innerHTML='<i class="fas fa-save"></i> Guardar';return;}
+      // ✅ Usar app auxiliar para no cambiar la sesión del admin
+      var cred=await createUserWithEmailAndPassword(authAux,email,pwd);
+      await setDoc(doc(db,'users',cred.user.uid),{uid:cred.user.uid,email,nombre,apellido,edad,telefono:tel||null,role:rol,activo,clases:claseId?[claseId]:[],createdAt:serverTimestamp()});
+      if(claseId) await setDoc(doc(db,'clases',claseId,'alumnos',cred.user.uid),{uid:cred.user.uid,activo:true,inscritoEn:serverTimestamp()});
+      await signOut(authAux); // limpiar sesión auxiliar
     }
-
-    modalCerrar('modalUsuario');
-    toast('Usuario guardado ✅', 'ok');
-    await cargarUsuarios();
-    renderDashboard();
-
+    cerrarModal('mUser'); toast('Guardado ✅','ok');
+    await cargarUsers(); renderDash();
   } catch(e) {
-    var errores = {
-      'auth/email-already-in-use': 'Ese correo ya está registrado.',
-      'auth/weak-password':        'Contraseña demasiado débil.',
-      'auth/invalid-email':        'Formato de correo inválido.'
-    };
-    msgModal('msgUsuario', errores[e.code] || 'Error: ' + e.message, 'error');
-  } finally {
-    btn.disabled = false;
-    btn.innerHTML = '<i class="fas fa-save"></i> Guardar';
-  }
+    var err={'auth/email-already-in-use':'Ese correo ya está registrado.','auth/weak-password':'Contraseña muy débil.','auth/invalid-email':'Correo inválido.'};
+    alertModal('alertUser',err[e.code]||'Error: '+e.message,'error');
+  } finally { btn.disabled=false; btn.innerHTML='<i class="fas fa-save"></i> Guardar'; }
 });
 
-// ─────────────────────────────────────────────────────
-// GUARDAR CLASE
-// ─────────────────────────────────────────────────────
-document.getElementById('btnGuardarClase').addEventListener('click', async function() {
-  var nombre = document.getElementById('claseNombre').value.trim();
-  var desc   = document.getElementById('claseDesc').value.trim();
-  var profId = document.getElementById('claseProfesor').value;
-  var cat    = document.getElementById('claseCategoria').value;
-  var inicio = document.getElementById('claseFechaInicio').value;
-  var fin    = document.getElementById('claseFechaFin').value;
-
-  if (!nombre || !profId) {
-    msgModal('msgClase','El nombre y el profesor son obligatorios.','error');
-    return;
-  }
-
-  var btn = document.getElementById('btnGuardarClase');
-  btn.disabled = true;
-  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creando...';
-  limpiarMsgModal('msgClase');
-
+// ── Guardar clase ──
+document.getElementById('saveClase').addEventListener('click', async function() {
+  var nombre=document.getElementById('cNombre').value.trim();
+  var desc=document.getElementById('cDesc').value.trim();
+  var profId=document.getElementById('cProfe').value;
+  var cat=document.getElementById('cCat').value;
+  if(!nombre||!profId){alertModal('alertClase','Nombre y profesor son obligatorios.','error');return;}
+  var btn=this; btn.disabled=true; btn.innerHTML='<i class="fas fa-spinner fa-spin"></i>';
+  document.getElementById('alertClase').style.display='none';
   try {
-    await addDoc(collection(db,'clases'), {
-      nombre, descripcion:desc, profesorId:profId, categoria:cat,
-      codigo:generarCodigo(), fechaInicio:inicio||null, fechaFin:fin||null,
-      activo:true, createdAt:serverTimestamp()
-    });
-    modalCerrar('modalClase');
-    toast('Clase creada ✅','ok');
-    ['claseNombre','claseDesc','claseFechaInicio','claseFechaFin'].forEach(function(id){
-      document.getElementById(id).value='';
-    });
+    await addDoc(collection(db,'clases'),{nombre,descripcion:desc,profesorId:profId,categoria:cat,codigo:codigo(),activo:true,createdAt:serverTimestamp()});
+    cerrarModal('mClase'); toast('Clase creada ✅','ok');
+    document.getElementById('cNombre').value=''; document.getElementById('cDesc').value='';
     await cargarClases();
-  } catch(e) {
-    msgModal('msgClase','Error: '+e.message,'error');
-  } finally {
-    btn.disabled = false;
-    btn.innerHTML = '<i class="fas fa-plus"></i> Crear clase';
-  }
+  } catch(e){ alertModal('alertClase','Error: '+e.message,'error'); }
+  finally { btn.disabled=false; btn.innerHTML='<i class="fas fa-plus"></i> Crear clase'; }
 });
 
-// ─────────────────────────────────────────────────────
-// ASIGNAR CLASE
-// ─────────────────────────────────────────────────────
-document.getElementById('btnConfirmarAsignar').addEventListener('click', async function() {
-  var uid     = document.getElementById('asignarUid').value;
-  var claseId = document.getElementById('asignarSelect').value;
-  if (!claseId) { toast('Selecciona una clase primero','error'); return; }
-
-  var btn = document.getElementById('btnConfirmarAsignar');
-  btn.disabled = true;
-  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-
+// ── Asignar clase ──
+document.getElementById('saveAsig').addEventListener('click', async function() {
+  var uid=document.getElementById('asigUid').value;
+  var cId=document.getElementById('asigClase').value;
+  if(!cId){toast('Selecciona una clase','error');return;}
+  var btn=this; btn.disabled=true; btn.innerHTML='<i class="fas fa-spinner fa-spin"></i>';
   try {
-    var usuario = allUsers.find(function(u){ return u.id===uid; });
-    var clases  = usuario ? (usuario.clases||[]).slice() : [];
-    if (!clases.includes(claseId)) clases.push(claseId);
-    await updateDoc(doc(db,'users',uid), { clases:clases, activo:true });
-    await setDoc(doc(db,'clases',claseId,'alumnos',uid), { uid:uid, activo:true, inscritoEn:serverTimestamp() });
-    modalCerrar('modalAsignar');
-    toast('Alumno asignado y activado ✅','ok');
-    await cargarUsuarios();
-    renderDashboard();
-  } catch(e) {
-    toast('Error: '+e.message,'error');
-  } finally {
-    btn.disabled = false;
-    btn.innerHTML = '<i class="fas fa-check"></i> Asignar y activar';
-  }
+    var u=users.find(function(x){return x.id===uid;});
+    var cl=(u?u.clases||[]:[]).slice();
+    if(!cl.includes(cId)) cl.push(cId);
+    await updateDoc(doc(db,'users',uid),{clases:cl,activo:true});
+    await setDoc(doc(db,'clases',cId,'alumnos',uid),{uid,activo:true,inscritoEn:serverTimestamp()});
+    cerrarModal('mAsignar'); toast('Asignado y activado ✅','ok');
+    await cargarUsers(); renderDash();
+  } catch(e){ toast('Error: '+e.message,'error'); }
+  finally { btn.disabled=false; btn.innerHTML='<i class="fas fa-check"></i> Asignar y activar'; }
 });
 
-// ─────────────────────────────────────────────────────
-// BOTONES ABRIR MODALES
-// ─────────────────────────────────────────────────────
-document.getElementById('btnNuevoUsuario').addEventListener('click', function() {
-  document.getElementById('editUserId').value             = '';
-  document.getElementById('tituloModalUsuario').textContent = 'Nuevo usuario';
-  document.getElementById('pwdGroup').style.display       = '';
-  document.getElementById('uRole').value                  = 'alumno';
-  document.getElementById('uActivo').value                = 'false';
-  limpiarMsgModal('msgUsuario');
-  ['uNombre','uApellido','uEdad','uTel','uEmail','uPassword'].forEach(function(id){
-    document.getElementById(id).value='';
-  });
-  llenarSelects();
-  modalAbrir('modalUsuario');
+// ── Botones abrir modales ──
+document.getElementById('btnNuevoUser').addEventListener('click', function() {
+  document.getElementById('uidEdit').value=''; document.getElementById('mUserTitulo').textContent='Nuevo usuario';
+  document.getElementById('grpPwd').style.display=''; document.getElementById('uRol').value='alumno';
+  document.getElementById('uActivo').value='false'; document.getElementById('alertUser').style.display='none';
+  ['uNombre','uApellido','uEdad','uTel','uEmail','uPwd'].forEach(function(id){document.getElementById(id).value='';});
+  llenarSelects(); abrirModal('mUser');
 });
-
-document.getElementById('btnNuevoProfesor').addEventListener('click', function() {
-  document.getElementById('editUserId').value             = '';
-  document.getElementById('tituloModalUsuario').textContent = 'Nuevo profesor';
-  document.getElementById('pwdGroup').style.display       = '';
-  document.getElementById('uRole').value                  = 'profesor';
-  document.getElementById('uActivo').value                = 'true';
-  limpiarMsgModal('msgUsuario');
-  ['uNombre','uApellido','uEdad','uTel','uEmail','uPassword'].forEach(function(id){
-    document.getElementById(id).value='';
-  });
-  llenarSelects();
-  modalAbrir('modalUsuario');
+document.getElementById('btnNuevoProfe').addEventListener('click', function() {
+  document.getElementById('uidEdit').value=''; document.getElementById('mUserTitulo').textContent='Nuevo profesor';
+  document.getElementById('grpPwd').style.display=''; document.getElementById('uRol').value='profesor';
+  document.getElementById('uActivo').value='true'; document.getElementById('alertUser').style.display='none';
+  ['uNombre','uApellido','uEdad','uTel','uEmail','uPwd'].forEach(function(id){document.getElementById(id).value='';});
+  llenarSelects(); abrirModal('mUser');
 });
-
 document.getElementById('btnNuevaClase').addEventListener('click', function() {
-  limpiarMsgModal('msgClase');
-  ['claseNombre','claseDesc','claseFechaInicio','claseFechaFin'].forEach(function(id){
-    document.getElementById(id).value='';
-  });
-  llenarSelects();
-  modalAbrir('modalClase');
+  document.getElementById('alertClase').style.display='none';
+  document.getElementById('cNombre').value=''; document.getElementById('cDesc').value='';
+  llenarSelects(); abrirModal('mClase');
 });
-
-document.getElementById('btnVerTodos').addEventListener('click', function() { ir('usuarios'); });
+document.getElementById('btnVerTodos').addEventListener('click', function(){ ir('usuarios'); });
 document.getElementById('btnRefresh').addEventListener('click', cargarTodo);
-document.getElementById('btnRefreshDash').addEventListener('click', cargarTodo);
+document.getElementById('btnRecargar').addEventListener('click', cargarTodo);
 
-// ─────────────────────────────────────────────────────
-// FILTROS Y BÚSQUEDA
-// ─────────────────────────────────────────────────────
-document.getElementById('filterRole').addEventListener('change', filtrar);
-document.getElementById('filterStatus').addEventListener('change', filtrar);
-
+// ── Filtros ──
+document.getElementById('filRol').addEventListener('change', filtrar);
+document.getElementById('filEstado').addEventListener('change', filtrar);
 function filtrar() {
-  var role   = document.getElementById('filterRole').value;
-  var status = document.getElementById('filterStatus').value;
-  var lista  = allUsers.filter(function(u) {
-    var okRole   = !role   || u.role === role;
-    var okStatus = status==='' || String(u.activo)===status;
-    return okRole && okStatus;
-  });
-  renderTablaUsuarios(lista);
+  var rol=document.getElementById('filRol').value;
+  var est=document.getElementById('filEstado').value;
+  renderTablaUsers(users.filter(function(u){ return (!rol||u.role===rol)&&(est===''||String(u.activo)===est); }));
 }
 
-document.getElementById('globalSearch').addEventListener('input', function() {
-  var q = this.value.toLowerCase().trim();
-  if (!q) { renderTablaUsuarios(allUsers); return; }
-  var res = allUsers.filter(function(u) {
-    return ((u.nombre||'')+' '+(u.apellido||'')+' '+(u.email||'')).toLowerCase().includes(q);
-  });
-  renderTablaUsuarios(res);
+// ── Búsqueda ──
+document.getElementById('busqueda').addEventListener('input', function() {
+  var q=this.value.toLowerCase().trim();
+  if(!q){renderTablaUsers(users);return;}
+  renderTablaUsers(users.filter(function(u){return ((u.nombre||'')+' '+(u.apellido||'')+' '+(u.email||'')).toLowerCase().includes(q);}));
   ir('usuarios');
 });
-
 </script>
 </body>
 </html>
