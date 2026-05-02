@@ -28,13 +28,32 @@
 
   <nav class="sidebar-nav">
     <div class="nav-section-label">Principal</div>
-    <button class="nav-item active" id="nav-dashboard"><i class="fas fa-chart-pie"></i> Dashboard</button>
-    <button class="nav-item" id="nav-usuarios"><i class="fas fa-users"></i> Usuarios <span class="badge" id="pendingBadge" style="display:none">0</span></button>
-    <button class="nav-item" id="nav-clases"><i class="fas fa-chalkboard-teacher"></i> Clases</button>
-    <button class="nav-item" id="nav-profesores"><i class="fas fa-user-tie"></i> Profesores</button>
-    <div class="nav-section-label" style="margin-top:8px">Sistema</div>
-    <button class="nav-item" id="nav-configuracion"><i class="fas fa-cog"></i> Configuración</button>
-    <a class="nav-item" href="../" target="_blank" style="text-decoration:none"><i class="fas fa-external-link-alt"></i> Ver sitio web</a>
+    <button class="nav-item active" id="nav-dashboard">
+      <i class="fas fa-chart-pie" style="color:#60a5fa"></i>
+      Dashboard
+    </button>
+    <button class="nav-item" id="nav-usuarios">
+      <i class="fas fa-users"></i>
+      Usuarios
+      <span class="badge" id="pendingBadge" style="display:none">0</span>
+    </button>
+    <button class="nav-item" id="nav-clases">
+      <i class="fas fa-chalkboard-teacher"></i>
+      Clases
+    </button>
+    <button class="nav-item" id="nav-profesores">
+      <i class="fas fa-user-tie"></i>
+      Profesores
+    </button>
+    <div class="nav-section-label" style="margin-top:4px">Sistema</div>
+    <button class="nav-item" id="nav-configuracion">
+      <i class="fas fa-cog"></i>
+      Configuración
+    </button>
+    <a class="nav-item" href="../" target="_blank" style="text-decoration:none">
+      <i class="fas fa-external-link-alt"></i>
+      Ver sitio web
+    </a>
   </nav>
 
   <div class="sidebar-footer">
@@ -339,13 +358,14 @@ import { getFirestore, collection, getDocs, doc, getDoc, setDoc,
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 // ── 2. CONFIGURACIÓN FIREBASE ──────────────────────────
+// ⚠️ REEMPLAZA ESTOS VALORES con los de tu proyecto en Firebase Console
 const FIREBASE_CONFIG = {
-  apiKey:            "AIzaSyCpe3K0RmZTcqmaH2O8SdWFE15-1CMkjK4",
-  authDomain:        "conamat-chimalhuacan.firebaseapp.com",
-  projectId:         "conamat-chimalhuacan",
-  storageBucket:     "conamat-chimalhuacan.firebasestorage.app",
-  messagingSenderId: "769823648865",
-  appId:             "1:769823648865:web:5b8bc296ed8921efb4ce20"
+  apiKey:            "TU_API_KEY",
+  authDomain:        "TU_PROYECTO.firebaseapp.com",
+  projectId:         "TU_PROYECTO",
+  storageBucket:     "TU_PROYECTO.appspot.com",
+  messagingSenderId: "TU_SENDER_ID",
+  appId:             "TU_APP_ID"
 };
 
 // ── 3. INICIALIZAR ──────────────────────────────────────
