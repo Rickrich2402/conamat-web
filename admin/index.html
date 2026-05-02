@@ -258,7 +258,7 @@
 </div>
 
 <script type="module">
-import { initializeApp, getApps, getApp }
+import { initializeApp, getApps }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut, createUserWithEmailAndPassword }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
@@ -279,10 +279,10 @@ const CFG = {
 };
 // ══════════════════════════════════════════════
 
-// App principal (sesión admin)
-const appMain = initializeApp(CFG, 'conamat-admin-main');
-// App secundaria SOLO para crear usuarios sin cambiar la sesión activa
-const appAux  = initializeApp(CFG, 'conamat-admin-aux');
+// App principal — usa nombre DEFAULT igual que login (comparte la sesión)
+const appMain = getApps().find(function(a){return a.name==='[DEFAULT]';}) || initializeApp(CFG);
+// App auxiliar SOLO para crear usuarios sin afectar la sesión del admin
+const appAux  = getApps().find(function(a){return a.name==='aux';}) || initializeApp(CFG, 'aux');
 
 const auth    = getAuth(appMain);
 const authAux = getAuth(appAux);
