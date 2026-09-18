@@ -233,7 +233,16 @@
       d.setAttribute('download', 'Boleta-CONAMAT-' + clave.toUpperCase() + '.pdf');
       mostrar('boleta');
     };
-    img.onerror = function () { mostrar('error'); };
+    // Si falla, reintenta una vez saltándose la caché (GitHub Pages guarda los 404 unos 10 min
+    // cuando alguien escanea antes de que termine de publicarse el archivo)
+    var reintento = false;
+    img.onerror = function () {
+      if (reintento) { mostrar('error'); return; }
+      reintento = true;
+      var v = '?v=' + Date.now();
+      pdf += v;
+      img.src = png + v;
+    };
     img.src = png;
   })();
 </script>
